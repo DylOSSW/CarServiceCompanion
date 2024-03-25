@@ -1,3 +1,5 @@
+package carservicecompanion;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -12,7 +14,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 /**
  *
- * @author lejla
+ * @author
  */
 public class SimpleDBConnect {
     public SimpleDBConnect(){
@@ -20,7 +22,7 @@ public class SimpleDBConnect {
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;
-        String msAccDB = "..//guiDB_initial.accdb"; // path to the DB file
+        String msAccDB = "..//guiDB1.accdb"; // path to the DB file
         String dbURL = "jdbc:ucanaccess://" + msAccDB;
 
         // Step 1: Loading or registering JDBC driver class
