@@ -50,7 +50,7 @@
     <Container class="javax.swing.JPanel" name="Account">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="ff" green="cc" red="cc" type="rgb"/>
+          <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
         <Property name="toolTipText" type="java.lang.String" value=""/>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -158,7 +158,7 @@
         <Container class="javax.swing.JPanel" name="jPanel3">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="33" green="99" red="ff" type="rgb"/>
+              <Color blue="ff" green="e3" red="ff" type="rgb"/>
             </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -176,18 +176,18 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="427" max="32767" attributes="0"/>
+                      <EmptySpace pref="394" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                       <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="26" max="32767" attributes="0"/>
+                      <EmptySpace pref="30" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -196,8 +196,8 @@
             <Container class="javax.swing.JPanel" name="jPanel1">
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                  <Border info="org.netbeans.modules.form.compat2.border.SoftBevelBorderInfo">
-                    <BevelBorder/>
+                  <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                    <TitledBorder/>
                   </Border>
                 </Property>
               </Properties>
@@ -205,24 +205,27 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="1" attributes="0">
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                  <Component id="jButton1" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" attributes="0">
-                                  <Component id="Make" min="-2" pref="81" max="-2" attributes="0"/>
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                              </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="Make4" max="32767" attributes="0"/>
+                              <Component id="makeComboBox" max="32767" attributes="0"/>
+                              <Component id="Make6" alignment="0" max="32767" attributes="0"/>
+                              <Component id="Make7" alignment="1" max="32767" attributes="0"/>
                           </Group>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace pref="37" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="Make" pref="118" max="32767" attributes="0"/>
+                              <Component id="Make3" max="32767" attributes="0"/>
+                              <Component id="Make5" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jButton1" max="32767" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace min="0" pref="64" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                           <Component id="jLabel1" min="-2" pref="168" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="71" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -231,16 +234,306 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jLabel1" min="-2" pref="39" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="Make" min="-2" pref="39" max="-2" attributes="0"/>
-                          <EmptySpace pref="149" max="32767" attributes="0"/>
-                          <Component id="jButton1" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="Make" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
+                              <Component id="makeComboBox" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="Make3" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
+                              <Component id="Make4" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="Make6" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
+                              <Component id="Make5" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="Make7" pref="38" max="32767" attributes="0"/>
+                              <Component id="jButton1" max="32767" attributes="0"/>
+                          </Group>
+                          <EmptySpace pref="43" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
               </Layout>
               <SubComponents>
+                <Component class="javax.swing.JLabel" name="jLabel1">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Tahoma" size="18" style="1"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Search for cars"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="Make">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Segoe UI" size="14" style="0"/>
+                    </Property>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="2">
+                        <StringItem index="0" value="All Models"/>
+                        <StringItem index="1" value=" "/>
+                      </StringArray>
+                    </Property>
+                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="makeComboBox.setSelectedIndex(0); // Sets the first item in the model to be selected"/>
+                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                  </AuxValues>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="makeComboBox">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Segoe UI" size="14" style="0"/>
+                    </Property>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="6">
+                        <StringItem index="0" value="All Makes"/>
+                        <StringItem index="1" value="Volkswagen"/>
+                        <StringItem index="2" value="Audi"/>
+                        <StringItem index="3" value="BMW"/>
+                        <StringItem index="4" value="Toyota"/>
+                        <StringItem index="5" value=" "/>
+                      </StringArray>
+                    </Property>
+                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="makeComboBox.setSelectedIndex(0); // Sets the first item in the model to be selected"/>
+                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                  </AuxValues>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="Make3">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Segoe UI" size="14" style="0"/>
+                    </Property>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="36">
+                        <StringItem index="0" value="Max Year"/>
+                        <StringItem index="1" value="2024 "/>
+                        <StringItem index="2" value="2023 "/>
+                        <StringItem index="3" value="2022 "/>
+                        <StringItem index="4" value="2021 "/>
+                        <StringItem index="5" value="2020 "/>
+                        <StringItem index="6" value="2019 "/>
+                        <StringItem index="7" value="2018 "/>
+                        <StringItem index="8" value="2017 "/>
+                        <StringItem index="9" value="2016 "/>
+                        <StringItem index="10" value="2015 "/>
+                        <StringItem index="11" value="2014 "/>
+                        <StringItem index="12" value="2013 "/>
+                        <StringItem index="13" value="2012"/>
+                        <StringItem index="14" value="2011 "/>
+                        <StringItem index="15" value="2010 "/>
+                        <StringItem index="16" value="2009 "/>
+                        <StringItem index="17" value="2008 "/>
+                        <StringItem index="18" value="2007 "/>
+                        <StringItem index="19" value="2006 "/>
+                        <StringItem index="20" value="2005 "/>
+                        <StringItem index="21" value="2004, "/>
+                        <StringItem index="22" value="2003 "/>
+                        <StringItem index="23" value="2002 "/>
+                        <StringItem index="24" value="2001 "/>
+                        <StringItem index="25" value="2000 "/>
+                        <StringItem index="26" value="1999 "/>
+                        <StringItem index="27" value="1998 "/>
+                        <StringItem index="28" value="1997 "/>
+                        <StringItem index="29" value="1996 "/>
+                        <StringItem index="30" value="1995 "/>
+                        <StringItem index="31" value="1994 "/>
+                        <StringItem index="32" value="1993"/>
+                        <StringItem index="33" value="1992 "/>
+                        <StringItem index="34" value="1991 "/>
+                        <StringItem index="35" value="1990"/>
+                      </StringArray>
+                    </Property>
+                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="makeComboBox.setSelectedIndex(0); // Sets the first item in the model to be selected"/>
+                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                  </AuxValues>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="Make4">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Segoe UI" size="14" style="0"/>
+                    </Property>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="36">
+                        <StringItem index="0" value="Min Year"/>
+                        <StringItem index="1" value="2024 "/>
+                        <StringItem index="2" value="2023 "/>
+                        <StringItem index="3" value="2022 "/>
+                        <StringItem index="4" value="2021 "/>
+                        <StringItem index="5" value="2020 "/>
+                        <StringItem index="6" value="2019 "/>
+                        <StringItem index="7" value="2018 "/>
+                        <StringItem index="8" value="2017 "/>
+                        <StringItem index="9" value="2016 "/>
+                        <StringItem index="10" value="2015 "/>
+                        <StringItem index="11" value="2014 "/>
+                        <StringItem index="12" value="2013 "/>
+                        <StringItem index="13" value="2012"/>
+                        <StringItem index="14" value="2011 "/>
+                        <StringItem index="15" value="2010 "/>
+                        <StringItem index="16" value="2009 "/>
+                        <StringItem index="17" value="2008 "/>
+                        <StringItem index="18" value="2007 "/>
+                        <StringItem index="19" value="2006 "/>
+                        <StringItem index="20" value="2005 "/>
+                        <StringItem index="21" value="2004, "/>
+                        <StringItem index="22" value="2003 "/>
+                        <StringItem index="23" value="2002 "/>
+                        <StringItem index="24" value="2001 "/>
+                        <StringItem index="25" value="2000 "/>
+                        <StringItem index="26" value="1999 "/>
+                        <StringItem index="27" value="1998 "/>
+                        <StringItem index="28" value="1997 "/>
+                        <StringItem index="29" value="1996 "/>
+                        <StringItem index="30" value="1995 "/>
+                        <StringItem index="31" value="1994 "/>
+                        <StringItem index="32" value="1993"/>
+                        <StringItem index="33" value="1992 "/>
+                        <StringItem index="34" value="1991 "/>
+                        <StringItem index="35" value="1990"/>
+                      </StringArray>
+                    </Property>
+                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="makeComboBox.setSelectedIndex(0); // Sets the first item in the model to be selected"/>
+                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                  </AuxValues>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="Make5">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Segoe UI" size="14" style="0"/>
+                    </Property>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="39">
+                        <StringItem index="0" value="Max Price"/>
+                        <StringItem index="1" value="&#x20ac;100"/>
+                        <StringItem index="2" value="&#x20ac;500"/>
+                        <StringItem index="3" value="&#x20ac;1,000"/>
+                        <StringItem index="4" value="&#x20ac;1,500"/>
+                        <StringItem index="5" value="&#x20ac;2000"/>
+                        <StringItem index="6" value="&#x20ac;2,500"/>
+                        <StringItem index="7" value="&#x20ac;3,000"/>
+                        <StringItem index="8" value="&#x20ac;3,500"/>
+                        <StringItem index="9" value="&#x20ac;4,000"/>
+                        <StringItem index="10" value="&#x20ac;4,500"/>
+                        <StringItem index="11" value="&#x20ac;5,000"/>
+                        <StringItem index="12" value="&#x20ac;5,500"/>
+                        <StringItem index="13" value="&#x20ac;6,000"/>
+                        <StringItem index="14" value="&#x20ac;6,500"/>
+                        <StringItem index="15" value="&#x20ac;7,000"/>
+                        <StringItem index="16" value="&#x20ac;7,500"/>
+                        <StringItem index="17" value="&#x20ac;8,000"/>
+                        <StringItem index="18" value="&#x20ac;8,500 "/>
+                        <StringItem index="19" value="&#x20ac;9,000"/>
+                        <StringItem index="20" value="&#x20ac;9,500"/>
+                        <StringItem index="21" value="&#x20ac;10,000"/>
+                        <StringItem index="22" value="&#x20ac;12,500"/>
+                        <StringItem index="23" value="&#x20ac;15,000"/>
+                        <StringItem index="24" value="&#x20ac;17,500"/>
+                        <StringItem index="25" value="&#x20ac;20,000"/>
+                        <StringItem index="26" value="&#x20ac;22,500"/>
+                        <StringItem index="27" value="&#x20ac;25000"/>
+                        <StringItem index="28" value="&#x20ac;27,500"/>
+                        <StringItem index="29" value="&#x20ac;30,000"/>
+                        <StringItem index="30" value="&#x20ac;40,000"/>
+                        <StringItem index="31" value="&#x20ac;45,000"/>
+                        <StringItem index="32" value="&#x20ac;50,000"/>
+                        <StringItem index="33" value="&#x20ac;60,000"/>
+                        <StringItem index="34" value="&#x20ac;70,000"/>
+                        <StringItem index="35" value="&#x20ac;80,000"/>
+                        <StringItem index="36" value="&#x20ac;90,000"/>
+                        <StringItem index="37" value="&#x20ac;100,000"/>
+                        <StringItem index="38" value="&#x20ac;125,000"/>
+                      </StringArray>
+                    </Property>
+                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="makeComboBox.setSelectedIndex(0); // Sets the first item in the model to be selected"/>
+                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                  </AuxValues>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="Make6">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Segoe UI" size="14" style="0"/>
+                    </Property>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="39">
+                        <StringItem index="0" value="Min Price"/>
+                        <StringItem index="1" value="&#x20ac;100"/>
+                        <StringItem index="2" value="&#x20ac;500"/>
+                        <StringItem index="3" value="&#x20ac;1,000"/>
+                        <StringItem index="4" value="&#x20ac;1,500"/>
+                        <StringItem index="5" value="&#x20ac;2000"/>
+                        <StringItem index="6" value="&#x20ac;2,500"/>
+                        <StringItem index="7" value="&#x20ac;3,000"/>
+                        <StringItem index="8" value="&#x20ac;3,500"/>
+                        <StringItem index="9" value="&#x20ac;4,000"/>
+                        <StringItem index="10" value="&#x20ac;4,500"/>
+                        <StringItem index="11" value="&#x20ac;5,000"/>
+                        <StringItem index="12" value="&#x20ac;5,500"/>
+                        <StringItem index="13" value="&#x20ac;6,000"/>
+                        <StringItem index="14" value="&#x20ac;6,500"/>
+                        <StringItem index="15" value="&#x20ac;7,000"/>
+                        <StringItem index="16" value="&#x20ac;7,500"/>
+                        <StringItem index="17" value="&#x20ac;8,000"/>
+                        <StringItem index="18" value="&#x20ac;8,500 "/>
+                        <StringItem index="19" value="&#x20ac;9,000"/>
+                        <StringItem index="20" value="&#x20ac;9,500"/>
+                        <StringItem index="21" value="&#x20ac;10,000"/>
+                        <StringItem index="22" value="&#x20ac;12,500"/>
+                        <StringItem index="23" value="&#x20ac;15,000"/>
+                        <StringItem index="24" value="&#x20ac;17,500"/>
+                        <StringItem index="25" value="&#x20ac;20,000"/>
+                        <StringItem index="26" value="&#x20ac;22,500"/>
+                        <StringItem index="27" value="&#x20ac;25000"/>
+                        <StringItem index="28" value="&#x20ac;27,500"/>
+                        <StringItem index="29" value="&#x20ac;30,000"/>
+                        <StringItem index="30" value="&#x20ac;40,000"/>
+                        <StringItem index="31" value="&#x20ac;45,000"/>
+                        <StringItem index="32" value="&#x20ac;50,000"/>
+                        <StringItem index="33" value="&#x20ac;60,000"/>
+                        <StringItem index="34" value="&#x20ac;70,000"/>
+                        <StringItem index="35" value="&#x20ac;80,000"/>
+                        <StringItem index="36" value="&#x20ac;90,000"/>
+                        <StringItem index="37" value="&#x20ac;100,000"/>
+                        <StringItem index="38" value="&#x20ac;125,000"/>
+                      </StringArray>
+                    </Property>
+                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="makeComboBox.setSelectedIndex(0); // Sets the first item in the model to be selected"/>
+                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                  </AuxValues>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="Make7">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Segoe UI" size="14" style="0"/>
+                    </Property>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="3">
+                        <StringItem index="0" value="Condition"/>
+                        <StringItem index="1" value="New"/>
+                        <StringItem index="2" value="Used"/>
+                      </StringArray>
+                    </Property>
+                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="makeComboBox.setSelectedIndex(0); // Sets the first item in the model to be selected"/>
+                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                  </AuxValues>
+                </Component>
                 <Component class="javax.swing.JButton" name="jButton1">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -257,33 +550,6 @@
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
                   </Events>
-                </Component>
-                <Component class="javax.swing.JLabel" name="jLabel1">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Tahoma" size="18" style="1"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Search for cars"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JComboBox" name="Make">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Segoe UI" size="14" style="0"/>
-                    </Property>
-                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="4">
-                        <StringItem index="0" value="Make"/>
-                        <StringItem index="1" value="Toyota"/>
-                        <StringItem index="2" value="Ford"/>
-                        <StringItem index="3" value="Honda"/>
-                      </StringArray>
-                    </Property>
-                  </Properties>
-                  <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="makeComboBox.setSelectedIndex(0); // Sets the first item in the model to be selected"/>
-                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-                  </AuxValues>
                 </Component>
               </SubComponents>
             </Container>
