@@ -1,3 +1,9 @@
+import javax.swing.JComboBox;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -8,12 +14,20 @@
  * @author D21124318
  */
 public class ManageVehicles extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form ManageVehicles
      */
     public ManageVehicles() {
         initComponents();
+        populateComboBoxes();
+        // Add ActionListener to SearchCars button
+        SearchCars.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                searchCars();
+            }
+        });
     }
 
     /**
@@ -49,7 +63,7 @@ public class ManageVehicles extends javax.swing.JFrame {
         Dashboard.setName(""); // NOI18N
 
         AllModels.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        AllModels.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Models", "Toyota", "Ford", "Honda" }));
+        AllModels.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Models" }));
 
         MaxYear.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         MaxYear.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Max Year" }));
@@ -66,10 +80,16 @@ public class ManageVehicles extends javax.swing.JFrame {
         Condition.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         Condition.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Condition" }));
 
+        SearchCars.setAction(SearchCars.getAction());
         SearchCars.setText("Search");
+        SearchCars.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SearchCarsActionPerformed(evt);
+            }
+        });
 
         AllMakes.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        AllMakes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Makes", "Toyota", "Ford", "Honda" }));
+        AllMakes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Makes" }));
         AllMakes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AllMakesActionPerformed(evt);
@@ -183,6 +203,34 @@ public class ManageVehicles extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_AllMakesActionPerformed
 
+    private void SearchCarsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchCarsActionPerformed
+        // TODO add your handling code here:
+        searchCars();
+    }//GEN-LAST:event_SearchCarsActionPerformed
+    
+    
+    private void searchCars() {
+    DefaultTableModel model = DBConnection.searchCars(AllMakes, AllModels, MaxYear, MinYear, MaxPrice, MinPrice, Condition);
+    // Create a new JTable with the populated model
+    JTable newTable = new JTable(model);
+    // Add the table to the JScrollPane
+    jScrollPane1.setViewportView(newTable);
+    // Refresh the GUI to reflect the changes
+    this.revalidate();
+    this.repaint();
+}
+    
+    private void populateComboBoxes() {
+        DBConnection.populateComboBox(AllMakes, "CarMake", "Vehicles");
+        DBConnection.populateComboBox(AllModels, "CarModel", "Vehicles");
+        DBConnection.populateComboBox(MinYear, "CarYear", "Vehicles");
+        DBConnection.populateComboBox(MaxYear, "CarYear", "Vehicles");
+        DBConnection.populateComboBox(MinPrice, "RentalPrice", "Vehicles");
+        DBConnection.populateComboBox(MaxPrice, "RentalPrice", "Vehicles");
+        DBConnection.populateComboBox(Condition, "Availability", "Vehicles");
+    }
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -217,6 +265,12 @@ public class ManageVehicles extends javax.swing.JFrame {
             }
         });
     }
+    
+    
+    
+    
+    
+  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> AllMakes;

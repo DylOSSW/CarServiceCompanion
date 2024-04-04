@@ -15,7 +15,7 @@ public class SimpleDBConnect {
 
     public SimpleDBConnect() {
         // Initialize the dbURL variable
-        String msAccDB = "..//admin.accdb"; // Corrected path to your Access database file
+        String msAccDB = "..//CarRentalDB1.accdb"; // Corrected path to your Access database file
         this.dbURL = "jdbc:ucanaccess://" + msAccDB; // Corrected JDBC URL
 
         Connection connection = null;
@@ -31,64 +31,35 @@ public class SimpleDBConnect {
 
         try {
             connection = DriverManager.getConnection(dbURL);
+            
+            // Execute SQL query to select all data from Vehicles table
+            String sql = "SELECT * FROM Vehicles";
             statement = connection.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM Admin");
+            ResultSet rs = statement.executeQuery(sql);
 
-            System.out.println("#\tName\t\t\tManager\tStart");
-            System.out.println("=====\t=========\t=======\t=======");
+            // Print data from result set
+            while (rs.next()) {
+                int carID = rs.getInt("CarID");
+                String carMake = rs.getString("CarMake");
+                String carModel = rs.getString("CarModel");
+                int carYear = rs.getInt("CarYear");
+                double rentalPrice = rs.getDouble("RentalPrice");
+                double purchasePrice = rs.getDouble("PurchasePrice");
+                int quantityAvailable = rs.getInt("QuantityAvailable");
+                boolean availability = rs.getBoolean("Availability");
 
-            while (resultSet.next()) {
-                System.out.println(resultSet.getString(1) + "\t" +
-                        resultSet.getString(2) + "\t\t" +
-                        resultSet.getString(3));
+                System.out.println("CarID: " + carID + ", CarMake: " + carMake + ", CarModel: " + carModel +
+                        ", CarYear: " + carYear + ", RentalPrice: " + rentalPrice + ", PurchasePrice: " + purchasePrice +
+                        ", QuantityAvailable: " + quantityAvailable + ", Availability: " + availability);
             }
-        } catch (SQLException sqlex) {
-            System.err.println(sqlex.getMessage());
-        } finally {
-            try {
-                if (null != connection) {
-                    resultSet.close();
-                    statement.close();
-                    connection.close();
-                }
-            } catch (SQLException sqlex) {
-                System.err.println(sqlex.getMessage());
-            }
+
+            // Close connections
+            rs.close();
+            statement.close();
+            connection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
-
-    public boolean login(String email, String password) {
-        boolean loginSuccess = false;
-        try (Connection connection = DriverManager.getConnection(dbURL)) {
-            String sql = "SELECT * FROM Admin WHERE emailAddress = ? AND password = ?";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                preparedStatement.setString(1, email);
-                preparedStatement.setString(2, password);
-
-                try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    // Check if the email contains the specific domain, not the password
-                    if (resultSet.next() && email.contains("@carservicecompanion.ie")) {
-                        loginSuccess = true;
-                    }
-                }
-            }
-        } catch (SQLException sqlex) {
-            System.err.println(sqlex.getMessage());
-        }
-        return loginSuccess;
-    }
-    
-    public ResultSet getAllCars() {
-    try (Connection connection = DriverManager.getConnection(dbURL)) {
-        String sql = "SELECT * FROM Cars"; // Assuming you have a table named 'Cars'
-        Statement statement = connection.createStatement();
-        return statement.executeQuery(sql);
-    } catch (SQLException sqlex) {
-        System.err.println(sqlex.getMessage());
-    }
-    return null;
 }
-    public static void main(String args[]){
-        new SimpleDBConnect();
-    }
-} // End of Class
+
