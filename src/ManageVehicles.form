@@ -214,9 +214,6 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Search"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SearchCarsActionPerformed"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JComboBox" name="AllMakes">
               <Properties>
@@ -229,9 +226,6 @@
                   </StringArray>
                 </Property>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AllMakesActionPerformed"/>
-              </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>

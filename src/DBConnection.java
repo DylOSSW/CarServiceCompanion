@@ -38,58 +38,74 @@ public class DBConnection {
     // Other database-related methods...
     
     
-    public static DefaultTableModel searchCars(JComboBox<String> AllMakes, JComboBox<String> AllModels, JComboBox<String> MaxYear, JComboBox<String> MinYear, JComboBox<String> MaxPrice, JComboBox<String> MinPrice, JComboBox<String> Condition) {
-        DefaultTableModel model = new DefaultTableModel();
-        System.out.println("Search button clicked."); // Debug statement
-        try {
-            Connection conn = getConnection();
-            String sql = "SELECT * FROM Vehicles";
+    public static DefaultTableModel searchCars(String selectedMake, String selectedModel, String minYear, String maxYear, String minPrice, String maxPrice, String selectedCondition) {
+    DefaultTableModel model = new DefaultTableModel();
+    System.out.println("Search button clicked."); // Debug statement
+    try {
+        Connection conn = getConnection();
+        String sql = "SELECT * FROM Vehicles WHERE 1=1";
 
-            // Construct SQL query based on filter criteria
-            // This part needs adjustment based on your UI components
-            // You can use the selected index of combo boxes to construct your query
-            // For simplicity, I'm assuming you have the necessary UI components passed as arguments
-            // Adjust this logic according to your UI design
-            // Add filters if necessary
-            
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-
-            
-            // Add column headers to the table model
-            model.addColumn("CarID");
-            model.addColumn("CarMake");
-            model.addColumn("CarModel");
-            model.addColumn("CarYear");
-            model.addColumn("RentalPrice");
-            model.addColumn("PurchasePrice");
-            model.addColumn("QuantityAvailable");
-            model.addColumn("Availability");
-            // Add rows of data to the table model
-            while (rs.next()) {
-                Object[] row = new Object[8];
-                row[0] = rs.getInt("CarID");
-                row[1] = rs.getString("CarMake");
-                row[2] = rs.getString("CarModel");
-                row[3] = rs.getInt("CarYear");
-                row[4] = rs.getDouble("RentalPrice");
-                row[5] = rs.getDouble("PurchasePrice");
-                row[6] = rs.getInt("QuantityAvailable");
-                row[7] = rs.getBoolean("Availability");
-                model.addRow(row);
-            }
-            // Set the table model to the JTable
-            System.out.println("Table populated successfully."); // Debug statement
-
-            // Close connections
-            rs.close();
-            stmt.close();
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        // Construct SQL query based on filter criteria
+        // Add conditions based on the selected options
+        if (!selectedMake.equals("All Makes")) {
+            sql += " AND CarMake = '" + selectedMake + "'";
         }
-        return model;
+        if (!selectedModel.equals("All Models")) {
+            sql += " AND CarModel = '" + selectedModel + "'";
+        }
+        if (!minYear.equals("Min Year")) {
+            sql += " AND CarYear >= '" + minYear + "'";
+        }
+        if (!maxYear.equals("Max Year")) {
+            sql += " AND CarYear <= '" + maxYear + "'";
+        }
+        if (!minPrice.equals("Min Price")) {
+            sql += " AND RentalPrice >= '" + minPrice + "'";
+        }
+        if (!maxPrice.equals("Max Price")) {
+            sql += " AND RentalPrice <= '" + maxPrice + "'";
+        }
+        if (!selectedCondition.equals("Condition")) {
+            sql += " AND Availability = '" + selectedCondition + "'";
+        }
+        
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(sql);
+
+        // Add column headers to the table model
+        model.addColumn("CarID");
+        model.addColumn("CarMake");
+        model.addColumn("CarModel");
+        model.addColumn("CarYear");
+        model.addColumn("RentalPrice");
+        model.addColumn("PurchasePrice");
+        model.addColumn("QuantityAvailable");
+        model.addColumn("Availability");
+        // Add rows of data to the table model
+        while (rs.next()) {
+            Object[] row = new Object[8];
+            row[0] = rs.getInt("CarID");
+            row[1] = rs.getString("CarMake");
+            row[2] = rs.getString("CarModel");
+            row[3] = rs.getInt("CarYear");
+            row[4] = rs.getDouble("RentalPrice");
+            row[5] = rs.getDouble("PurchasePrice");
+            row[6] = rs.getInt("QuantityAvailable");
+            row[7] = rs.getBoolean("Availability");
+            model.addRow(row);
+        }
+        // Set the table model to the JTable
+        System.out.println("Table populated successfully."); // Debug statement
+
+        // Close connections
+        rs.close();
+        stmt.close();
+        conn.close();
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+    return model;
+}
     
     // Add function to populate combo boxes
     public static void populateComboBox(JComboBox<String> comboBox, String columnName, String tableName) {

@@ -82,19 +82,9 @@ public class ManageVehicles extends javax.swing.JFrame {
 
         SearchCars.setAction(SearchCars.getAction());
         SearchCars.setText("Search");
-        SearchCars.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SearchCarsActionPerformed(evt);
-            }
-        });
 
         AllMakes.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         AllMakes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Makes" }));
-        AllMakes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AllMakesActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -198,26 +188,26 @@ public class ManageVehicles extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void AllMakesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AllMakesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_AllMakesActionPerformed
-
-    private void SearchCarsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchCarsActionPerformed
-        // TODO add your handling code here:
-        searchCars();
-    }//GEN-LAST:event_SearchCarsActionPerformed
     
     
     private void searchCars() {
-    DefaultTableModel model = DBConnection.searchCars(AllMakes, AllModels, MaxYear, MinYear, MaxPrice, MinPrice, Condition);
-    // Create a new JTable with the populated model
-    JTable newTable = new JTable(model);
-    // Add the table to the JScrollPane
-    jScrollPane1.setViewportView(newTable);
-    // Refresh the GUI to reflect the changes
-    this.revalidate();
-    this.repaint();
+        String selectedMake = AllMakes.getSelectedItem().toString();
+        String selectedModel = AllModels.getSelectedItem().toString();
+        String minYear = MinYear.getSelectedItem().toString();
+        String maxYear = MaxYear.getSelectedItem().toString();
+        String minPrice = MinPrice.getSelectedItem().toString();
+        String maxPrice = MaxPrice.getSelectedItem().toString();
+        String selectedCondition = Condition.getSelectedItem().toString();
+
+        // Call the searchCars function in DBConnection with selected options
+        DefaultTableModel model = DBConnection.searchCars(selectedMake, selectedModel, minYear, maxYear, minPrice, maxPrice, selectedCondition);
+        // Create a new JTable with the populated model
+        JTable newTable = new JTable(model);
+        // Add the table to the JScrollPane
+        jScrollPane1.setViewportView(newTable);
+        // Refresh the GUI to reflect the changes
+        this.revalidate();
+        this.repaint();
 }
     
     private void populateComboBoxes() {
