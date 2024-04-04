@@ -3,74 +3,80 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.PreparedStatement; // Import for PreparedStatement
 /**
  *
  * @author Dylan Holmwood and Kristers Martukans
  */
+
 public class SimpleDBConnect {
-    public SimpleDBConnect(){
-       // variables
+    // Making dbURL a class member so it's accessible throughout the class
+    private String dbURL;
+
+    public SimpleDBConnect() {
+        // Initialize the dbURL variable
+        String msAccDB = "..//admin.accdb"; // Corrected path to your Access database file
+        this.dbURL = "jdbc:ucanaccess://" + msAccDB; // Corrected JDBC URL
+
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;
-        String msAccDB = "..//guiDB1.accdb"; // path to the DB file
-        String dbURL = "jdbc:ucanaccess://" + msAccDB;
 
-        // Step 1: Loading or registering JDBC driver class
         try {
-           // Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
-           Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
-        }
-        catch(ClassNotFoundException cnfex) {
-            System.out.println("Problem in loading or "
-                    + "registering MS Access JDBC driver");
+            Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
+        } catch (ClassNotFoundException cnfex) {
+            System.out.println("Problem in loading or registering MS Access JDBC driver");
             cnfex.printStackTrace();
         }
-        // Step 2: Opening database connection
+
         try {
-            // Step 2.A: Create and get connection using DriverManager class
             connection = DriverManager.getConnection(dbURL);
-
-            // Step 2.B: Creating JDBC Statement
             statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM Admin");
 
-            // Step 2.C: Executing SQL &amp; retrieve data into ResultSet
-            resultSet = statement.executeQuery("SELECT * FROM Department");
-
-            // hardcoded header
             System.out.println("#\tName\t\t\tManager\tStart");
             System.out.println("=====\t=========\t=======\t=======");
 
-            // processing returned data and printing into console
-            // Step 2.D: use data from ResultSet
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 System.out.println(resultSet.getString(1) + "\t" +
                         resultSet.getString(2) + "\t\t" +
-                        resultSet.getString(3) + "\t" +
-                        resultSet.getString(4));
+                        resultSet.getString(3));
             }
-
-        }
-        catch(SQLException sqlex){
+        } catch (SQLException sqlex) {
             System.err.println(sqlex.getMessage());
-        }
-        finally {
-
-        // Step 3: Closing database connection
-        try {
-            if(null != connection) {
-                // cleanup resources, once after processing
-                resultSet.close();
-                statement.close();
-                // and then finally close connection
-                connection.close();
+        } finally {
+            try {
+                if (null != connection) {
+                    resultSet.close();
+                    statement.close();
+                    connection.close();
+                }
+            } catch (SQLException sqlex) {
+                System.err.println(sqlex.getMessage());
             }
         }
-        catch (SQLException sqlex) {
+    }
+
+    public boolean login(String email, String password) {
+        boolean loginSuccess = false;
+        try (Connection connection = DriverManager.getConnection(dbURL)) {
+            String sql = "SELECT * FROM Admin WHERE emailAddress = ? AND password = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, email);
+                preparedStatement.setString(2, password);
+
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    // Check if the email contains the specific domain, not the password
+                    if (resultSet.next() && email.contains("@carservicecompanion.ie")) {
+                        loginSuccess = true;
+                    }
+                }
+            }
+        } catch (SQLException sqlex) {
             System.err.println(sqlex.getMessage());
         }
-        }
-    } // End of Constructor
+        return loginSuccess;
+    }
     public static void main(String args[]){
         new SimpleDBConnect();
     }
