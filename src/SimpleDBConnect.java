@@ -77,6 +77,17 @@ public class SimpleDBConnect {
         }
         return loginSuccess;
     }
+    
+    public ResultSet getAllCars() {
+    try (Connection connection = DriverManager.getConnection(dbURL)) {
+        String sql = "SELECT * FROM Cars"; // Assuming you have a table named 'Cars'
+        Statement statement = connection.createStatement();
+        return statement.executeQuery(sql);
+    } catch (SQLException sqlex) {
+        System.err.println(sqlex.getMessage());
+    }
+    return null;
+}
     public static void main(String args[]){
         new SimpleDBConnect();
     }
