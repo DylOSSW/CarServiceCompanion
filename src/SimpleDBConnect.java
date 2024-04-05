@@ -76,7 +76,43 @@ public class SimpleDBConnect {
             System.err.println(sqlex.getMessage());
         }
         return loginSuccess;
+        
     }
+    
+    public boolean signUpNewUser(String forename, String surname, String email, String password) {
+        boolean insertSuccess = false;
+        try (Connection connection = DriverManager.getConnection(dbURL)) {
+            // Check if the email already exists
+            String checkEmailSQL = "SELECT * FROM Users WHERE emailAddress = ?";
+            try (PreparedStatement checkStmt = connection.prepareStatement(checkEmailSQL)) {
+                checkStmt.setString(1, email);
+                try (ResultSet resultSet = checkStmt.executeQuery()) {
+                    if (resultSet.next()) {
+                        // If resultSet has an entry, it means the email already exists
+                        System.out.println("Email already exists.");
+                      return false;
+                    }
+                }
+            }
+        
+            // Proceed with inserting new user if email does not exist
+            String sql = "INSERT INTO Users (forename, surname, emailAddress, password) VALUES (?, ?, ?, ?)";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+              preparedStatement.setString(1, forename);
+              preparedStatement.setString(2, surname);
+              preparedStatement.setString(3, email);
+             preparedStatement.setString(4, password);
+            
+                int rowsAffected = preparedStatement.executeUpdate();
+             insertSuccess = rowsAffected > 0;
+         }
+        } catch (SQLException sqlex) {
+          System.err.println(sqlex.getMessage());
+        }
+        return insertSuccess;
+    }
+
+
     
     public ResultSet getAllCars() {
     try (Connection connection = DriverManager.getConnection(dbURL)) {
