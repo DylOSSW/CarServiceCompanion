@@ -54,19 +54,19 @@ public class AdminHome extends javax.swing.JFrame {
         NavigationMenuLayout.setHorizontalGroup(
             NavigationMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(NavigationMenuLayout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
-                .addGroup(NavigationMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(DashboardButton, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(UsersButton, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(VehiclesButton, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addContainerGap())
+                .addGap(14, 14, 14)
+                .addGroup(NavigationMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(UsersButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(DashboardButton, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(VehiclesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
         NavigationMenuLayout.setVerticalGroup(
             NavigationMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(NavigationMenuLayout.createSequentialGroup()
-                .addGap(104, 104, 104)
+                .addGap(105, 105, 105)
                 .addComponent(DashboardButton)
-                .addGap(97, 97, 97)
+                .addGap(96, 96, 96)
                 .addComponent(UsersButton)
                 .addGap(86, 86, 86)
                 .addComponent(VehiclesButton)
@@ -74,7 +74,7 @@ public class AdminHome extends javax.swing.JFrame {
         );
 
         getContentPane().add(NavigationMenu);
-        NavigationMenu.setBounds(0, 0, 100, 520);
+        NavigationMenu.setBounds(0, 0, 60, 520);
 
         Dashboard.setBackground(new java.awt.Color(255, 255, 255));
         Dashboard.setMinimumSize(new java.awt.Dimension(804, 520));
@@ -124,7 +124,7 @@ public class AdminHome extends javax.swing.JFrame {
                     .addComponent(TotalVehicles, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(TotalUsers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(AvailableVehicles, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
                 .addGroup(DashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(OverdueAccounts, javax.swing.GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE)
                     .addComponent(RentedVehicles))
@@ -149,7 +149,7 @@ public class AdminHome extends javax.swing.JFrame {
         );
 
         getContentPane().add(Dashboard);
-        Dashboard.setBounds(100, 0, 810, 520);
+        Dashboard.setBounds(60, 0, 850, 520);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
