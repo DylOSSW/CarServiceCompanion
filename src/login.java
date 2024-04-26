@@ -1,6 +1,8 @@
 import javax.swing.JOptionPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.SwingUtilities;
+
 public class login extends javax.swing.JFrame {
 
     /**
@@ -12,29 +14,32 @@ public class login extends javax.swing.JFrame {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                performLogin();
+                adminLogin();
             }
         });
     }
     
-// Method to perform login action
-    private void performLogin() {
+    private void adminLogin() {
         String email = emailTextField.getText();
         String password = new String(passwordTextField.getPassword());
-        
+    
         SimpleDBConnect dbConnect = new SimpleDBConnect();
         boolean isSuccess = dbConnect.login(email, password);
-        
-        if(isSuccess) {
-            JOptionPane.showMessageDialog(this, "Login Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
-            // Proceed to next part of your application
-            this.dispose();
-            // Open the main app window
-            new userHomePage();
+    
+        if (isSuccess) {
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                    JOptionPane.showMessageDialog(null, "Login Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    dispose(); // Dispose of the login window
+                    AdminHome adminHome = new AdminHome(); 
+                    adminHome.setVisible(true); // Make sure it's visible (if not already handled in the constructor)
+                }
+            });
         } else {
             JOptionPane.showMessageDialog(this, "Login Failed. Please check your credentials.", "Login Failed", JOptionPane.ERROR_MESSAGE);
         }
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -72,6 +77,8 @@ public class login extends javax.swing.JFrame {
         Right.setMinimumSize(new java.awt.Dimension(400, 500));
         Right.setPreferredSize(new java.awt.Dimension(400, 500));
 
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/car.png"))); // NOI18N
+
         jLabel6.setFont(new java.awt.Font("Segoe UI Black", 1, 24)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("CarServiceCompanion");
@@ -86,26 +93,27 @@ public class login extends javax.swing.JFrame {
         RightLayout.setHorizontalGroup(
             RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(RightLayout.createSequentialGroup()
-                .addContainerGap(51, Short.MAX_VALUE)
+                .addContainerGap(48, Short.MAX_VALUE)
                 .addGroup(RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, RightLayout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addGap(127, 127, 127))
+                        .addComponent(jLabel7)
+                        .addGap(30, 30, 30))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, RightLayout.createSequentialGroup()
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(42, 42, 42))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, RightLayout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addGap(30, 30, 30))))
+                        .addGap(49, 49, 49))))
+            .addGroup(RightLayout.createSequentialGroup()
+                .addGap(133, 133, 133)
+                .addComponent(jLabel5)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         RightLayout.setVerticalGroup(
             RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(RightLayout.createSequentialGroup()
-                .addGap(159, 159, 159)
-                .addComponent(jLabel5)
+                .addGap(136, 136, 136)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 126, Short.MAX_VALUE)
                 .addComponent(jLabel7)
                 .addGap(66, 66, 66))
         );
@@ -194,16 +202,7 @@ public class login extends javax.swing.JFrame {
         jPanel1.add(Left);
         Left.setBounds(390, 0, 420, 500);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 788, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
