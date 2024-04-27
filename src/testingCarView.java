@@ -1,79 +1,59 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import javax.swing.BoxLayout;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
+import java.util.List;
 
-import javax.swing.Box;
+public class testingCarView extends javax.swing.JFrame {
 
-
-import java.awt.Color;
-import java.awt.Dimension;
-import javax.swing.BorderFactory;
-
-public class testingLayout extends javax.swing.JFrame {
-    private SimpleDBConnect dbConnect;
-
-    /**
-     * Creates new form testingLayout
-     */
-    public testingLayout() {
-        initComponents();
-        dbConnect = new SimpleDBConnect();
-        populateCarsPanel();
+    public testingCarView() {
+        initComponents(); // NetBeans GUI Builder initializes components here
+        populateCars();
     }
-    
-    private void populateCarsPanel() {
-    ResultSet carsResultSet = dbConnect.getAllCars();
-    Dimension screenSize = jScrollPane1.getViewport().getExtentSize(); // Get the visible area dimension
-    int cardWidth = screenSize.width - 30; // Subtract a margin value from the total width
 
-    // Assuming jPanel1 is already set with a BoxLayout in the GUI designer
-    jPanel3.setLayout(new BoxLayout(jPanel3, BoxLayout.Y_AXIS));
+    private void populateCars() {
+        SimpleDBConnect dbConnect = new SimpleDBConnect();
+        List<Car> cars = dbConnect.getCarsFromDatabase();
+        
+        // You should add the CarPane instances to a JPanel, and then set that JPanel to the viewport view of a JScrollPane.
+        JPanel containerPanel = new JPanel();
+        containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));
+        int verticalGap = 10; // Vertical space between the CarPanes
+        int horizontalGap = 10; // Horizontal space on the sides of the CarPanes
 
-    try {
-        while (carsResultSet.next()) {
-            // Panel for each car card with some padding
-            JPanel carPanel = new JPanel();
-            carPanel.setLayout(new BoxLayout(carPanel, BoxLayout.Y_AXIS));
-            carPanel.setBorder(BorderFactory.createCompoundBorder(
-                    BorderFactory.createLineBorder(Color.BLACK, 1), // Outer line border
-                    BorderFactory.createEmptyBorder(10, 10, 10, 10))); // Padding border
-            carPanel.setBackground(Color.WHITE);
+        containerPanel.setBorder(BorderFactory.createCompoundBorder(
+                containerPanel.getBorder(),
+                BorderFactory.createEmptyBorder(verticalGap, horizontalGap, verticalGap, horizontalGap)));
 
-            // Set maximum and preferred size for larger cards
-            carPanel.setMaximumSize(new Dimension(cardWidth, 150));
-            carPanel.setPreferredSize(new Dimension(cardWidth, 150));
+        for (Car car : cars) {
+            CarPane carPane = new CarPane();
 
-            // Create new labels for each car's information
-            JLabel carIdLabel = new JLabel("carID: " + carsResultSet.getString("carID"));
-            JLabel makeLabel = new JLabel("Make: " + carsResultSet.getString("Make"));
+            // Set the car details in the CarPane
+            carPane.setMakeModelText(car.getCarMake() + " " + car.getCarModel());
+            carPane.setPriceText(String.format("€%,.2f", car.getPurchasePrice()));
+            carPane.setYearText("Year: " + car.getCarYear());
 
-            // Add labels to the car panel
-            carPanel.add(carIdLabel);
-            carPanel.add(makeLabel);
+            // Set the car image
+            ImageIcon icon = getCarImageIcon(car.getImagePath());
+            if (icon != null) {
+                carPane.setCarImageIcon(icon);
+            } else {
+                carPane.setCarImageIcon(new ImageIcon("path/to/default/image")); // Replace with your default image path
+            }
 
-            // Add the car panel as a 'card' to jPanel1
-            jPanel3.add(carPanel);
+            carPane.setBorder(BorderFactory.createEmptyBorder(verticalGap, 0, verticalGap, 0));
 
-            // Add a rigid area for spacing between cards
-            jPanel3.add(Box.createRigidArea(new Dimension(0, 20)));
+            containerPanel.add(carPane);
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+
+        carScrollPane.setViewportView(containerPanel);
+        carScrollPane.revalidate();
+        carScrollPane.repaint();
     }
 
-    // Revalidate and repaint jPanel1 to update the GUI
-    jPanel1.revalidate();
-    jPanel1.repaint();
-}
+
+    // Helper method to get the ImageIcon
+    private ImageIcon getCarImageIcon(String imagePath) {
+        // Your logic to create an ImageIcon from the image path
+        return new ImageIcon(imagePath); // Placeholder
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -84,15 +64,19 @@ public class testingLayout extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        carPanel = new javax.swing.JPanel();
+        carImage = new javax.swing.JLabel();
+        makeModelLabel = new javax.swing.JLabel();
+        priceLabel = new javax.swing.JLabel();
+        yearLabel = new javax.swing.JLabel();
+        Account = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
         jPanel3 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         allmodels2 = new javax.swing.JComboBox<>();
         makeComboBox = new javax.swing.JComboBox<>();
@@ -102,11 +86,55 @@ public class testingLayout extends javax.swing.JFrame {
         minprice2 = new javax.swing.JComboBox<>();
         condition2 = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
+        carScrollPane = new javax.swing.JScrollPane();
+        scrollJPanel = new javax.swing.JPanel();
+
+        carPanel.setBackground(new java.awt.Color(255, 255, 255));
+
+        carImage.setIcon(new javax.swing.ImageIcon("C:\\Users\\D21124331\\OneDrive - Technological University Dublin\\Desktop\\4th Year\\GUI\\Project\\CarServiceCompanion\\CarServiceCompanion\\src\\icon\\baby-car.png")); // NOI18N
+        carImage.setBorder(new javax.swing.border.MatteBorder(null));
+
+        makeModelLabel.setText("MakeModel");
+
+        priceLabel.setText("Price");
+
+        yearLabel.setText("Year");
+
+        javax.swing.GroupLayout carPanelLayout = new javax.swing.GroupLayout(carPanel);
+        carPanel.setLayout(carPanelLayout);
+        carPanelLayout.setHorizontalGroup(
+            carPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(carPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(carImage, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
+                .addGroup(carPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(makeModelLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(priceLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(yearLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+        carPanelLayout.setVerticalGroup(
+            carPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(carPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(carPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(carPanelLayout.createSequentialGroup()
+                        .addComponent(makeModelLabel)
+                        .addGap(12, 12, 12)
+                        .addComponent(priceLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(yearLabel))
+                    .addComponent(carImage, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(0, 102, 102));
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        Account.setBackground(new java.awt.Color(255, 255, 255));
+        Account.setToolTipText("");
+        Account.setPreferredSize(new java.awt.Dimension(800, 500));
+        Account.setLayout(null);
 
         jPanel2.setBackground(new java.awt.Color(153, 153, 255));
         jPanel2.setMinimumSize(new java.awt.Dimension(800, 60));
@@ -146,13 +174,13 @@ public class testingLayout extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(108, 108, 108)
                 .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -166,22 +194,13 @@ public class testingLayout extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel3.setBackground(new java.awt.Color(255, 204, 204));
+        Account.add(jPanel2);
+        jPanel2.setBounds(0, 0, 780, 60);
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 996, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1119, Short.MAX_VALUE)
-        );
+        jPanel3.setBackground(new java.awt.Color(204, 204, 255));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
-        jScrollPane1.setViewportView(jPanel3);
-
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("Refine your search");
@@ -217,48 +236,48 @@ public class testingLayout extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(minyear2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(makeComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(minprice2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(condition2, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(allmodels2, 0, 118, Short.MAX_VALUE)
                     .addComponent(maxyear2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(maxprice2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(36, 36, 36))
-            .addGroup(jPanel4Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(38, 38, 38)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(allmodels2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(makeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(maxyear2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(minyear2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(minprice2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(maxprice2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(condition2, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(14, Short.MAX_VALUE))
@@ -272,33 +291,58 @@ public class testingLayout extends javax.swing.JFrame {
         makeComboBox.setSelectedIndex(0); // Sets the first item in the model to be selected
         makeComboBox.setSelectedIndex(0); // Sets the first item in the model to be selected
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(58, 58, 58)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 892, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 998, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(52, 52, 52))
+        scrollJPanel.setBackground(new java.awt.Color(204, 204, 255));
+        scrollJPanel.setPreferredSize(new java.awt.Dimension(430, 3000));
+
+        javax.swing.GroupLayout scrollJPanelLayout = new javax.swing.GroupLayout(scrollJPanel);
+        scrollJPanel.setLayout(scrollJPanelLayout);
+        scrollJPanelLayout.setHorizontalGroup(
+            scrollJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 430, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1121, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(274, 274, 274)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 65, Short.MAX_VALUE))
+        scrollJPanelLayout.setVerticalGroup(
+            scrollJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 3000, Short.MAX_VALUE)
         );
 
-        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
+        carScrollPane.setViewportView(scrollJPanel);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(carScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(carScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(19, Short.MAX_VALUE))
+        );
+
+        Account.add(jPanel3);
+        jPanel3.setBounds(30, 90, 720, 390);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(Account, javax.swing.GroupLayout.PREFERRED_SIZE, 766, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(Account, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -336,26 +380,30 @@ public class testingLayout extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(testingLayout.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(testingCarView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(testingLayout.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(testingCarView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(testingLayout.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(testingCarView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(testingLayout.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(testingCarView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new testingLayout().setVisible(true);
+                new testingCarView().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel Account;
     private javax.swing.JComboBox<String> allmodels2;
+    private javax.swing.JLabel carImage;
+    private javax.swing.JPanel carPanel;
+    private javax.swing.JScrollPane carScrollPane;
     private javax.swing.JComboBox<String> condition2;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton6;
@@ -366,12 +414,14 @@ public class testingLayout extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox<String> makeComboBox;
+    private javax.swing.JLabel makeModelLabel;
     private javax.swing.JComboBox<String> maxprice2;
     private javax.swing.JComboBox<String> maxyear2;
     private javax.swing.JComboBox<String> minprice2;
     private javax.swing.JComboBox<String> minyear2;
+    private javax.swing.JLabel priceLabel;
+    private javax.swing.JPanel scrollJPanel;
+    private javax.swing.JLabel yearLabel;
     // End of variables declaration//GEN-END:variables
 }

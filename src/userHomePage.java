@@ -1,3 +1,9 @@
+import com.sun.jdi.connect.spi.Connection;
+import javax.swing.JFrame;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import org.hsqldb.SessionManager;
+
 public class userHomePage extends javax.swing.JFrame {
 
     /**
@@ -5,7 +11,57 @@ public class userHomePage extends javax.swing.JFrame {
      */
     public userHomePage() {
         initComponents();
+        setupFrameChangeButtons();
+        setupLogoutButton();
+
+
     }
+    
+    // Method to set up action listeners for buttons responsible for opening different JFrames
+    private void setupFrameChangeButtons() {
+        addActionListenerToButton(homeButton, userHomePage.class);
+        //addActionListenerToButton(accountDetailsButton, account.class);
+        addActionListenerToButton(logoutButton, login.class);
+    }
+
+    // Method to add an action listener to a button to open a specific JFrame
+    private void addActionListenerToButton(JButton button, Class<? extends JFrame> frameClass) {
+        button.addActionListener(e -> openFrameAndCloseCurrent(frameClass));
+    }
+    
+    // Call this method in the constructor or initialization block to set up the logout button
+    private void setupLogoutButton() {
+        logoutButton.addActionListener(e -> logoutAndOpenLogin());
+    }
+    
+
+    // This method will handle the logout process and switch to the login screen
+    private void logoutAndOpenLogin() {
+        // Logout the user
+        //SessionManager.getInstance().logout();
+
+        // Close the current frame
+        this.dispose();
+
+        // Open the login screen
+        JFrame loginFrame = new login();
+        loginFrame.setVisible(true);
+    }
+
+    // Method to open a new JFrame and close the current one
+    private void openFrameAndCloseCurrent(Class<? extends JFrame> frameClass) {
+        try {
+            JFrame frame = frameClass.getDeclaredConstructor().newInstance();
+            frame.setVisible(true);
+            this.dispose(); // Close the current frame
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+        
+
+
+
     
     
     
@@ -16,57 +72,57 @@ public class userHomePage extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        Account = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
+        userHomePagePanel = new javax.swing.JPanel();
+        userHomePageNavBar = new javax.swing.JPanel();
+        accountDetailsButton = new javax.swing.JButton();
+        logoutButton = new javax.swing.JButton();
+        homeButton = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         jPanel5 = new javax.swing.JPanel();
         jLabel33 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
-        Make14 = new javax.swing.JComboBox<>();
+        modelComboBox = new javax.swing.JComboBox<>();
         makeComboBox = new javax.swing.JComboBox<>();
-        Make16 = new javax.swing.JComboBox<>();
-        Make17 = new javax.swing.JComboBox<>();
-        Make18 = new javax.swing.JComboBox<>();
-        Make19 = new javax.swing.JComboBox<>();
-        Make20 = new javax.swing.JComboBox<>();
-        jButton3 = new javax.swing.JButton();
+        maxYearComboBox = new javax.swing.JComboBox<>();
+        minYearComboBox = new javax.swing.JComboBox<>();
+        maxPriceComboBox = new javax.swing.JComboBox<>();
+        minPriceComboBox = new javax.swing.JComboBox<>();
+        conditionComboBox = new javax.swing.JComboBox<>();
+        searchButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        Account.setBackground(new java.awt.Color(255, 255, 255));
-        Account.setToolTipText("");
-        Account.setPreferredSize(new java.awt.Dimension(800, 500));
-        Account.setLayout(null);
+        userHomePagePanel.setBackground(new java.awt.Color(255, 255, 255));
+        userHomePagePanel.setToolTipText("");
+        userHomePagePanel.setPreferredSize(new java.awt.Dimension(800, 500));
+        userHomePagePanel.setLayout(null);
 
-        jPanel2.setBackground(new java.awt.Color(153, 153, 255));
-        jPanel2.setMinimumSize(new java.awt.Dimension(800, 60));
+        userHomePageNavBar.setBackground(new java.awt.Color(153, 153, 255));
+        userHomePageNavBar.setMinimumSize(new java.awt.Dimension(800, 60));
 
-        jButton6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton6.setText("Account Details");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        accountDetailsButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        accountDetailsButton.setText("Account Details");
+        accountDetailsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                accountDetailsButtonActionPerformed(evt);
             }
         });
 
-        jButton7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton7.setText("Logout");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
+        logoutButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        logoutButton.setText("Logout");
+        logoutButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
+                logoutButtonActionPerformed(evt);
             }
         });
 
-        jButton8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton8.setText("Home");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
+        homeButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        homeButton.setText("Home");
+        homeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
+                homeButtonActionPerformed(evt);
             }
         });
 
@@ -74,35 +130,35 @@ public class userHomePage extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("CarServiceCompanion");
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout userHomePageNavBarLayout = new javax.swing.GroupLayout(userHomePageNavBar);
+        userHomePageNavBar.setLayout(userHomePageNavBarLayout);
+        userHomePageNavBarLayout.setHorizontalGroup(
+            userHomePageNavBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, userHomePageNavBarLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(108, 108, 108)
-                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(homeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(accountDetailsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(40, Short.MAX_VALUE))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+        userHomePageNavBarLayout.setVerticalGroup(
+            userHomePageNavBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, userHomePageNavBarLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(userHomePageNavBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(accountDetailsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(homeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addContainerGap())
         );
 
-        Account.add(jPanel2);
-        jPanel2.setBounds(0, 0, 780, 60);
+        userHomePagePanel.add(userHomePageNavBar);
+        userHomePageNavBar.setBounds(0, 0, 780, 60);
 
         jLayeredPane1.setBackground(new java.awt.Color(255, 153, 153));
 
@@ -130,36 +186,35 @@ public class userHomePage extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Tw Cen MT", 1, 18)); // NOI18N
         jLabel6.setText("Search for cars");
 
-        Make14.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        Make14.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Models", " " }));
+        modelComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        modelComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Models", " " }));
 
         makeComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         makeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Makes", "Volkswagen", "Audi", "BMW", "Toyota", " " }));
 
-        Make16.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        Make16.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Max Year", "2024 ", "2023 ", "2022 ", "2021 ", "2020 ", "2019 ", "2018 ", "2017 ", "2016 ", "2015 ", "2014 ", "2013 ", "2012", "2011 ", "2010 ", "2009 ", "2008 ", "2007 ", "2006 ", "2005 ", "2004, ", "2003 ", "2002 ", "2001 ", "2000 ", "1999 ", "1998 ", "1997 ", "1996 ", "1995 ", "1994 ", "1993", "1992 ", "1991 ", "1990" }));
+        maxYearComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        maxYearComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Max Year", "2024 ", "2023 ", "2022 ", "2021 ", "2020 ", "2019 ", "2018 ", "2017 ", "2016 ", "2015 ", "2014 ", "2013 ", "2012", "2011 ", "2010 ", "2009 ", "2008 ", "2007 ", "2006 ", "2005 ", "2004, ", "2003 ", "2002 ", "2001 ", "2000 ", "1999 ", "1998 ", "1997 ", "1996 ", "1995 ", "1994 ", "1993", "1992 ", "1991 ", "1990" }));
 
-        Make17.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        Make17.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Min Year", "2024 ", "2023 ", "2022 ", "2021 ", "2020 ", "2019 ", "2018 ", "2017 ", "2016 ", "2015 ", "2014 ", "2013 ", "2012", "2011 ", "2010 ", "2009 ", "2008 ", "2007 ", "2006 ", "2005 ", "2004, ", "2003 ", "2002 ", "2001 ", "2000 ", "1999 ", "1998 ", "1997 ", "1996 ", "1995 ", "1994 ", "1993", "1992 ", "1991 ", "1990" }));
+        minYearComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        minYearComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2024 ", "2023 ", "2022 ", "2021 ", "2020 ", "2019 ", "2018 ", "2017 ", "2016 ", "2015 ", "2014 ", "2013 ", "2012", "2011 ", "2010 ", "2009 ", "2008 ", "2007 ", "2006 ", "2005 ", "2004, ", "2003 ", "2002 ", "2001 ", "2000 ", "1999 ", "1998 ", "1997 ", "1996 ", "1995 ", "1994 ", "1993", "1992 ", "1991 ", "1990" }));
 
-        Make18.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        Make18.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Max Price", "€100", "€500", "€1,000", "€1,500", "€2000", "€2,500", "€3,000", "€3,500", "€4,000", "€4,500", "€5,000", "€5,500", "€6,000", "€6,500", "€7,000", "€7,500", "€8,000", "€8,500 ", "€9,000", "€9,500", "€10,000", "€12,500", "€15,000", "€17,500", "€20,000", "€22,500", "€25000", "€27,500", "€30,000", "€40,000", "€45,000", "€50,000", "€60,000", "€70,000", "€80,000", "€90,000", "€100,000", "€125,000" }));
-
-        Make19.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        Make19.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Min Price", "€100", "€500", "€1,000", "€1,500", "€2000", "€2,500", "€3,000", "€3,500", "€4,000", "€4,500", "€5,000", "€5,500", "€6,000", "€6,500", "€7,000", "€7,500", "€8,000", "€8,500 ", "€9,000", "€9,500", "€10,000", "€12,500", "€15,000", "€17,500", "€20,000", "€22,500", "€25000", "€27,500", "€30,000", "€40,000", "€45,000", "€50,000", "€60,000", "€70,000", "€80,000", "€90,000", "€100,000", "€125,000" }));
-
-        Make20.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        Make20.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Condition", "New", "Used" }));
-
-        jButton3.setBackground(new java.awt.Color(102, 153, 255));
-        jButton3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Search");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        maxPriceComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        maxPriceComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Max Price", "€100", "€500", "€1,000", "€1,500", "€2000", "€2,500", "€3,000", "€3,500", "€4,000", "€4,500", "€5,000", "€5,500", "€6,000", "€6,500", "€7,000", "€7,500", "€8,000", "€8,500 ", "€9,000", "€9,500", "€10,000", "€12,500", "€15,000", "€17,500", "€20,000", "€22,500", "€25000", "€27,500", "€30,000", "€40,000", "€45,000", "€50,000", "€60,000", "€70,000", "€80,000", "€90,000", "€100,000", "€125,000" }));
+        maxPriceComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                maxPriceComboBoxActionPerformed(evt);
             }
         });
+
+        minPriceComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        minPriceComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Min Price", "€100", "€500", "€1,000", "€1,500", "€2000", "€2,500", "€3,000", "€3,500", "€4,000", "€4,500", "€5,000", "€5,500", "€6,000", "€6,500", "€7,000", "€7,500", "€8,000", "€8,500 ", "€9,000", "€9,500", "€10,000", "€12,500", "€15,000", "€17,500", "€20,000", "€22,500", "€25000", "€27,500", "€30,000", "€40,000", "€45,000", "€50,000", "€60,000", "€70,000", "€80,000", "€90,000", "€100,000", "€125,000" }));
+
+        conditionComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        searchButton.setBackground(new java.awt.Color(102, 153, 255));
+        searchButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        searchButton.setForeground(new java.awt.Color(255, 255, 255));
+        searchButton.setText("Search");
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -168,17 +223,22 @@ public class userHomePage extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(Make17, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(minYearComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(makeComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Make19, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Make20, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(Make14, 0, 118, Short.MAX_VALUE)
-                    .addComponent(Make16, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Make18, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(36, 36, 36))
+                    .addComponent(minPriceComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(conditionComboBox, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(modelComboBox, 0, 118, Short.MAX_VALUE)
+                            .addComponent(maxYearComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(maxPriceComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(36, 36, 36))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(searchButton)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -191,20 +251,20 @@ public class userHomePage extends javax.swing.JFrame {
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Make14, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(modelComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(makeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Make16, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Make17, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(maxYearComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(minYearComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Make19, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Make18, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(minPriceComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(maxPriceComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(Make20, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(conditionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchButton))
                 .addContainerGap(36, Short.MAX_VALUE))
         );
 
@@ -248,7 +308,7 @@ public class userHomePage extends javax.swing.JFrame {
                     .addContainerGap(30, Short.MAX_VALUE)))
         );
 
-        Account.add(jLayeredPane1);
+        userHomePagePanel.add(jLayeredPane1);
         jLayeredPane1.setBounds(30, 90, 720, 360);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -259,7 +319,7 @@ public class userHomePage extends javax.swing.JFrame {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(Account, javax.swing.GroupLayout.PREFERRED_SIZE, 786, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(userHomePagePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 786, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
@@ -268,28 +328,28 @@ public class userHomePage extends javax.swing.JFrame {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(Account, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(userHomePagePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void accountDetailsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accountDetailsButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_accountDetailsButtonActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+    private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton7ActionPerformed
+    }//GEN-LAST:event_logoutButtonActionPerformed
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+    private void homeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton8ActionPerformed
+    }//GEN-LAST:event_homeButtonActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void maxPriceComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_maxPriceComboBoxActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_maxPriceComboBoxActionPerformed
 
     /**
      * @param args the command line arguments
@@ -327,24 +387,24 @@ public class userHomePage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel Account;
-    private javax.swing.JComboBox<String> Make14;
-    private javax.swing.JComboBox<String> Make16;
-    private javax.swing.JComboBox<String> Make17;
-    private javax.swing.JComboBox<String> Make18;
-    private javax.swing.JComboBox<String> Make19;
-    private javax.swing.JComboBox<String> Make20;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
+    private javax.swing.JButton accountDetailsButton;
+    private javax.swing.JComboBox<String> conditionComboBox;
+    private javax.swing.JButton homeButton;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLayeredPane jLayeredPane1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JButton logoutButton;
     private javax.swing.JComboBox<String> makeComboBox;
+    private javax.swing.JComboBox<String> maxPriceComboBox;
+    private javax.swing.JComboBox<String> maxYearComboBox;
+    private javax.swing.JComboBox<String> minPriceComboBox;
+    private javax.swing.JComboBox<String> minYearComboBox;
+    private javax.swing.JComboBox<String> modelComboBox;
+    private javax.swing.JButton searchButton;
+    private javax.swing.JPanel userHomePageNavBar;
+    private javax.swing.JPanel userHomePagePanel;
     // End of variables declaration//GEN-END:variables
 }

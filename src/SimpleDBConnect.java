@@ -4,6 +4,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.PreparedStatement; // Import for PreparedStatement
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 /**
  *
  * @author Dylan Holmwood and Kristers Martukans
@@ -61,7 +65,6 @@ public class SimpleDBConnect {
             e.printStackTrace();
         }
     }
-<<<<<<< HEAD
 
     public boolean login(String email, String password) {
         boolean loginSuccess = false;
@@ -85,51 +88,122 @@ public class SimpleDBConnect {
         
     }
     
-    public boolean signUpNewUser(String forename, String surname, String email, String password) {
-        boolean insertSuccess = false;
-        try (Connection connection = DriverManager.getConnection(dbURL)) {
-            // Check if the email already exists
-            String checkEmailSQL = "SELECT * FROM Users WHERE emailAddress = ?";
-            try (PreparedStatement checkStmt = connection.prepareStatement(checkEmailSQL)) {
-                checkStmt.setString(1, email);
-                try (ResultSet resultSet = checkStmt.executeQuery()) {
-                    if (resultSet.next()) {
-                        // If resultSet has an entry, it means the email already exists
-                        System.out.println("Email already exists.");
-                      return false;
-                    }
-                }
-            }
-        
-            // Proceed with inserting new user if email does not exist
-            String sql = "INSERT INTO Users (forename, surname, emailAddress, password) VALUES (?, ?, ?, ?)";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-              preparedStatement.setString(1, forename);
-              preparedStatement.setString(2, surname);
-              preparedStatement.setString(3, email);
-             preparedStatement.setString(4, password);
-            
-                int rowsAffected = preparedStatement.executeUpdate();
-             insertSuccess = rowsAffected > 0;
-         }
-        } catch (SQLException sqlex) {
-          System.err.println(sqlex.getMessage());
+    public boolean updatePassword(String email, String newPassword) {
+    String sql = "UPDATE Users SET Password = ? WHERE Email = ?";
+    try (Connection connection = DriverManager.getConnection(dbURL);
+         PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        preparedStatement.setString(1, newPassword);
+        preparedStatement.setString(2, email);
+
+        int affectedRows = preparedStatement.executeUpdate();
+        if (affectedRows > 0) {
+            System.out.println("Password updated successfully.");
+            return true;
         }
-        return insertSuccess;
+    } catch (SQLException sqlex) {
+        System.err.println("SQL Error: " + sqlex.getMessage());
     }
+    return false;
+}
+
+    
+public List<Car> getCarsFromDatabase() {
+    List<Car> cars = new ArrayList<>();
+    try {
+        Connection connection = DriverManager.getConnection(dbURL);
+        String sql = "SELECT * FROM Vehicles";
+        try (Statement statement = connection.createStatement();
+             ResultSet rs = statement.executeQuery(sql)) {
+            while (rs.next()) {
+                int carID = rs.getInt("CarID");
+                String carMake = rs.getString("CarMake");
+                String carModel = rs.getString("CarModel");
+                int carYear = rs.getInt("CarYear");
+                double rentalPrice = rs.getDouble("RentalPrice");
+                double purchasePrice = rs.getDouble("PurchasePrice");
+                int quantityAvailable = rs.getInt("QuantityAvailable");
+                boolean availability = rs.getBoolean("Availability");
+                String imagePath = rs.getString("ImagePath");
+
+                Car car = new Car(carID, carMake, carModel, carYear, rentalPrice, 
+                                  purchasePrice, quantityAvailable, availability, imagePath);
+                cars.add(car);
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return cars;
+}
+
 
 
     
-    public ResultSet getAllCars() {
+    public boolean userLogin(String email, String password) {
+        boolean loginSuccess = false;
     try (Connection connection = DriverManager.getConnection(dbURL)) {
-        String sql = "SELECT * FROM Cars"; // Assuming you have a table named 'Cars'
-        Statement statement = connection.createStatement();
-        return statement.executeQuery(sql);
+        String sql = "SELECT * FROM Users WHERE Email = ? AND Password = ?"; // Assuming your users table and columns are named like this
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, email);
+            preparedStatement.setString(2, password);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) { // Just check if a record exists
+                    loginSuccess = true;
+                }
+            }
+        }
     } catch (SQLException sqlex) {
         System.err.println(sqlex.getMessage());
     }
-    return null;
-=======
->>>>>>> 8c245832939284c29523bd6269c5b96b2963ed63
+    return loginSuccess;
 }
+
+
+
+    
+public boolean signUpNewUser(String forename, String surname, String email, String password) {
+    boolean insertSuccess = false;
+    // You would define dbURL somewhere in your class, or pass it to the method
+    try (Connection connection = DriverManager.getConnection(dbURL)) {
+        // Check if the email already exists
+        String checkEmailSQL = "SELECT * FROM Users WHERE Email = ?";
+        try (PreparedStatement checkStmt = connection.prepareStatement(checkEmailSQL)) {
+            checkStmt.setString(1, email);
+            try (ResultSet resultSet = checkStmt.executeQuery()) {
+                if (resultSet.next()) {
+                    // If resultSet has an entry, it means the email already exists
+                    System.out.println("Email already exists.");
+                    return false;
+                }
+            }
+        }
+
+        // Proceed with inserting new user if email does not exist
+        // Adding DateCreated and IsActive fields to the insert statement
+        String sql = "INSERT INTO Users (Forename, Surname, Email, Password, Address, Mobile, AccountStatus) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, forename);
+            preparedStatement.setString(2, surname);
+            preparedStatement.setString(3, email);
+            preparedStatement.setString(4, password);
+            preparedStatement.setString(5, "");
+            preparedStatement.setString(6, "");
+            preparedStatement.setString(7, "");
+            
+            int rowsAffected = preparedStatement.executeUpdate();
+            insertSuccess = rowsAffected > 0;
+        }
+    } catch (SQLException sqlex) {
+        System.err.println(sqlex.getMessage());
+    }
+    return insertSuccess;
+}
+
+
+}
+
+
+
+
 
