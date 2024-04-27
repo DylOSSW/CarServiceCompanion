@@ -5,6 +5,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+
 public class login extends javax.swing.JFrame {
 
     /**
@@ -44,26 +45,29 @@ public class login extends javax.swing.JFrame {
         }
     }
     
-    private void userLogin() {
-        String email = emailTextField.getText();
-        String password = new String(passwordTextField.getPassword());
+private void userLogin() {
+    String email = emailTextField.getText();
+    String password = new String(passwordTextField.getPassword());
 
-        SimpleDBConnect dbConnect = new SimpleDBConnect();
-        boolean isSuccess = dbConnect.userLogin(email, password);
+    SimpleDBConnect dbConnect = new SimpleDBConnect();
+    User user = dbConnect.userLogin1(email, password); // This should return a User object or null
 
-        if (isSuccess) {
-            SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                    JOptionPane.showMessageDialog(null, "Login Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    dispose(); // Dispose of the login window
-                    userHomePage userHomePage = new userHomePage(); 
-                    userHomePage.setVisible(true); // Make sure it's visible (if not already handled in the constructor)
-                }
-            });
-        } else {
-            JOptionPane.showMessageDialog(this, "Login Failed. Please check your credentials.", "Login Failed", JOptionPane.ERROR_MESSAGE);
-        }
+    if (user != null) {
+        SessionManager.getInstance().login(user); // Use the getInstance() method to get the SessionManager instance
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                JOptionPane.showMessageDialog(null, "Login Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
+                dispose(); // Dispose of the login window
+                userHomePage userHomePage = new userHomePage();
+                userHomePage.setVisible(true); // Make sure it's visible (if not already handled in the constructor)
+            }
+        });
+    } else {
+        JOptionPane.showMessageDialog(this, "Login Failed. Please check your credentials.", "Login Failed", JOptionPane.ERROR_MESSAGE);
     }
+}
+
+
 
    
     // Method to set up action listeners for buttons responsible for opening different JFrames

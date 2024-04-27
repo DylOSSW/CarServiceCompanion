@@ -1,60 +1,59 @@
-import javax.swing.*;
+
 import java.util.List;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 
 public class testingCarView extends javax.swing.JFrame {
 
     public testingCarView() {
         initComponents(); // NetBeans GUI Builder initializes components here
-        populateCars();
-    }
 
-    private void populateCars() {
+        carScrollPane.getVerticalScrollBar().setUnitIncrement(16); // This makes the scrolling step 16 pixels at a time
+        carScrollPane.getHorizontalScrollBar().setUnitIncrement(16);
+
+
+        // Set the layout with gaps between components
+        scrollJPanel.setLayout(new BoxLayout(scrollJPanel, BoxLayout.Y_AXIS));
+        int verticalGap = 10; // This is the vertical space between the CarPanels
+        int horizontalGap = 10; // This is the horizontal space on the sides of the CarPanels
+
+        // Add a compound border to the scrollJPanel for spacing between panels and edges.
+        scrollJPanel.setBorder(BorderFactory.createCompoundBorder(
+            scrollJPanel.getBorder(), 
+            BorderFactory.createEmptyBorder(verticalGap, horizontalGap, verticalGap, horizontalGap)
+        ));
+        int panelSpacing = 10; // Space between panels
         SimpleDBConnect dbConnect = new SimpleDBConnect();
-        List<Car> cars = dbConnect.getCarsFromDatabase();
-        
-        // You should add the CarPane instances to a JPanel, and then set that JPanel to the viewport view of a JScrollPane.
-        JPanel containerPanel = new JPanel();
-        containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));
-        int verticalGap = 10; // Vertical space between the CarPanes
-        int horizontalGap = 10; // Horizontal space on the sides of the CarPanes
-
-        containerPanel.setBorder(BorderFactory.createCompoundBorder(
-                containerPanel.getBorder(),
-                BorderFactory.createEmptyBorder(verticalGap, horizontalGap, verticalGap, horizontalGap)));
-
+        List<Car> cars = dbConnect.getCarsFromDatabase(); // This should return a List<Car>
         for (Car car : cars) {
-            CarPane carPane = new CarPane();
+            CarPanel carPane = new CarPanel(); // Create a new CarPane
+    
+            // Assuming car.getImagePath() returns a String that points to the image file
+            ImageIcon imageIcon = new ImageIcon(car.getImagePath());
+            carPane.setCarImageIcon(imageIcon); // Set the car image icon
 
-            // Set the car details in the CarPane
-            carPane.setMakeModelText(car.getCarMake() + " " + car.getCarModel());
-            carPane.setPriceText(String.format("€%,.2f", car.getPurchasePrice()));
-            carPane.setYearText("Year: " + car.getCarYear());
+            // Set the make/model text. Assuming you have both make and model available
+            String makeModel = car.getCarMake() + " " + car.getCarModel();
+            carPane.setMakeModelText(makeModel); // Combine make and model for display
 
-            // Set the car image
-            ImageIcon icon = getCarImageIcon(car.getImagePath());
-            if (icon != null) {
-                carPane.setCarImageIcon(icon);
-            } else {
-                carPane.setCarImageIcon(new ImageIcon("path/to/default/image")); // Replace with your default image path
-            }
+            // Set the price text, converting double to String
+            String priceText = String.format("$%.2f", car.getPurchasePrice());
+            carPane.setPriceText(priceText); // Format price to 2 decimal places
 
-            carPane.setBorder(BorderFactory.createEmptyBorder(verticalGap, 0, verticalGap, 0));
-
-            containerPanel.add(carPane);
+            // Set the year text, converting int to String
+            String yearText = Integer.toString(car.getCarYear());
+            carPane.setYearText(yearText); // Convert year to String
+            carPane.setBorder(BorderFactory.createEmptyBorder(panelSpacing, 0, panelSpacing, 0));
+            scrollJPanel.add(carPane); // Add carPane to the JScrollPane
         }
 
-        carScrollPane.setViewportView(containerPanel);
-        carScrollPane.revalidate();
-        carScrollPane.repaint();
+        scrollJPanel.revalidate(); // Refresh the scrollJPanel layout
+        scrollJPanel.repaint(); // Redraw the scrollJPanel
+
     }
-
-
-    // Helper method to get the ImageIcon
-    private ImageIcon getCarImageIcon(String imagePath) {
-        // Your logic to create an ImageIcon from the image path
-        return new ImageIcon(imagePath); // Placeholder
-    }
-
+        
+        
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -71,7 +70,7 @@ public class testingCarView extends javax.swing.JFrame {
         yearLabel = new javax.swing.JLabel();
         Account = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jButton6 = new javax.swing.JButton();
+        jButton = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
@@ -139,11 +138,11 @@ public class testingCarView extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(153, 153, 255));
         jPanel2.setMinimumSize(new java.awt.Dimension(800, 60));
 
-        jButton6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton6.setText("Account Details");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        jButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jButton.setText("Account Details");
+        jButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                jButtonActionPerformed(evt);
             }
         });
 
@@ -177,7 +176,7 @@ public class testingCarView extends javax.swing.JFrame {
                 .addGap(108, 108, 108)
                 .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(40, Short.MAX_VALUE))
@@ -187,7 +186,7 @@ public class testingCarView extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
@@ -197,9 +196,10 @@ public class testingCarView extends javax.swing.JFrame {
         Account.add(jPanel2);
         jPanel2.setBounds(0, 0, 780, 60);
 
-        jPanel3.setBackground(new java.awt.Color(204, 204, 255));
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -291,18 +291,23 @@ public class testingCarView extends javax.swing.JFrame {
         makeComboBox.setSelectedIndex(0); // Sets the first item in the model to be selected
         makeComboBox.setSelectedIndex(0); // Sets the first item in the model to be selected
 
-        scrollJPanel.setBackground(new java.awt.Color(204, 204, 255));
-        scrollJPanel.setPreferredSize(new java.awt.Dimension(430, 3000));
+        carScrollPane.setBackground(new java.awt.Color(255, 255, 255));
+        carScrollPane.setBorder(null);
+        carScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        carScrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        carScrollPane.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        scrollJPanel.setBackground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout scrollJPanelLayout = new javax.swing.GroupLayout(scrollJPanel);
         scrollJPanel.setLayout(scrollJPanelLayout);
         scrollJPanelLayout.setHorizontalGroup(
             scrollJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 430, Short.MAX_VALUE)
+            .addGap(0, 413, Short.MAX_VALUE)
         );
         scrollJPanelLayout.setVerticalGroup(
             scrollJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 3000, Short.MAX_VALUE)
+            .addGap(0, 347, Short.MAX_VALUE)
         );
 
         carScrollPane.setViewportView(scrollJPanel);
@@ -313,9 +318,9 @@ public class testingCarView extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(carScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(carScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -323,9 +328,9 @@ public class testingCarView extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(carScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(19, Short.MAX_VALUE))
+                    .addComponent(carScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         Account.add(jPanel3);
@@ -347,10 +352,6 @@ public class testingCarView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
-
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton7ActionPerformed
@@ -362,6 +363,10 @@ public class testingCarView extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -405,8 +410,8 @@ public class testingCarView extends javax.swing.JFrame {
     private javax.swing.JPanel carPanel;
     private javax.swing.JScrollPane carScrollPane;
     private javax.swing.JComboBox<String> condition2;
+    private javax.swing.JButton jButton;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
