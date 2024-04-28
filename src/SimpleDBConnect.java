@@ -158,8 +158,7 @@ public List<Car> getCarsFromDatabase() {
     }
     return loginSuccess;
 }
-
-
+    
 
     
 public boolean signUpNewUser(String forename, String surname, String email, String password) {
@@ -198,10 +197,34 @@ public boolean signUpNewUser(String forename, String surname, String email, Stri
         System.err.println(sqlex.getMessage());
     }
     return insertSuccess;
-}
-
 
 }
+  public User userLogin1(String email, String password) {
+        User user = null;
+        try (Connection connection = DriverManager.getConnection(dbURL)) {
+            String sql = "SELECT * FROM Users WHERE Email = ? AND Password = ?"; // Assuming your users table and columns are named like this
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, email);
+                preparedStatement.setString(2, password);
+
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        String forename = resultSet.getString("Forename");
+                        String surname = resultSet.getString("Surname");
+                        // Assuming you have forename and surname columns in your Users table
+                        user = new User(email, forename, surname);
+                    }
+                }
+            }
+        } catch (SQLException sqlex) {
+            System.err.println(sqlex.getMessage());
+        }
+        return user;
+    }
+    //...
+}   
+
+
 
 
 
