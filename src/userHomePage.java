@@ -1,8 +1,5 @@
-import com.sun.jdi.connect.spi.Connection;
 import javax.swing.JFrame;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import org.hsqldb.SessionManager;
 
 public class userHomePage extends javax.swing.JFrame {
 
@@ -20,7 +17,7 @@ public class userHomePage extends javax.swing.JFrame {
     // Method to set up action listeners for buttons responsible for opening different JFrames
     private void setupFrameChangeButtons() {
         addActionListenerToButton(homeButton, userHomePage.class);
-        //addActionListenerToButton(accountDetailsButton, account.class);
+        addActionListenerToButton(accountDetailsButton, account.class);
         addActionListenerToButton(logoutButton, login.class);
     }
 
@@ -38,7 +35,8 @@ public class userHomePage extends javax.swing.JFrame {
     // This method will handle the logout process and switch to the login screen
     private void logoutAndOpenLogin() {
         // Logout the user
-        //SessionManager.getInstance().logout();
+        SessionManager.getInstance().logout();
+
 
         // Close the current frame
         this.dispose();
@@ -60,14 +58,6 @@ public class userHomePage extends javax.swing.JFrame {
     }
         
 
-
-
-    
-    
-    
-    
-    
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
