@@ -332,67 +332,79 @@ public DefaultTableModel searchCars(String selectedMake, String selectedModel, S
     }
 }
 
+    public boolean deleteVehicle(int carID) {
+    String sql = "DELETE FROM Vehicles WHERE CarID = ?";
+    try (Connection connection = DriverManager.getConnection(dbURL);
+         PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        preparedStatement.setInt(1, carID);
 
-public DefaultTableModel searchCars(String selectedMake, String selectedModel, String minYear, String maxYear, String minPrice, String maxPrice, String selectedCondition) {
-    DefaultTableModel model = new DefaultTableModel();
+        int rowsAffected = preparedStatement.executeUpdate();
+        return rowsAffected > 0;
+    } catch (SQLException e) {
+        System.err.println("SQL Error: " + e.getMessage());
+        return false;
+    }
+}
+    
+/// USERS ///
+    public DefaultTableModel searchUsers(String selectedForename, String selectedSurname, String selectedEmail, String selectedAddress, String selectedMobile, String selectedStatus) {
+    DefaultTableModel usermodel = new DefaultTableModel();
     System.out.println("Search button clicked."); // Debug statement
     try {
         Connection conn = DriverManager.getConnection(dbURL);
-        String sql = "SELECT * FROM Vehicles WHERE 1=1";
+        String sql = "SELECT * FROM Users WHERE 1=1";
 
         // Construct SQL query based on filter criteria
         // Add conditions based on the selected options
-        if (!selectedMake.equals("All Makes")) {
-            sql += " AND CarMake = '" + selectedMake + "'";
+        if (!selectedForename.equals("Forname")) {
+            sql += " AND Forename = '" + selectedForename + "'";
         }
-        if (!selectedModel.equals("All Models")) {
-            sql += " AND CarModel = '" + selectedModel + "'";
+        if (!selectedSurname.equals("Surname")) {
+            sql += " AND Surname = '" + selectedSurname + "'";
         }
-        if (!minYear.equals("Min Year")) {
-            sql += " AND CarYear >= '" + minYear + "'";
+        if (!selectedEmail.equals("Email")) {
+            sql += " AND Email >= '" + selectedEmail + "'";
         }
-        if (!maxYear.equals("Max Year")) {
-            sql += " AND CarYear <= '" + maxYear + "'";
+        if (!selectedAddress.equals("Address")) {
+            sql += " AND Address <= '" + selectedAddress + "'";
         }
-        if (!minPrice.equals("Min Price")) {
-            sql += " AND RentalPrice >= '" + minPrice + "'";
+        if (!selectedMobile.equals("Mobile")) {
+            sql += " AND Mobile >= '" + selectedMobile + "'";
         }
-        if (!maxPrice.equals("Max Price")) {
-            sql += " AND RentalPrice <= '" + maxPrice + "'";
+        if (!selectedStatus.equals("Status")) {
+            sql += " AND AccountStatus <= '" + selectedStatus + "'";
         }
-        if (!selectedCondition.equals("Condition")) {
-            sql += " AND Availability = '" + selectedCondition + "'";
-        }
+        
         
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(sql);
 
         // Add column headers to the table model
-        model.addColumn("CarID");
-        model.addColumn("CarMake");
-        model.addColumn("CarModel");
-        model.addColumn("CarYear");
-        model.addColumn("RentalPrice");
-        model.addColumn("PurchasePrice");
-        model.addColumn("Condition");
-        model.addColumn("QuantityAvailable");
-        model.addColumn("Availability");
+        usermodel.addColumn("UserID");
+        usermodel.addColumn("Forname");
+        usermodel.addColumn("Surname");
+        usermodel.addColumn("Email");
+        usermodel.addColumn("Address");
+        usermodel.addColumn("Mobile");
+        usermodel.addColumn("AccountStatus");
+        
         // Add rows of data to the table model
         while (rs.next()) {
-            Object[] row = new Object[9];
-            row[0] = rs.getInt("CarID");
-            row[1] = rs.getString("CarMake");
-            row[2] = rs.getString("CarModel");
-            row[3] = rs.getInt("CarYear");
-            row[4] = rs.getDouble("RentalPrice");
-            row[5] = rs.getDouble("PurchasePrice");
-            row[6] = rs.getString("Condition");
-            row[7] = rs.getInt("QuantityAvailable");
-            row[8] = rs.getBoolean("Availability");
-            model.addRow(row);
+            Object[] row = new Object[7];
+            row[0] = rs.getInt("UserID");
+            row[1] = rs.getString("Forname");
+            row[2] = rs.getString("Surname");
+            row[3] = rs.getString("Email");
+            row[4] = rs.getString("Address");
+            row[5] = rs.getString("Mobile");
+            row[6] = rs.getString("AccountStatus");
+            usermodel.addRow(row);
         }
         // Set the table model to the JTable
-        System.out.println("Table populated successfully."); // Debug statement
+        System.out.println("Users Table populated successfully."); // Debug statement
+        System.out.println(usermodel.getColumnName(0));
+        System.out.println(usermodel.getValueAt(1, 0));
+        
 
         // Close connections
         rs.close();
@@ -401,72 +413,12 @@ public DefaultTableModel searchCars(String selectedMake, String selectedModel, S
     } catch (SQLException e) {
         e.printStackTrace();
     }
-    return model;
-}
-
-
-// Add function to populate combo boxes
-    public void populateComboBox(JComboBox<String> comboBox, String columnName, String tableName) {
-        try {
-            Connection conn = DriverManager.getConnection(dbURL);
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT DISTINCT " + columnName + " FROM " + tableName);
-
-            while (rs.next()) {
-                comboBox.addItem(rs.getString(columnName));
-            }
-
-            rs.close();
-            stmt.close();
-            conn.close();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
-    
-    public boolean addNewVehicle(String make, String model, int year, double price, double purchasePrice, String condition, String imagePath) {
-    String sql = "INSERT INTO Vehicles (CarMake, CarModel, CarYear, RentalPrice, PurchasePrice, Condition, Availability, ImagePath) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-    try (Connection connection = DriverManager.getConnection(dbURL);
-         PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-        preparedStatement.setString(1, make);
-        preparedStatement.setString(2, model);
-        preparedStatement.setInt(3, year);
-        preparedStatement.setDouble(4, price);
-        preparedStatement.setDouble(5, purchasePrice);
-        preparedStatement.setString(6, condition);
-        preparedStatement.setBoolean(7, true);
-        preparedStatement.setString(8, imagePath);
-
-        int rowsAffected = preparedStatement.executeUpdate();
-        return rowsAffected > 0;
-    } catch (SQLException e) {
-        System.err.println("SQL Error: " + e.getMessage());
-        return false;
-    }
+    return usermodel;
 }
     
-    public boolean updateVehicle(int carID, String make, String model, int year, double rentalPrice, double purchasePrice, String condition, String imagePath) {
-    String sql = "UPDATE Vehicles SET CarMake = ?, CarModel = ?, CarYear = ?, RentalPrice = ?, PurchasePrice = ?, Condition = ?, ImagePath = ? WHERE CarID = ?";
-    try (Connection connection = DriverManager.getConnection(dbURL);
-        PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-        preparedStatement.setString(1, make);
-        preparedStatement.setString(2, model);
-        preparedStatement.setInt(3, year);
-        preparedStatement.setDouble(4, rentalPrice);
-        preparedStatement.setDouble(5, purchasePrice);
-        preparedStatement.setString(6, condition);
-        preparedStatement.setString(7, imagePath);
-        preparedStatement.setInt(8, carID);
-
-        int rowsAffected = preparedStatement.executeUpdate();
-        return rowsAffected > 0;
-    } catch (SQLException e) {
-        System.err.println("SQL Error: " + e.getMessage());
-        return false;
-    }
-}
-
-
+    
+    
+///------///
 
   public User userLogin1(String email, String password) {
         User user = null;

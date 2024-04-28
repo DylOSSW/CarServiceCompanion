@@ -1,3 +1,8 @@
+
+import javax.swing.JButton;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -8,12 +13,37 @@
  * @author D21124318
  */
 public class ManageCustomers extends javax.swing.JFrame {
+    private SimpleDBConnect DBConnection = new SimpleDBConnect();
+    
+    private JTable usersTable;
 
     /**
      * Creates new form ManageCustomers
      */
     public ManageCustomers() {
         initComponents();
+        setupActionListeners();
+        populateComboBoxes();
+        searchUsers();
+    }
+    
+    // Method to set up action listeners for various buttons related to functionality
+    private void setupActionListeners() {
+        addActionListenerToButton(SearchUsers, this::searchUsers);
+        //addActionListenerToButton(EditBtn, this::showEditVehicleDialog);
+        //addActionListenerToButton(RemoveBtn, this::showRmvVehicleDialog);
+        //addActionListenerToButton(AddVehicle, ManageVehicles.this::AddNewVehicle);
+        //addActionListenerToButton(CancelAddVehicle, () -> addVehicleDialog.setVisible(false));
+        //addActionListenerToButton(EditVehicle, ManageVehicles.this::EditVehicle);
+        //addActionListenerToButton(CancelEditVehicle, () -> editVehicleDialog.setVisible(false));
+        //addActionListenerToButton(OkRmvBtn, ManageVehicles.this::RemoveVehicle);
+        //addActionListenerToButton(CancelRmvBtn, () -> rmvVehicleDialog.setVisible(false));
+        
+        
+    }
+    // Method to add an action listener to a button with a specific action
+    private void addActionListenerToButton(JButton button, Runnable action) {
+        button.addActionListener(e -> action.run());
     }
 
     /**
@@ -27,14 +57,16 @@ public class ManageCustomers extends javax.swing.JFrame {
 
         Dashboard = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        AllModels = new javax.swing.JComboBox<>();
-        MaxYear = new javax.swing.JComboBox<>();
-        MinYear = new javax.swing.JComboBox<>();
-        MaxPrice = new javax.swing.JComboBox<>();
-        MinPrice = new javax.swing.JComboBox<>();
-        Condition = new javax.swing.JComboBox<>();
-        SearchCars = new javax.swing.JButton();
-        AllMakes = new javax.swing.JComboBox<>();
+        SurnameComboBox = new javax.swing.JComboBox<>();
+        AccountStatusComboBox = new javax.swing.JComboBox<>();
+        MobileComboBox = new javax.swing.JComboBox<>();
+        AddressComboBox = new javax.swing.JComboBox<>();
+        EmailComboBox = new javax.swing.JComboBox<>();
+        SearchUsers = new javax.swing.JButton();
+        ForenameComboBox = new javax.swing.JComboBox<>();
+        AddUserBtn = new javax.swing.JButton();
+        EditUsrBtn = new javax.swing.JButton();
+        RemoveUsrBtn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         NavigationMenu = new javax.swing.JPanel();
         DashboardButton = new javax.swing.JButton();
@@ -42,33 +74,41 @@ public class ManageCustomers extends javax.swing.JFrame {
         VehiclesButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(890, 500));
+        getContentPane().setLayout(null);
 
         Dashboard.setBackground(new java.awt.Color(255, 255, 255));
         Dashboard.setMinimumSize(new java.awt.Dimension(804, 520));
         Dashboard.setName(""); // NOI18N
+        Dashboard.setPreferredSize(new java.awt.Dimension(810, 500));
 
-        AllModels.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        AllModels.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Models" }));
+        jPanel1.setPreferredSize(new java.awt.Dimension(850, 98));
 
-        MaxYear.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        MaxYear.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Max Year" }));
+        SurnameComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        SurnameComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Surname" }));
 
-        MinYear.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        MinYear.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Min Year" }));
+        AccountStatusComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        AccountStatusComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status" }));
 
-        MaxPrice.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        MaxPrice.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Max Price" }));
+        MobileComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        MobileComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mobile" }));
 
-        MinPrice.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        MinPrice.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Min Price" }));
+        AddressComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        AddressComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Address" }));
 
-        Condition.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        Condition.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Condition" }));
+        EmailComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        EmailComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Email" }));
 
-        SearchCars.setText("Search");
+        SearchUsers.setText("Search");
 
-        AllMakes.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        AllMakes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Makes" }));
+        ForenameComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        ForenameComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Forename" }));
+
+        AddUserBtn.setText("Add");
+
+        EditUsrBtn.setText("Edit");
+
+        RemoveUsrBtn.setText("Remove");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -76,38 +116,46 @@ public class ManageCustomers extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(AllMakes, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ForenameComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(AddUserBtn))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(AllModels, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(SurnameComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(EditUsrBtn))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(MinPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(RemoveUsrBtn)
+                    .addComponent(EmailComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(12, 12, 12)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(SearchCars, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(SearchUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(MaxPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(AddressComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(MinYear, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(MobileComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(MaxYear, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Condition, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(53, Short.MAX_VALUE))
+                        .addComponent(AccountStatusComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(126, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(AllMakes, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(AllModels, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(MinPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(MaxPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(MinYear, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(MaxYear, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Condition, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ForenameComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(SurnameComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(EmailComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(AddressComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(MobileComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(AccountStatusComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(SearchCars, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(SearchUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(AddUserBtn)
+                        .addComponent(EditUsrBtn)
+                        .addComponent(RemoveUsrBtn)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -119,8 +167,8 @@ public class ManageCustomers extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(DashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jScrollPane1)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(8, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 798, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         DashboardLayout.setVerticalGroup(
             DashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -128,11 +176,15 @@ public class ManageCustomers extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
+        getContentPane().add(Dashboard);
+        Dashboard.setBounds(60, 0, 810, 500);
+
         NavigationMenu.setBackground(new java.awt.Color(102, 102, 102));
+        NavigationMenu.setPreferredSize(new java.awt.Dimension(60, 500));
 
         DashboardButton.setText("jButton1");
 
@@ -161,37 +213,50 @@ public class ManageCustomers extends javax.swing.JFrame {
                 .addComponent(UsersButton)
                 .addGap(86, 86, 86)
                 .addComponent(VehiclesButton)
-                .addContainerGap(164, Short.MAX_VALUE))
+                .addContainerGap(144, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 910, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(NavigationMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, 0)
-                    .addComponent(Dashboard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 520, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(NavigationMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(Dashboard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
+        getContentPane().add(NavigationMenu);
+        NavigationMenu.setBounds(0, 0, 60, 500);
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void searchUsers() {
+        //SimpleDBConnect DBConnection = new SimpleDBConnect();
+        String selectedForename = ForenameComboBox.getSelectedItem().toString();
+        String selectedSurname = SurnameComboBox.getSelectedItem().toString();
+        String selectedEmail = EmailComboBox.getSelectedItem().toString();
+        String selectedAddress = AddressComboBox.getSelectedItem().toString();
+        String selectedMobile = MobileComboBox.getSelectedItem().toString();
+        String selectedStatus = AccountStatusComboBox.getSelectedItem().toString();
+
+        // Call the searchCars function in DBConnection with selected options
+        DefaultTableModel model = DBConnection.searchUsers(selectedForename, selectedSurname, selectedEmail, selectedAddress, selectedMobile, selectedStatus);
+        // Create a new JTable with the populated model
+        if(usersTable == null) {
+            usersTable = new JTable(model);
+            jScrollPane1.setViewportView(usersTable);
+        } else {
+            usersTable.setModel(model);
+        }
+        
+        this.revalidate();
+        this.repaint();
+}
+    
+    private void populateComboBoxes() {
+        SimpleDBConnect DBConnection = new SimpleDBConnect();
+        DBConnection.populateComboBox(ForenameComboBox, "Forename", "Users");
+        DBConnection.populateComboBox(SurnameComboBox, "Surname", "Users");
+        DBConnection.populateComboBox(EmailComboBox, "Email", "Users");
+        DBConnection.populateComboBox(AddressComboBox, "Address", "Users");
+        DBConnection.populateComboBox(MobileComboBox, "Mobile", "Users");
+        DBConnection.populateComboBox(AccountStatusComboBox, "AccountStatus", "Users");
+    }
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -228,17 +293,19 @@ public class ManageCustomers extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> AllMakes;
-    private javax.swing.JComboBox<String> AllModels;
-    private javax.swing.JComboBox<String> Condition;
+    private javax.swing.JComboBox<String> AccountStatusComboBox;
+    private javax.swing.JButton AddUserBtn;
+    private javax.swing.JComboBox<String> AddressComboBox;
     private javax.swing.JPanel Dashboard;
     private javax.swing.JButton DashboardButton;
-    private javax.swing.JComboBox<String> MaxPrice;
-    private javax.swing.JComboBox<String> MaxYear;
-    private javax.swing.JComboBox<String> MinPrice;
-    private javax.swing.JComboBox<String> MinYear;
+    private javax.swing.JButton EditUsrBtn;
+    private javax.swing.JComboBox<String> EmailComboBox;
+    private javax.swing.JComboBox<String> ForenameComboBox;
+    private javax.swing.JComboBox<String> MobileComboBox;
     private javax.swing.JPanel NavigationMenu;
-    private javax.swing.JButton SearchCars;
+    private javax.swing.JButton RemoveUsrBtn;
+    private javax.swing.JButton SearchUsers;
+    private javax.swing.JComboBox<String> SurnameComboBox;
     private javax.swing.JButton UsersButton;
     private javax.swing.JButton VehiclesButton;
     private javax.swing.JPanel jPanel1;
