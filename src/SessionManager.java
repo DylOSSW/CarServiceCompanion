@@ -1,12 +1,12 @@
 public class SessionManager {
-    private static SessionManager instance; // This should be static
+    private static SessionManager instance; 
     private User currentUser;
 
     private SessionManager() {
-        // private constructor to prevent instantiation
+
     }
 
-    public static SessionManager getInstance() { // This should be static
+    public static SessionManager getInstance() { 
         if (instance == null) {
             instance = new SessionManager();
         }
