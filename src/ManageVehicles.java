@@ -58,6 +58,10 @@ public class ManageVehicles extends javax.swing.JFrame {
         addActionListenerToButton(OkRmvBtn, ManageVehicles.this::RemoveVehicle);
         addActionListenerToButton(CancelRmvBtn, () -> rmvVehicleDialog.setVisible(false));
         
+        addActionListenerToButton(DashboardButton, this::openAdminHome);
+        addActionListenerToButton(UsersButton, this::openManageCustomers);
+        addActionListenerToButton(VehiclesButton, this::openManageVehicles);
+        
         
     }
     // Method to add an action listener to a button with a specific action
@@ -218,11 +222,6 @@ public class ManageVehicles extends javax.swing.JFrame {
         updateCarYear.setText("CarYear");
 
         updateRentalPrice.setText("RentalPrice");
-        updateRentalPrice.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateRentalPriceActionPerformed(evt);
-            }
-        });
 
         updatePurchasePrice.setText("PurchasePrice");
 
@@ -504,11 +503,27 @@ public class ManageVehicles extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void updateRentalPriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateRentalPriceActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_updateRentalPriceActionPerformed
     
+    private void openAdminHome() {
+        AdminHome adminHome = new AdminHome();
+        adminHome.setVisible(true);
+        adminHome.setLocationRelativeTo(null);
+        this.setVisible(false);
+    }
+    
+    private void openManageVehicles() {
+        ManageVehicles manageVehicles = new ManageVehicles();
+        manageVehicles.setVisible(true);
+        manageVehicles.setLocationRelativeTo(null);
+        this.setVisible(false);
+    }
+    
+    private void openManageCustomers() {
+        ManageCustomers manageCustomers = new ManageCustomers();
+        manageCustomers.setVisible(true);
+        manageCustomers.setLocationRelativeTo(null);
+        this.setVisible(false);
+    }
     
     private void searchCars() {
         //SimpleDBConnect DBConnection = new SimpleDBConnect();

@@ -39,24 +39,23 @@ public class SimpleDBConnect {
             connection = DriverManager.getConnection(dbURL);
             
             // Execute SQL query to select all data from Vehicles table
-            String sql = "SELECT * FROM Vehicles";
+            String sql = "SELECT * FROM Users";
             statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(sql);
 
             // Print data from result set
             while (rs.next()) {
-                int carID = rs.getInt("CarID");
-                String carMake = rs.getString("CarMake");
-                String carModel = rs.getString("CarModel");
-                int carYear = rs.getInt("CarYear");
-                double rentalPrice = rs.getDouble("RentalPrice");
-                double purchasePrice = rs.getDouble("PurchasePrice");
-                int quantityAvailable = rs.getInt("QuantityAvailable");
-                boolean availability = rs.getBoolean("Availability");
+                int carID = rs.getInt("UserID");
+                String carMake = rs.getString("Forename");
+                String carModel = rs.getString("Surname");
+                String carYear = rs.getString("Email");
+                String rentalPrice = rs.getString("Address");
+                String purchasePrice = rs.getString("Mobile");
+                String quantityAvailable = rs.getString("AccountStatus");
 
-                System.out.println("CarID: " + carID + ", CarMake: " + carMake + ", CarModel: " + carModel +
-                        ", CarYear: " + carYear + ", RentalPrice: " + rentalPrice + ", PurchasePrice: " + purchasePrice +
-                        ", QuantityAvailable: " + quantityAvailable + ", Availability: " + availability);
+                System.out.println("userid: " + carID + ", forename: " + carMake + ", surname: " + carModel +
+                        ", email: " + carYear + ", address: " + rentalPrice + ", mobile: " + purchasePrice +
+                        ", Account STATUS: " + quantityAvailable);
             }
 
             // Close connections
@@ -205,6 +204,7 @@ public boolean signUpNewUser(String forename, String surname, String email, Stri
     return insertSuccess;
 }
 
+/// VEHICLES ///
 public DefaultTableModel searchCars(String selectedMake, String selectedModel, String minYear, String maxYear, String minPrice, String maxPrice, String selectedCondition) {
     DefaultTableModel model = new DefaultTableModel();
     System.out.println("Search button clicked."); // Debug statement
@@ -235,6 +235,7 @@ public DefaultTableModel searchCars(String selectedMake, String selectedModel, S
         if (!selectedCondition.equals("Condition")) {
             sql += " AND Availability = '" + selectedCondition + "'";
         }
+        
         
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(sql);
@@ -359,57 +360,73 @@ public DefaultTableModel searchCars(String selectedMake, String selectedModel, S
     try {
         Connection conn = DriverManager.getConnection(dbURL);
         String sql = "SELECT * FROM Users WHERE 1=1";
+        
+        // Print initial SQL query
+        //System.out.println("Initial SQL: " + sql);
 
         // Construct SQL query based on filter criteria
         // Add conditions based on the selected options
-        if (!selectedForename.equals("Forname")) {
+        if (!selectedForename.equals("Forename")) {
             sql += " AND Forename = '" + selectedForename + "'";
         }
         if (!selectedSurname.equals("Surname")) {
             sql += " AND Surname = '" + selectedSurname + "'";
         }
         if (!selectedEmail.equals("Email")) {
-            sql += " AND Email >= '" + selectedEmail + "'";
+            sql += " AND Email = '" + selectedEmail + "'";
         }
         if (!selectedAddress.equals("Address")) {
-            sql += " AND Address <= '" + selectedAddress + "'";
+            sql += " AND Address = '" + selectedAddress + "'";
         }
         if (!selectedMobile.equals("Mobile")) {
-            sql += " AND Mobile >= '" + selectedMobile + "'";
+            sql += " AND Mobile = '" + selectedMobile + "'";
         }
         if (!selectedStatus.equals("Status")) {
-            sql += " AND AccountStatus <= '" + selectedStatus + "'";
+            sql += " AND AccountStatus = '" + selectedStatus + "'";
         }
+        
+        // Print the final SQL query
+        //System.out.println("Final SQL: " + sql);
         
         
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(sql);
+        
+        // Debug: Check if ResultSet is empty
+        if (!rs.isBeforeFirst()) {
+            System.out.println("No data found matching query criteria.");
+        }
 
         // Add column headers to the table model
         usermodel.addColumn("UserID");
-        usermodel.addColumn("Forname");
+        usermodel.addColumn("Forename");
         usermodel.addColumn("Surname");
         usermodel.addColumn("Email");
+        usermodel.addColumn("Password");
         usermodel.addColumn("Address");
         usermodel.addColumn("Mobile");
         usermodel.addColumn("AccountStatus");
         
         // Add rows of data to the table model
         while (rs.next()) {
-            Object[] row = new Object[7];
+            //int userid = rs.getInt("UserID");
+            //System.out.println("USERID FOUND: " + userid);
+            
+            Object[] row = new Object[8];
             row[0] = rs.getInt("UserID");
-            row[1] = rs.getString("Forname");
+            row[1] = rs.getString("Forename");
             row[2] = rs.getString("Surname");
             row[3] = rs.getString("Email");
-            row[4] = rs.getString("Address");
-            row[5] = rs.getString("Mobile");
-            row[6] = rs.getString("AccountStatus");
+            row[4] = rs.getString("Password");
+            row[5] = rs.getString("Address");
+            row[6] = rs.getString("Mobile");
+            row[7] = rs.getString("AccountStatus");
             usermodel.addRow(row);
         }
         // Set the table model to the JTable
         System.out.println("Users Table populated successfully."); // Debug statement
-        System.out.println(usermodel.getColumnName(0));
-        System.out.println(usermodel.getValueAt(1, 0));
+        //System.out.println(usermodel.getColumnName(0));
+        //System.out.println(usermodel.getValueAt(1, 1));
         
 
         // Close connections
@@ -420,6 +437,61 @@ public DefaultTableModel searchCars(String selectedMake, String selectedModel, S
         e.printStackTrace();
     }
     return usermodel;
+}
+    
+    public boolean addNewUser(String forename, String surname, String email, String address, String mobile) {
+    String sql = "INSERT INTO Users (Forename, Surname, Email, Password, Address, Mobile, AccountStatus) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    try (Connection connection = DriverManager.getConnection(dbURL);
+         PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        preparedStatement.setString(1, forename);
+        preparedStatement.setString(2, surname);
+        preparedStatement.setString(3, email);
+        preparedStatement.setString(4, "Password123");
+        preparedStatement.setString(5, address);
+        preparedStatement.setString(6, mobile);
+        preparedStatement.setString(7, "Active");
+
+        int rowsAffected = preparedStatement.executeUpdate();
+        return rowsAffected > 0;
+    } catch (SQLException e) {
+        System.err.println("SQL Error: " + e.getMessage());
+        return false;
+    }
+}
+    
+    public boolean updateUser(int userID, String forename, String surname, String email, String password, String address, String mobile, String status ) {
+    String sql = "UPDATE Users SET Forename = ?, Surname = ?, Email = ?, Password = ?, Address = ?, Mobile = ?, AccountStatus = ? WHERE UserID = ?";
+    try (Connection connection = DriverManager.getConnection(dbURL);
+        PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        preparedStatement.setString(1, forename);
+        preparedStatement.setString(2, surname);
+        preparedStatement.setString(3, email);
+        preparedStatement.setString(4, password);
+        preparedStatement.setString(5, address);
+        preparedStatement.setString(6, mobile);
+        preparedStatement.setString(7, status);
+        preparedStatement.setInt(8, userID);
+
+        int rowsAffected = preparedStatement.executeUpdate();
+        return rowsAffected > 0;
+    } catch (SQLException e) {
+        System.err.println("SQL Error: " + e.getMessage());
+        return false;
+    }
+}
+    
+    public boolean deleteUser(int userID) {
+    String sql = "DELETE FROM Users WHERE UserID = ?";
+    try (Connection connection = DriverManager.getConnection(dbURL);
+         PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        preparedStatement.setInt(1, userID);
+
+        int rowsAffected = preparedStatement.executeUpdate();
+        return rowsAffected > 0;
+    } catch (SQLException e) {
+        System.err.println("SQL Error: " + e.getMessage());
+        return false;
+    }
 }
     
 

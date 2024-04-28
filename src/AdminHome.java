@@ -1,3 +1,6 @@
+
+import javax.swing.JButton;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -14,8 +17,21 @@ public class AdminHome extends javax.swing.JFrame {
      */
     public AdminHome() {
         initComponents();
+        setupActionListeners();
     }
 
+    // Method to set up action listeners for various buttons related to functionality
+    private void setupActionListeners() {
+        addActionListenerToButton(DashboardButton, this::openAdminHome);
+        addActionListenerToButton(UsersButton, this::openManageCustomers);
+        addActionListenerToButton(VehiclesButton, this::openManageVehicles);
+        
+        
+    }
+    // Method to add an action listener to a button with a specific action
+    private void addActionListenerToButton(JButton button, Runnable action) {
+        button.addActionListener(e -> action.run());
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -154,6 +170,27 @@ public class AdminHome extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void openAdminHome() {
+        AdminHome adminHome = new AdminHome();
+        adminHome.setVisible(true);
+        adminHome.setLocationRelativeTo(null);
+        this.setVisible(false);
+    }
+    
+    private void openManageVehicles() {
+        ManageVehicles manageVehicles = new ManageVehicles();
+        manageVehicles.setVisible(true);
+        manageVehicles.setLocationRelativeTo(null);
+        this.setVisible(false);
+    }
+    
+    private void openManageCustomers() {
+        ManageCustomers manageCustomers = new ManageCustomers();
+        manageCustomers.setVisible(true);
+        manageCustomers.setLocationRelativeTo(null);
+        this.setVisible(false);
+    }
+    
     /**
      * @param args the command line arguments
      */
