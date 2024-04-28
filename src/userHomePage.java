@@ -10,13 +10,26 @@ public class userHomePage extends javax.swing.JFrame {
         initComponents();
         setupFrameChangeButtons();
         setupLogoutButton();
+        populateComboBoxes();
 
 
+    }
+    
+    private void populateComboBoxes() {
+        SimpleDBConnect DBConnection = new SimpleDBConnect();
+        DBConnection.populateComboBox(makeComboBox, "CarMake", "Vehicles");
+        DBConnection.populateComboBox(modelComboBox, "CarModel", "Vehicles");
+        DBConnection.populateComboBox(minYearComboBox, "CarYear", "Vehicles");
+        DBConnection.populateComboBox(maxYearComboBox, "CarYear", "Vehicles");
+        DBConnection.populateComboBox(minPriceComboBox, "RentalPrice", "Vehicles");
+        DBConnection.populateComboBox(maxPriceComboBox, "RentalPrice", "Vehicles");
+        DBConnection.populateComboBox(conditionComboBox, "Availability", "Vehicles");
     }
     
     // Method to set up action listeners for buttons responsible for opening different JFrames
     private void setupFrameChangeButtons() {
         addActionListenerToButton(homeButton, userHomePage.class);
+        addActionListenerToButton(carsButton, testingCarView.class);
         addActionListenerToButton(accountDetailsButton, account.class);
         addActionListenerToButton(logoutButton, login.class);
     }
@@ -66,8 +79,9 @@ public class userHomePage extends javax.swing.JFrame {
         userHomePageNavBar = new javax.swing.JPanel();
         accountDetailsButton = new javax.swing.JButton();
         logoutButton = new javax.swing.JButton();
-        homeButton = new javax.swing.JButton();
+        carsButton = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        homeButton = new javax.swing.JButton();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         jPanel5 = new javax.swing.JPanel();
         jLabel33 = new javax.swing.JLabel();
@@ -93,7 +107,7 @@ public class userHomePage extends javax.swing.JFrame {
         userHomePageNavBar.setMinimumSize(new java.awt.Dimension(800, 60));
 
         accountDetailsButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        accountDetailsButton.setText("Account Details");
+        accountDetailsButton.setText("Account");
         accountDetailsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 accountDetailsButtonActionPerformed(evt);
@@ -108,6 +122,18 @@ public class userHomePage extends javax.swing.JFrame {
             }
         });
 
+        carsButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        carsButton.setText("Cars");
+        carsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                carsButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setFont(new java.awt.Font("Tw Cen MT", 1, 24)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("CarServiceCompanion");
+
         homeButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         homeButton.setText("Home");
         homeButton.addActionListener(new java.awt.event.ActionListener() {
@@ -116,10 +142,6 @@ public class userHomePage extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Tw Cen MT", 1, 24)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("CarServiceCompanion");
-
         javax.swing.GroupLayout userHomePageNavBarLayout = new javax.swing.GroupLayout(userHomePageNavBar);
         userHomePageNavBar.setLayout(userHomePageNavBarLayout);
         userHomePageNavBarLayout.setHorizontalGroup(
@@ -127,13 +149,15 @@ public class userHomePage extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, userHomePageNavBarLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(108, 108, 108)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(homeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(carsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(accountDetailsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
         userHomePageNavBarLayout.setVerticalGroup(
             userHomePageNavBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -142,13 +166,14 @@ public class userHomePage extends javax.swing.JFrame {
                 .addGroup(userHomePageNavBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(accountDetailsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(homeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
+                    .addComponent(carsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(homeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
         userHomePagePanel.add(userHomePageNavBar);
-        userHomePageNavBar.setBounds(0, 0, 780, 60);
+        userHomePageNavBar.setBounds(0, 0, 810, 60);
 
         jLayeredPane1.setBackground(new java.awt.Color(255, 153, 153));
 
@@ -180,16 +205,16 @@ public class userHomePage extends javax.swing.JFrame {
         modelComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Models", " " }));
 
         makeComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        makeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Makes", "Volkswagen", "Audi", "BMW", "Toyota", " " }));
+        makeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Makes", " " }));
 
         maxYearComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        maxYearComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Max Year", "2024 ", "2023 ", "2022 ", "2021 ", "2020 ", "2019 ", "2018 ", "2017 ", "2016 ", "2015 ", "2014 ", "2013 ", "2012", "2011 ", "2010 ", "2009 ", "2008 ", "2007 ", "2006 ", "2005 ", "2004, ", "2003 ", "2002 ", "2001 ", "2000 ", "1999 ", "1998 ", "1997 ", "1996 ", "1995 ", "1994 ", "1993", "1992 ", "1991 ", "1990" }));
+        maxYearComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Max Year", " " }));
 
         minYearComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        minYearComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2024 ", "2023 ", "2022 ", "2021 ", "2020 ", "2019 ", "2018 ", "2017 ", "2016 ", "2015 ", "2014 ", "2013 ", "2012", "2011 ", "2010 ", "2009 ", "2008 ", "2007 ", "2006 ", "2005 ", "2004, ", "2003 ", "2002 ", "2001 ", "2000 ", "1999 ", "1998 ", "1997 ", "1996 ", "1995 ", "1994 ", "1993", "1992 ", "1991 ", "1990" }));
+        minYearComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2024 ", " " }));
 
         maxPriceComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        maxPriceComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Max Price", "€100", "€500", "€1,000", "€1,500", "€2000", "€2,500", "€3,000", "€3,500", "€4,000", "€4,500", "€5,000", "€5,500", "€6,000", "€6,500", "€7,000", "€7,500", "€8,000", "€8,500 ", "€9,000", "€9,500", "€10,000", "€12,500", "€15,000", "€17,500", "€20,000", "€22,500", "€25000", "€27,500", "€30,000", "€40,000", "€45,000", "€50,000", "€60,000", "€70,000", "€80,000", "€90,000", "€100,000", "€125,000" }));
+        maxPriceComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Max Price" }));
         maxPriceComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 maxPriceComboBoxActionPerformed(evt);
@@ -197,7 +222,7 @@ public class userHomePage extends javax.swing.JFrame {
         });
 
         minPriceComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        minPriceComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Min Price", "€100", "€500", "€1,000", "€1,500", "€2000", "€2,500", "€3,000", "€3,500", "€4,000", "€4,500", "€5,000", "€5,500", "€6,000", "€6,500", "€7,000", "€7,500", "€8,000", "€8,500 ", "€9,000", "€9,500", "€10,000", "€12,500", "€15,000", "€17,500", "€20,000", "€22,500", "€25000", "€27,500", "€30,000", "€40,000", "€45,000", "€50,000", "€60,000", "€70,000", "€80,000", "€90,000", "€100,000", "€125,000" }));
+        minPriceComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Min Price" }));
 
         conditionComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
@@ -333,13 +358,17 @@ public class userHomePage extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_logoutButtonActionPerformed
 
-    private void homeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeButtonActionPerformed
+    private void carsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carsButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_homeButtonActionPerformed
+    }//GEN-LAST:event_carsButtonActionPerformed
 
     private void maxPriceComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_maxPriceComboBoxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_maxPriceComboBoxActionPerformed
+
+    private void homeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_homeButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -378,6 +407,7 @@ public class userHomePage extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton accountDetailsButton;
+    private javax.swing.JButton carsButton;
     private javax.swing.JComboBox<String> conditionComboBox;
     private javax.swing.JButton homeButton;
     private javax.swing.JLabel jLabel3;

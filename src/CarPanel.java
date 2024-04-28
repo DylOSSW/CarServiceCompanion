@@ -1,14 +1,14 @@
-
 import java.awt.Image;
+import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 
 public class CarPanel extends javax.swing.JPanel {
 
-    /**
-     * Creates new form CarPane
-     */
+
     public CarPanel() {
         initComponents();
+
     }
     
        // Method to set the car image with scaling
@@ -33,6 +33,12 @@ public class CarPanel extends javax.swing.JPanel {
     public void setYearText(String text) {
         yearLabel.setText(text);
     }
+    
+    // Provide public access to the buyButton if needed outside
+    public JButton getBuyButton() {
+        return buyButton;
+    }
+     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -42,7 +48,7 @@ public class CarPanel extends javax.swing.JPanel {
         makeModelLabel = new javax.swing.JLabel();
         priceLabel = new javax.swing.JLabel();
         yearLabel = new javax.swing.JLabel();
-        loginButton = new javax.swing.JButton();
+        buyButton = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.LINE_AXIS));
@@ -63,9 +69,9 @@ public class CarPanel extends javax.swing.JPanel {
 
         yearLabel.setText("Year");
 
-        loginButton.setBackground(new java.awt.Color(153, 153, 255));
-        loginButton.setForeground(new java.awt.Color(255, 255, 255));
-        loginButton.setText("Buy");
+        buyButton.setBackground(new java.awt.Color(153, 153, 255));
+        buyButton.setForeground(new java.awt.Color(255, 255, 255));
+        buyButton.setText("Buy/Rent");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -80,7 +86,7 @@ public class CarPanel extends javax.swing.JPanel {
                         .addComponent(makeModelLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
                         .addComponent(priceLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(yearLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(buyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(39, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -96,7 +102,7 @@ public class CarPanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(yearLabel)
                         .addGap(18, 18, 18)
-                        .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(buyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(13, Short.MAX_VALUE))
         );
 
@@ -105,9 +111,9 @@ public class CarPanel extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buyButton;
     private javax.swing.JLabel carImage;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JButton loginButton;
     private javax.swing.JLabel makeModelLabel;
     private javax.swing.JLabel priceLabel;
     private javax.swing.JLabel yearLabel;

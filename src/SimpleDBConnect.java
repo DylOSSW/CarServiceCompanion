@@ -141,26 +141,32 @@ public List<Car> getCarsFromDatabase() {
 
 
     
-    public boolean userLogin(String email, String password) {
-        boolean loginSuccess = false;
+public User userLogin(String email, String password) {
+    User user = null;
     try (Connection connection = DriverManager.getConnection(dbURL)) {
-        String sql = "SELECT * FROM Users WHERE Email = ? AND Password = ?"; // Assuming your users table and columns are named like this
+        // Note the capitalization of the column names to match your database schema
+        String sql = "SELECT UserID, Email, Forename, Surname, Address, Mobile FROM Users WHERE Email = ? AND Password = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, email);
             preparedStatement.setString(2, password);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) { // Just check if a record exists
-                    loginSuccess = true;
+                if (resultSet.next()) {
+                    int userID = resultSet.getInt("UserID");
+                    String forename = resultSet.getString("Forename");
+                    String surname = resultSet.getString("Surname");
+                    String address = resultSet.getString("Address");
+                    String mobileNumber = resultSet.getString("Mobile");
+                    // Assuming that the email used for login is the same as in the database
+                    user = new User(userID, email, forename, surname, address, mobileNumber);
                 }
             }
         }
     } catch (SQLException sqlex) {
         System.err.println(sqlex.getMessage());
     }
-    return loginSuccess;
+    return user;
 }
-    
 
     
 public boolean signUpNewUser(String forename, String surname, String email, String password, String address, String mobile) {
@@ -199,7 +205,7 @@ public boolean signUpNewUser(String forename, String surname, String email, Stri
     return insertSuccess;
 }
 
-public DefaultTableModel searchCars(String selectedMake, String selectedModel, String minYear, String maxYear, String minPrice, String maxPrice, String selectedCondition) {
+public DefaultTableModel searchCars1(String selectedMake, String selectedModel, String minYear, String maxYear, String minPrice, String maxPrice, String selectedCondition) {
     DefaultTableModel model = new DefaultTableModel();
     System.out.println("Search button clicked."); // Debug statement
     try {
@@ -272,7 +278,7 @@ public DefaultTableModel searchCars(String selectedMake, String selectedModel, S
 
 
 // Add function to populate combo boxes
-    public void populateComboBox(JComboBox<String> comboBox, String columnName, String tableName) {
+    public void populateComboBox1(JComboBox<String> comboBox, String columnName, String tableName) {
         try {
             Connection conn = DriverManager.getConnection(dbURL);
             Statement stmt = conn.createStatement();
@@ -290,7 +296,7 @@ public DefaultTableModel searchCars(String selectedMake, String selectedModel, S
         }
     }
     
-    public boolean addNewVehicle(String make, String model, int year, double price, double purchasePrice, String condition, String imagePath) {
+    public boolean addNewVehicle1(String make, String model, int year, double price, double purchasePrice, String condition, String imagePath) {
     String sql = "INSERT INTO Vehicles (CarMake, CarModel, CarYear, RentalPrice, PurchasePrice, Condition, Availability, ImagePath) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     try (Connection connection = DriverManager.getConnection(dbURL);
          PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -311,7 +317,7 @@ public DefaultTableModel searchCars(String selectedMake, String selectedModel, S
     }
 }
     
-    public boolean updateVehicle(int carID, String make, String model, int year, double rentalPrice, double purchasePrice, String condition, String imagePath) {
+    public boolean updateVehicle1(int carID, String make, String model, int year, double rentalPrice, double purchasePrice, String condition, String imagePath) {
     String sql = "UPDATE Vehicles SET CarMake = ?, CarModel = ?, CarYear = ?, RentalPrice = ?, PurchasePrice = ?, Condition = ?, ImagePath = ? WHERE CarID = ?";
     try (Connection connection = DriverManager.getConnection(dbURL);
         PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -467,29 +473,100 @@ public DefaultTableModel searchCars(String selectedMake, String selectedModel, S
 }
 
 
+  
+public List<Car> searchCars2(String selectedMake, String selectedModel, String minYear, String maxYear, String minPrice, String maxPrice, String selectedCondition) {
+    List<Car> cars = new ArrayList<>();
+    System.out.println("Search button clicked."); // Debug statement
+    try {
+        Connection conn = DriverManager.getConnection(dbURL);
+        String sql = "SELECT CarID, CarMake, CarModel, CarYear, RentalPrice, PurchasePrice, Condition, QuantityAvailable, Availability, ImagePath FROM Vehicles WHERE 1=1";
 
-  public User userLogin1(String email, String password) {
-        User user = null;
-        try (Connection connection = DriverManager.getConnection(dbURL)) {
-            String sql = "SELECT * FROM Users WHERE Email = ? AND Password = ?"; // Assuming your users table and columns are named like this
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                preparedStatement.setString(1, email);
-                preparedStatement.setString(2, password);
-
-                try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    if (resultSet.next()) {
-                        String forename = resultSet.getString("Forename");
-                        String surname = resultSet.getString("Surname");
-                        // Assuming you have forename and surname columns in your Users table
-                        user = new User(email, forename, surname);
-                    }
-                }
-            }
-        } catch (SQLException sqlex) {
-            System.err.println(sqlex.getMessage());
+        // Add conditions based on the selected options
+        if (!selectedMake.equals("All Makes")) {
+            sql += " AND CarMake = '" + selectedMake + "'";
         }
-        return user;
-  }
+        if (!selectedModel.equals("All Models")) {
+            sql += " AND CarModel = '" + selectedModel + "'";
+        }
+        if (!minYear.equals("Min Year")) {
+            sql += " AND CarYear >= '" + minYear + "'";
+        }
+        if (!maxYear.equals("Max Year")) {
+            sql += " AND CarYear <= '" + maxYear + "'";
+        }
+        if (!minPrice.equals("Min Price")) {
+            sql += " AND RentalPrice >= '" + minPrice + "'";
+        }
+        if (!maxPrice.equals("Max Price")) {
+            sql += " AND RentalPrice <= '" + maxPrice + "'";
+        }
+        if (!selectedCondition.equals("Condition")) {
+            sql += " AND Availability = '" + selectedCondition + "'";
+        }
+        
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(sql);
+
+        // Iterate over ResultSet and create Car objects
+        while (rs.next()) {
+            int carId = rs.getInt("CarID");
+            String carMake = rs.getString("CarMake");
+            String carModel = rs.getString("CarModel");
+            int carYear = rs.getInt("CarYear");
+            double rentalPrice = rs.getDouble("RentalPrice");
+            double purchasePrice = rs.getDouble("PurchasePrice");
+            String condition = rs.getString("Condition");
+            int quantityAvailable = rs.getInt("QuantityAvailable");
+            boolean availability = rs.getBoolean("Availability");
+            String imagePath = rs.getString("ImagePath");  // Retrieve the actual image path from the database
+
+            // Create Car object and add to list
+            Car car = new Car(carId, carMake, carModel, carYear, rentalPrice, purchasePrice, quantityAvailable, availability, imagePath);
+            cars.add(car);
+        }
+
+        // Close resources
+        rs.close();
+        stmt.close();
+        conn.close();
+    } catch (SQLException e) {
+        System.out.println("SQL Exception: " + e.getMessage());
+        e.printStackTrace();
+    }
+    return cars;
+}
+
+public boolean confirmPurchase(int carId) {
+    boolean updateSuccess = false;
+  
+
+    String sqlUpdate = "UPDATE Vehicles SET Availability = FALSE WHERE CarID = ?";
+
+    try (Connection conn = DriverManager.getConnection(dbURL);
+         PreparedStatement ps = conn.prepareStatement(sqlUpdate)) {
+        
+        ps.setInt(1, carId);
+        int rowsAffected = ps.executeUpdate();
+        
+        if (rowsAffected > 0) {
+            System.out.println("Car ID " + carId + " has been marked as not available.");
+            updateSuccess = true;
+        } else {
+            System.out.println("Car ID " + carId + " could not be updated. It may not exist.");
+        }
+        
+    } catch (SQLException sqlex) {
+        System.err.println(sqlex.getMessage());
+    }
+    
+    return updateSuccess;
+}
+
+
+
+  
+  
+  
 }
 
 
