@@ -1,7 +1,7 @@
-
 import java.awt.CardLayout;
 import javax.swing.JButton;
-import javax.swing.JPanel;
+import javax.swing.JFrame;
+
 
 public class account extends javax.swing.JFrame {
     private CardLayout cardLayout;
@@ -11,6 +11,8 @@ public class account extends javax.swing.JFrame {
      */
     public account() {
         initComponents();
+        setupFrameChangeButtons();
+        setupLogoutButton();
           // Assuming cardManager is already declared and initialized by initComponents()
         cardLayout = (CardLayout) cardManager.getLayout(); // Get the CardLayout from cardManager
         
@@ -39,7 +41,7 @@ public class account extends javax.swing.JFrame {
 
 // Method to set up action listeners for buttons responsible for switching cards
 private void setupCardChangeButtons() {
-    addActionListenerToCardButton(accountButton, "accountCard");
+    addActionListenerToCardButton(accountDetailsButton, "accountCard");
     addActionListenerToCardButton(currentVehiclesButton, "currentVehiclesCard");
     addActionListenerToCardButton(returnsButton, "returnsCard");
 }
@@ -55,6 +57,50 @@ private void switchCard(String cardName) {
 }
 
 
+    // Method to set up action listeners for buttons responsible for opening different JFrames
+    private void setupFrameChangeButtons() {
+        addActionListenerToButton(homeButton, userHomePage.class);
+        addActionListenerToButton(accountDetailsButton, account.class);
+        addActionListenerToButton(logoutButton, login.class);
+    }
+
+    // Method to add an action listener to a button to open a specific JFrame
+    private void addActionListenerToButton(JButton button, Class<? extends JFrame> frameClass) {
+        button.addActionListener(e -> openFrameAndCloseCurrent(frameClass));
+    }
+    
+    // Call this method in the constructor or initialization block to set up the logout button
+    private void setupLogoutButton() {
+        logoutButton.addActionListener(e -> logoutAndOpenLogin());
+    }
+    
+
+    // This method will handle the logout process and switch to the login screen
+    private void logoutAndOpenLogin() {
+        // Logout the user
+        SessionManager.getInstance().logout();
+
+
+        // Close the current frame
+        this.dispose();
+
+        // Open the login screen
+        JFrame loginFrame = new login();
+        loginFrame.setVisible(true);
+    }
+
+    // Method to open a new JFrame and close the current one
+    private void openFrameAndCloseCurrent(Class<? extends JFrame> frameClass) {
+        try {
+            JFrame frame = frameClass.getDeclaredConstructor().newInstance();
+            frame.setVisible(true);
+            this.dispose(); // Close the current frame
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -66,13 +112,13 @@ private void switchCard(String cardName) {
     private void initComponents() {
 
         navBarTop = new javax.swing.JPanel();
-        homeButton5 = new javax.swing.JButton();
-        accountDetailsButton5 = new javax.swing.JButton();
-        logoutButton5 = new javax.swing.JButton();
-        carServiceLabel5 = new javax.swing.JLabel();
-        logoutButton6 = new javax.swing.JButton();
-        navBarSide = new javax.swing.JPanel();
         accountButton = new javax.swing.JButton();
+        logoutButton = new javax.swing.JButton();
+        logoutButton5 = new javax.swing.JButton();
+        carServiceLabel = new javax.swing.JLabel();
+        homeButton = new javax.swing.JButton();
+        navBarSide = new javax.swing.JPanel();
+        accountDetailsButton = new javax.swing.JButton();
         currentVehiclesButton = new javax.swing.JButton();
         returnsButton = new javax.swing.JButton();
         cardManager = new javax.swing.JPanel();
@@ -89,19 +135,19 @@ private void switchCard(String cardName) {
         navBarTop.setBackground(new java.awt.Color(153, 153, 255));
         navBarTop.setMinimumSize(new java.awt.Dimension(800, 60));
 
-        homeButton5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        homeButton5.setText("Account");
-        homeButton5.addActionListener(new java.awt.event.ActionListener() {
+        accountButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        accountButton.setText("Account");
+        accountButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                homeButton5jButton6ActionPerformed(evt);
+                accountButtonjButton6ActionPerformed(evt);
             }
         });
 
-        accountDetailsButton5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        accountDetailsButton5.setText("Logout");
-        accountDetailsButton5.addActionListener(new java.awt.event.ActionListener() {
+        logoutButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        logoutButton.setText("Logout");
+        logoutButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                accountDetailsButton5jButton7ActionPerformed(evt);
+                logoutButtonjButton7ActionPerformed(evt);
             }
         });
 
@@ -113,15 +159,15 @@ private void switchCard(String cardName) {
             }
         });
 
-        carServiceLabel5.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        carServiceLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        carServiceLabel5.setText("CarServiceCompanion");
+        carServiceLabel.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        carServiceLabel.setForeground(new java.awt.Color(255, 255, 255));
+        carServiceLabel.setText("CarServiceCompanion");
 
-        logoutButton6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        logoutButton6.setText("Home");
-        logoutButton6.addActionListener(new java.awt.event.ActionListener() {
+        homeButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        homeButton.setText("Home");
+        homeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                logoutButton6jButton8ActionPerformed(evt);
+                homeButtonjButton8ActionPerformed(evt);
             }
         });
 
@@ -131,15 +177,15 @@ private void switchCard(String cardName) {
             navBarTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, navBarTopLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(carServiceLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(carServiceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
-                .addComponent(logoutButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(homeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(logoutButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(homeButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(accountButton, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(accountDetailsButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12))
         );
         navBarTopLayout.setVerticalGroup(
@@ -147,11 +193,11 @@ private void switchCard(String cardName) {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, navBarTopLayout.createSequentialGroup()
                 .addContainerGap(16, Short.MAX_VALUE)
                 .addGroup(navBarTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(homeButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(accountDetailsButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(carServiceLabel5)
+                    .addComponent(accountButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(carServiceLabel)
                     .addComponent(logoutButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(logoutButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(homeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -160,13 +206,13 @@ private void switchCard(String cardName) {
         navBarSide.setBackground(new java.awt.Color(255, 255, 255));
         navBarSide.setPreferredSize(new java.awt.Dimension(170, 100));
 
-        accountButton.setBackground(new java.awt.Color(153, 153, 255));
-        accountButton.setFont(new java.awt.Font("Tw Cen MT", 0, 14)); // NOI18N
-        accountButton.setForeground(new java.awt.Color(255, 255, 255));
-        accountButton.setText("Account");
-        accountButton.addActionListener(new java.awt.event.ActionListener() {
+        accountDetailsButton.setBackground(new java.awt.Color(153, 153, 255));
+        accountDetailsButton.setFont(new java.awt.Font("Tw Cen MT", 0, 14)); // NOI18N
+        accountDetailsButton.setForeground(new java.awt.Color(255, 255, 255));
+        accountDetailsButton.setText("Account");
+        accountDetailsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                accountButtonActionPerformed(evt);
+                accountDetailsButtonActionPerformed(evt);
             }
         });
 
@@ -189,14 +235,14 @@ private void switchCard(String cardName) {
                 .addGroup(navBarSideLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(returnsButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(currentVehiclesButton, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
-                    .addComponent(accountButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(accountDetailsButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         navBarSideLayout.setVerticalGroup(
             navBarSideLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(navBarSideLayout.createSequentialGroup()
                 .addGap(83, 83, 83)
-                .addComponent(accountButton)
+                .addComponent(accountDetailsButton)
                 .addGap(18, 18, 18)
                 .addComponent(currentVehiclesButton)
                 .addGap(18, 18, 18)
@@ -283,21 +329,21 @@ private void switchCard(String cardName) {
         // TODO add your handling code here:
     }//GEN-LAST:event_logoutButton5jButton8ActionPerformed
 
-    private void accountDetailsButton5jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accountDetailsButton5jButton7ActionPerformed
+    private void logoutButtonjButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonjButton7ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_accountDetailsButton5jButton7ActionPerformed
+    }//GEN-LAST:event_logoutButtonjButton7ActionPerformed
 
-    private void homeButton5jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeButton5jButton6ActionPerformed
+    private void accountButtonjButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accountButtonjButton6ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_homeButton5jButton6ActionPerformed
+    }//GEN-LAST:event_accountButtonjButton6ActionPerformed
 
-    private void accountButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accountButtonActionPerformed
+    private void accountDetailsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accountDetailsButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_accountButtonActionPerformed
+    }//GEN-LAST:event_accountDetailsButtonActionPerformed
 
-    private void logoutButton6jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButton6jButton8ActionPerformed
+    private void homeButtonjButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeButtonjButton8ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_logoutButton6jButton8ActionPerformed
+    }//GEN-LAST:event_homeButtonjButton8ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -336,28 +382,20 @@ private void switchCard(String cardName) {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton accountButton;
-    private javax.swing.JButton accountButton1;
-    private javax.swing.JButton accountButton2;
     private javax.swing.JPanel accountCard;
-    private javax.swing.JButton accountDetailsButton5;
-    private javax.swing.JLabel carServiceLabel5;
+    private javax.swing.JButton accountDetailsButton;
+    private javax.swing.JLabel carServiceLabel;
     private javax.swing.JPanel cardManager;
     private javax.swing.JButton currentVehiclesButton;
-    private javax.swing.JButton currentVehiclesButton1;
-    private javax.swing.JButton currentVehiclesButton2;
     private javax.swing.JPanel currentVehiclesCard;
-    private javax.swing.JButton homeButton5;
+    private javax.swing.JButton homeButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton logoutButton;
     private javax.swing.JButton logoutButton5;
-    private javax.swing.JButton logoutButton6;
     private javax.swing.JPanel navBarSide;
     private javax.swing.JPanel navBarTop;
     private javax.swing.JButton returnsButton;
-    private javax.swing.JButton returnsButton1;
-    private javax.swing.JButton returnsButton2;
-    private javax.swing.JPanel sideNavBar;
-    private javax.swing.JPanel sideNavBar1;
     // End of variables declaration//GEN-END:variables
 }

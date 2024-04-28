@@ -100,17 +100,17 @@
         </Component>
         <Component class="javax.swing.JLabel" name="makeModelLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="jLabel1"/>
+            <Property name="text" type="java.lang.String" value="Make/ Model"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="priceLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="jLabel2"/>
+            <Property name="text" type="java.lang.String" value="Price"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="yearLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="jLabel3"/>
+            <Property name="text" type="java.lang.String" value="Year"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="loginButton">

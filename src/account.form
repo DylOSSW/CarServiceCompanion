@@ -49,15 +49,15 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="carServiceLabel5" min="-2" pref="292" max="-2" attributes="0"/>
+                  <Component id="carServiceLabel" min="-2" pref="292" max="-2" attributes="0"/>
                   <EmptySpace pref="59" max="32767" attributes="0"/>
-                  <Component id="logoutButton6" min="-2" pref="103" max="-2" attributes="0"/>
+                  <Component id="homeButton" min="-2" pref="103" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="logoutButton5" min="-2" pref="103" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="homeButton5" min="-2" pref="98" max="-2" attributes="0"/>
+                  <Component id="accountButton" min="-2" pref="98" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="accountDetailsButton5" min="-2" pref="91" max="-2" attributes="0"/>
+                  <Component id="logoutButton" min="-2" pref="91" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -67,11 +67,11 @@
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace pref="16" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="homeButton5" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
-                      <Component id="accountDetailsButton5" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
-                      <Component id="carServiceLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="accountButton" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
+                      <Component id="logoutButton" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
+                      <Component id="carServiceLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="logoutButton5" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
-                      <Component id="logoutButton6" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
+                      <Component id="homeButton" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -79,7 +79,7 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JButton" name="homeButton5">
+        <Component class="javax.swing.JButton" name="accountButton">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="14" style="0"/>
@@ -87,10 +87,10 @@
             <Property name="text" type="java.lang.String" value="Account"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="homeButton5jButton6ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="accountButtonjButton6ActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="accountDetailsButton5">
+        <Component class="javax.swing.JButton" name="logoutButton">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="14" style="0"/>
@@ -98,7 +98,7 @@
             <Property name="text" type="java.lang.String" value="Logout"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="accountDetailsButton5jButton7ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="logoutButtonjButton7ActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="logoutButton5">
@@ -112,7 +112,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="logoutButton5jButton8ActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="carServiceLabel5">
+        <Component class="javax.swing.JLabel" name="carServiceLabel">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="24" style="1"/>
@@ -123,7 +123,7 @@
             <Property name="text" type="java.lang.String" value="CarServiceCompanion"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="logoutButton6">
+        <Component class="javax.swing.JButton" name="homeButton">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="14" style="0"/>
@@ -131,7 +131,7 @@
             <Property name="text" type="java.lang.String" value="Home"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="logoutButton6jButton8ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="homeButtonjButton8ActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
@@ -159,7 +159,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="returnsButton" alignment="0" max="32767" attributes="0"/>
                       <Component id="currentVehiclesButton" alignment="0" pref="158" max="32767" attributes="0"/>
-                      <Component id="accountButton" alignment="1" max="32767" attributes="0"/>
+                      <Component id="accountDetailsButton" alignment="1" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -169,7 +169,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="83" max="-2" attributes="0"/>
-                  <Component id="accountButton" min="-2" max="-2" attributes="0"/>
+                  <Component id="accountDetailsButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="currentVehiclesButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -180,7 +180,7 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JButton" name="accountButton">
+        <Component class="javax.swing.JButton" name="accountDetailsButton">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="99" red="99" type="rgb"/>
@@ -194,7 +194,7 @@
             <Property name="text" type="java.lang.String" value="Account"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="accountButtonActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="accountDetailsButtonActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="currentVehiclesButton">

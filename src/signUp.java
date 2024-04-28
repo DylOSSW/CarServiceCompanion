@@ -1,6 +1,7 @@
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
 
 
 
@@ -24,22 +25,37 @@ public class signUp extends javax.swing.JFrame {
     }
     
     public void onSignUpButtonPressed() {
-        SimpleDBConnect dbConnect = new SimpleDBConnect();
-        // Assuming you have text fields for forename, surname, email, and password
-        String Forename = forenameTextField.getText();
-        String Surname = surnameTextField.getText();
-        String Email = emailTextField.getText();
-        String Password = new String(passwordTextField.getPassword());
-        
-        // Call the signUpNewUser method
-        boolean success = dbConnect.signUpNewUser(Forename, Surname, Email, Password);
-        
-        if (success) {
-            // Handle success (e.g., navigate to login screen, show success message)
-        } else {
-            // Handle failure (e.g., show error message)
-        }
+    System.out.println("Register button was pressed");
+    // Get the data from the text fields
+    String forename = forenameTextField.getText(); // Get the forename from the text field
+    String surname = surnameTextField.getText(); // Note that the field name has '1' appended
+    String email = emailTextField.getText(); // Ensure that the field name matches the actual variable name
+    String password = new String(passwordTextField.getPassword()); // getPassword returns a char array
+    String address = homeAddressTextField.getText(); // Get the address from the text field
+    String mobile = mobileTextField.getText(); // Get the mobile from the text field
+
+    // Clear the text fields after reading the values
+    forenameTextField.setText("");
+    surnameTextField.setText("");
+    emailTextField.setText("");
+    passwordTextField.setText("");
+    homeAddressTextField.setText("");
+    mobileTextField.setText("");
+
+    // Create a new instance of SimpleDBConnect and sign up the user
+    SimpleDBConnect dbConnect = new SimpleDBConnect();
+    boolean success = dbConnect.signUpNewUser(forename, surname, email, password, address, mobile);
+
+    if (success) {
+        // If signUpNewUser returns true, sign-up was successful
+        JOptionPane.showMessageDialog(null, "User registration successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+        // You might want to transition to another screen or update the UI here
+    } else {
+        // If signUpNewUser returns false, sign-up failed (likely email already exists)
+        JOptionPane.showMessageDialog(null, "User registration failed. Email may already exist.", "Error", JOptionPane.ERROR_MESSAGE);
     }
+}
 
 
     /**
@@ -60,14 +76,18 @@ public class signUp extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         forenameLabel = new javax.swing.JLabel();
         forenameTextField = new javax.swing.JTextField();
-        emailLabel = new javax.swing.JLabel();
+        mobileLabel = new javax.swing.JLabel();
         signUpButton = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         surnameTextField = new javax.swing.JTextField();
         surnameLabel = new javax.swing.JLabel();
-        passwordLabel = new javax.swing.JLabel();
+        homeAddressLabel = new javax.swing.JLabel();
+        mobileTextField = new javax.swing.JTextField();
         passwordTextField = new javax.swing.JPasswordField();
+        emailLabel = new javax.swing.JLabel();
+        passwordLabel = new javax.swing.JLabel();
+        homeAddressTextField = new javax.swing.JTextField();
         emailTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -143,9 +163,9 @@ public class signUp extends javax.swing.JFrame {
             }
         });
 
-        emailLabel.setBackground(new java.awt.Color(102, 102, 102));
-        emailLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        emailLabel.setText("Email");
+        mobileLabel.setBackground(new java.awt.Color(102, 102, 102));
+        mobileLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        mobileLabel.setText("Mobile Number");
 
         signUpButton.setBackground(new java.awt.Color(153, 153, 255));
         signUpButton.setForeground(new java.awt.Color(255, 255, 255));
@@ -173,9 +193,33 @@ public class signUp extends javax.swing.JFrame {
         surnameLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         surnameLabel.setText("Surname");
 
+        homeAddressLabel.setBackground(new java.awt.Color(102, 102, 102));
+        homeAddressLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        homeAddressLabel.setText("Home Address");
+
+        mobileTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        mobileTextField.setForeground(new java.awt.Color(102, 102, 102));
+        mobileTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mobileTextFieldActionPerformed(evt);
+            }
+        });
+
+        emailLabel.setBackground(new java.awt.Color(102, 102, 102));
+        emailLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        emailLabel.setText("Email Address");
+
         passwordLabel.setBackground(new java.awt.Color(102, 102, 102));
         passwordLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         passwordLabel.setText("Password");
+
+        homeAddressTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        homeAddressTextField.setForeground(new java.awt.Color(102, 102, 102));
+        homeAddressTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                homeAddressTextFieldActionPerformed(evt);
+            }
+        });
 
         emailTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         emailTextField.setForeground(new java.awt.Color(102, 102, 102));
@@ -190,57 +234,74 @@ public class signUp extends javax.swing.JFrame {
         LeftLayout.setHorizontalGroup(
             LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(LeftLayout.createSequentialGroup()
-                .addGroup(LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(30, 30, 30)
+                .addGroup(LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(homeAddressTextField)
+                        .addComponent(emailTextField)
+                        .addGroup(LeftLayout.createSequentialGroup()
+                            .addGroup(LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(forenameTextField)
+                                    .addComponent(surnameTextField)
+                                    .addComponent(forenameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(surnameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(LeftLayout.createSequentialGroup()
+                                        .addComponent(jLabel4)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jButton2))
+                                    .addComponent(passwordTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
+                                    .addComponent(mobileTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
+                                    .addComponent(mobileLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(passwordLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(homeAddressLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(emailLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(0, 0, Short.MAX_VALUE)))
                     .addGroup(LeftLayout.createSequentialGroup()
-                        .addGap(134, 134, 134)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(LeftLayout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addGroup(LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(passwordLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(signUpButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(forenameTextField)
-                                .addGroup(LeftLayout.createSequentialGroup()
-                                    .addComponent(jLabel4)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jButton2))
-                                .addComponent(surnameTextField)
-                                .addComponent(forenameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(emailLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(surnameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(passwordTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE))
-                            .addComponent(emailTextField))))
+                        .addComponent(signUpButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(257, 257, 257)))
                 .addContainerGap(19, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LeftLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(101, 101, 101))
         );
         LeftLayout.setVerticalGroup(
             LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(LeftLayout.createSequentialGroup()
-                .addGap(69, 69, 69)
+                .addGap(14, 14, 14)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(10, 10, 10)
                 .addComponent(forenameLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(forenameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(forenameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(surnameLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(surnameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(surnameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(mobileLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(mobileTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(homeAddressLabel)
+                .addGap(2, 2, 2)
+                .addComponent(homeAddressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(emailLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(7, 7, 7)
-                .addComponent(passwordLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(passwordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(passwordLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(passwordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(signUpButton, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jButton2))
-                .addGap(30, 30, 30))
+                .addGap(10, 10, 10))
         );
 
         jPanel1.add(Left);
@@ -270,6 +331,14 @@ public class signUp extends javax.swing.JFrame {
     private void surnameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_surnameTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_surnameTextFieldActionPerformed
+
+    private void mobileTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mobileTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mobileTextFieldActionPerformed
+
+    private void homeAddressTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeAddressTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_homeAddressTextFieldActionPerformed
 
     private void emailTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailTextFieldActionPerformed
         // TODO add your handling code here:
@@ -317,6 +386,8 @@ public class signUp extends javax.swing.JFrame {
     private javax.swing.JTextField emailTextField;
     private javax.swing.JLabel forenameLabel;
     private javax.swing.JTextField forenameTextField;
+    private javax.swing.JLabel homeAddressLabel;
+    private javax.swing.JTextField homeAddressTextField;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
@@ -324,6 +395,8 @@ public class signUp extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel mobileLabel;
+    private javax.swing.JTextField mobileTextField;
     private javax.swing.JLabel passwordLabel;
     private javax.swing.JPasswordField passwordTextField;
     private javax.swing.JButton signUpButton;

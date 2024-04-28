@@ -57,11 +57,11 @@ public class CarPanel extends javax.swing.JPanel {
         carImage.setIcon(new javax.swing.ImageIcon("C:\\Users\\D21124331\\OneDrive - Technological University Dublin\\Desktop\\4th Year\\GUI\\Project\\CarServiceCompanion\\CarServiceCompanion\\src\\icon\\baby-car.png")); // NOI18N
         carImage.setBorder(new javax.swing.border.MatteBorder(null));
 
-        makeModelLabel.setText("jLabel1");
+        makeModelLabel.setText("Make/ Model");
 
-        priceLabel.setText("jLabel2");
+        priceLabel.setText("Price");
 
-        yearLabel.setText("jLabel3");
+        yearLabel.setText("Year");
 
         loginButton.setBackground(new java.awt.Color(153, 153, 255));
         loginButton.setForeground(new java.awt.Color(255, 255, 255));
