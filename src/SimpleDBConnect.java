@@ -292,6 +292,48 @@ public DefaultTableModel searchCars(String selectedMake, String selectedModel, S
             ex.printStackTrace();
         }
     }
+    
+    public boolean addNewVehicle(String make, String model, int year, double price, double purchasePrice, String condition, String imagePath) {
+    String sql = "INSERT INTO Vehicles (CarMake, CarModel, CarYear, RentalPrice, PurchasePrice, Condition, Availability, ImagePath) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    try (Connection connection = DriverManager.getConnection(dbURL);
+         PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        preparedStatement.setString(1, make);
+        preparedStatement.setString(2, model);
+        preparedStatement.setInt(3, year);
+        preparedStatement.setDouble(4, price);
+        preparedStatement.setDouble(5, purchasePrice);
+        preparedStatement.setString(6, condition);
+        preparedStatement.setBoolean(7, true);
+        preparedStatement.setString(8, imagePath);
+
+        int rowsAffected = preparedStatement.executeUpdate();
+        return rowsAffected > 0;
+    } catch (SQLException e) {
+        System.err.println("SQL Error: " + e.getMessage());
+        return false;
+    }
+}
+    
+    public boolean updateVehicle(int carID, String make, String model, int year, double rentalPrice, double purchasePrice, String condition, String imagePath) {
+    String sql = "UPDATE Vehicles SET CarMake = ?, CarModel = ?, CarYear = ?, RentalPrice = ?, PurchasePrice = ?, Condition = ?, ImagePath = ? WHERE CarID = ?";
+    try (Connection connection = DriverManager.getConnection(dbURL);
+        PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        preparedStatement.setString(1, make);
+        preparedStatement.setString(2, model);
+        preparedStatement.setInt(3, year);
+        preparedStatement.setDouble(4, rentalPrice);
+        preparedStatement.setDouble(5, purchasePrice);
+        preparedStatement.setString(6, condition);
+        preparedStatement.setString(7, imagePath);
+        preparedStatement.setInt(8, carID);
+
+        int rowsAffected = preparedStatement.executeUpdate();
+        return rowsAffected > 0;
+    } catch (SQLException e) {
+        System.err.println("SQL Error: " + e.getMessage());
+        return false;
+    }
+}
 
 
 }

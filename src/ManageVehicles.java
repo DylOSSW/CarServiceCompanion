@@ -18,8 +18,14 @@ import javax.swing.SwingUtilities;
  * @author D21124318
  */
 public class ManageVehicles extends javax.swing.JFrame {
+    private SimpleDBConnect DBConnection = new SimpleDBConnect();
     
-    private boolean isListenersAdded = false;
+    private boolean addVehicleListeners = false;
+    private boolean editVehicleListeners = false;
+    private JTable vehicleTable;
+    private int selectedRowToRemove = -1;
+    private int carID;
+    
 
     
     /**
@@ -39,10 +45,18 @@ public class ManageVehicles extends javax.swing.JFrame {
         });
     }
 
+  
     // Method to set up action listeners for various buttons related to functionality
     private void setupActionListeners() {
         addActionListenerToButton(AddBtn, this::showAddVehicleDialog);
         addActionListenerToButton(EditBtn, this::showEditVehicleDialog);
+        addActionListenerToButton(RemoveBtn, this::showRmvVehicleDialog);
+        addActionListenerToButton(AddVehicle, ManageVehicles.this::AddNewVehicle);
+        addActionListenerToButton(CancelAddVehicle, () -> addVehicleDialog.setVisible(false));
+        addActionListenerToButton(EditVehicle, ManageVehicles.this::EditVehicle);
+        addActionListenerToButton(CancelEditVehicle, () -> editVehicleDialog.setVisible(false));
+        addActionListenerToButton(OkRmvBtn, ManageVehicles.this::RemoveVehicle);
+        addActionListenerToButton(CancelRmvBtn, () -> rmvVehicleDialog.setVisible(false));
         
         
     }
@@ -83,6 +97,10 @@ public class ManageVehicles extends javax.swing.JFrame {
         EditVehicle = new javax.swing.JButton();
         CancelEditVehicle = new javax.swing.JButton();
         rmvVehicleDialog = new javax.swing.JDialog();
+        jPanel4 = new javax.swing.JPanel();
+        RemoveWarningText = new javax.swing.JLabel();
+        OkRmvBtn = new javax.swing.JButton();
+        CancelRmvBtn = new javax.swing.JButton();
         Dashboard = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         AllModels = new javax.swing.JComboBox<>();
@@ -192,6 +210,8 @@ public class ManageVehicles extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        editVehicleDialog.setModal(true);
+
         updateCarMake.setText("CarMake");
 
         updateCarModel.setText("CarModel");
@@ -282,15 +302,51 @@ public class ManageVehicles extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        rmvVehicleDialog.setModal(true);
+        rmvVehicleDialog.setPreferredSize(new java.awt.Dimension(310, 120));
+        rmvVehicleDialog.setSize(new java.awt.Dimension(310, 120));
+
+        RemoveWarningText.setText("Are you sure? This action can't be undone!");
+
+        OkRmvBtn.setText("Remove");
+
+        CancelRmvBtn.setText("Cancel");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap(44, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(OkRmvBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(CancelRmvBtn))
+                    .addComponent(RemoveWarningText))
+                .addContainerGap(43, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addComponent(RemoveWarningText)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(OkRmvBtn)
+                    .addComponent(CancelRmvBtn))
+                .addContainerGap(32, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout rmvVehicleDialogLayout = new javax.swing.GroupLayout(rmvVehicleDialog.getContentPane());
         rmvVehicleDialog.getContentPane().setLayout(rmvVehicleDialogLayout);
         rmvVehicleDialogLayout.setHorizontalGroup(
             rmvVehicleDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         rmvVehicleDialogLayout.setVerticalGroup(
             rmvVehicleDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -468,12 +524,13 @@ public class ManageVehicles extends javax.swing.JFrame {
         // Call the searchCars function in DBConnection with selected options
         DefaultTableModel model = DBConnection.searchCars(selectedMake, selectedModel, minYear, maxYear, minPrice, maxPrice, selectedCondition);
         // Create a new JTable with the populated model
-        JTable newTable = new JTable(model);
-        //newTable.setRowSelectionAllowed(true);
-        //newTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        // Add the table to the JScrollPane
-        jScrollPane1.setViewportView(newTable);
-        // Refresh the GUI to reflect the changes
+        if(vehicleTable == null) {
+            vehicleTable = new JTable(model);
+            jScrollPane1.setViewportView(vehicleTable);
+        } else {
+            vehicleTable.setModel(model);
+        }
+        
         this.revalidate();
         this.repaint();
 }
@@ -495,11 +552,6 @@ public class ManageVehicles extends javax.swing.JFrame {
             if (!addVehicleDialog.isVisible()) {
                 addVehicleDialog.pack();
                 addVehicleDialog.setLocationRelativeTo(null);
-                if (!isListenersAdded){
-                    addActionListenerToButton(AddVehicle, ManageVehicles.this::AddNewVehicle);
-                    addActionListenerToButton(CancelAddVehicle, () -> addVehicleDialog.setVisible(false));
-                    isListenersAdded = true;
-                }
                 addVehicleDialog.setVisible(true);
             }
         }
@@ -508,27 +560,111 @@ public class ManageVehicles extends javax.swing.JFrame {
     
     //Method to update DB with new Vehicle
     private void AddNewVehicle() {
+        
+        String make = setCarMake.getText();
+        String model = setCarModel.getText();
+        int year = Integer.parseInt(setCarYear.getText());
+        double price = Double.parseDouble(setRentalPrice.getText());
+        double purchasePrice = Double.parseDouble(setPurchasePrice.getText());
+        String condition = setCondition.getText();
+        //boolean availability = availabilityCheckBox.isSelected();
+        String imagePath = setImagePath.getText();
+        
+        // Now pass these values to the database handler
+        boolean success = DBConnection.addNewVehicle(make, model, year, price, purchasePrice, condition, imagePath);
+        
+        if (success) {
         System.out.println("Vehicle Added");
-        addVehicleDialog.setVisible(false);
+        addVehicleDialog.setVisible(false); // Close dialog on success
+        } else {
+            System.out.println("Failed to add vehicle");
+        }
+        
     }
     
     private void showEditVehicleDialog() {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
+                int selectedRow = vehicleTable.getSelectedRow();
+                if (selectedRow == -1) {
+                System.out.println("Please select a row to edit");
+                return; // Exit if no row is selected
+                }
+
                 if (!editVehicleDialog.isVisible()) {
-                editVehicleDialog.pack();
-                editVehicleDialog.setLocationRelativeTo(null);
-                addActionListenerToButton(EditVehicle, ManageVehicles.this::EditVehicle);
-                addActionListenerToButton(CancelEditVehicle, () -> editVehicleDialog.setVisible(false));
-                editVehicleDialog.setVisible(true);
-            }
+                    populateFieldsForEditing(selectedRow);
+                    
+                    editVehicleDialog.pack();
+                    editVehicleDialog.setLocationRelativeTo(null);
+                    editVehicleDialog.setVisible(true);
+                }
             }
         });
     }
     
+    private void populateFieldsForEditing(int selectedRow) {
+        DefaultTableModel model = (DefaultTableModel) vehicleTable.getModel();
+
+        // Example of fetching and setting data for car make
+        carID = (int) model.getValueAt(selectedRow, 0);
+        String carMake = model.getValueAt(selectedRow, 1).toString();
+        String carModel = model.getValueAt(selectedRow, 2).toString();
+        String carYear = model.getValueAt(selectedRow, 3).toString();
+        String rentalPrice = model.getValueAt(selectedRow, 4).toString();
+        String purchasePrice = model.getValueAt(selectedRow, 5).toString();
+        String condition = model.getValueAt(selectedRow, 6).toString();
+        
+       
+        updateCarMake.setText(carMake);
+        updateCarModel.setText(carModel);
+        updateCarYear.setText(carYear);
+        updateRentalPrice.setText(rentalPrice);
+        updatePurchasePrice.setText(purchasePrice);
+        updateCondition.setText(condition);
+}
+    
     //Method to update vehicle info in DB
     private void EditVehicle() {
-        System.out.println("Vehicle Editted");
+        String make = updateCarMake.getText();
+        String model = updateCarModel.getText();
+        int year = Integer.parseInt(updateCarYear.getText());
+        double rentalPrice = Double.parseDouble(updateRentalPrice.getText());
+        double purchasePrice = Double.parseDouble(updatePurchasePrice.getText());
+        String condition = updateCondition.getText();
+        //boolean availability = availabilityCheckBox.isSelected();
+        String imagePath = updateImagePath.getText();
+        
+        // Now pass these values to the database handler
+        boolean success = DBConnection.updateVehicle(carID, make, model, year, rentalPrice, purchasePrice, condition, imagePath);
+        
+        if (success) {
+        System.out.println("Vehicle Edited");
+        editVehicleDialog.setVisible(false); // Close dialog on success
+        } else {
+            System.out.println("Failed to edit vehicle");
+        }
+    }
+    
+    private void showRmvVehicleDialog() {
+        int selectedRow = vehicleTable.getSelectedRow();
+        if (selectedRow == -1) {
+            System.out.println("Please Select a Vehicle to Remove");
+            
+        } else{
+            selectedRowToRemove = selectedRow;
+            rmvVehicleDialog.pack();
+            rmvVehicleDialog.setLocationRelativeTo(this);
+            rmvVehicleDialog.setVisible(true);
+        }
+        
+    }
+    
+    private void RemoveVehicle() {
+        DefaultTableModel model = (DefaultTableModel) vehicleTable.getModel();
+        model.removeRow(selectedRowToRemove); // Remove the row
+        System.out.println("Vehicle Removed");
+        selectedRowToRemove = -1; // Reset the index
+        rmvVehicleDialog.setVisible(false); // Close the dialog
     }
     
     
@@ -580,6 +716,7 @@ public class ManageVehicles extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> AllModels;
     private javax.swing.JButton CancelAddVehicle;
     private javax.swing.JButton CancelEditVehicle;
+    private javax.swing.JButton CancelRmvBtn;
     private javax.swing.JComboBox<String> Condition;
     private javax.swing.JPanel Dashboard;
     private javax.swing.JButton DashboardButton;
@@ -590,7 +727,9 @@ public class ManageVehicles extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> MinPrice;
     private javax.swing.JComboBox<String> MinYear;
     private javax.swing.JPanel NavigationMenu;
+    private javax.swing.JButton OkRmvBtn;
     private javax.swing.JButton RemoveBtn;
+    private javax.swing.JLabel RemoveWarningText;
     private javax.swing.JButton SearchCars;
     private javax.swing.JButton UsersButton;
     private javax.swing.JButton VehiclesButton;
@@ -599,6 +738,7 @@ public class ManageVehicles extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JDialog rmvVehicleDialog;
     private javax.swing.JTextField setCarMake;
