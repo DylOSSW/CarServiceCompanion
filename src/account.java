@@ -1,17 +1,58 @@
+
+import java.awt.CardLayout;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+
 public class account extends javax.swing.JFrame {
+    private CardLayout cardLayout;
+
     /**
      * Creates new form account
      */
     public account() {
         initComponents();
+          // Assuming cardManager is already declared and initialized by initComponents()
+        cardLayout = (CardLayout) cardManager.getLayout(); // Get the CardLayout from cardManager
+        
+        cardManager.add(accountCard, "accountCard");
+        cardManager.add(currentVehiclesCard, "currentVehiclesCard");
+        cardManager.add(jPanel1, "returnsCard");
+
+    
+        setupCardChangeButtons();
+
+        // Set 'accountCard' to be the first viewed card when the application starts
+        cardLayout.show(cardManager, "accountCard"); // The string must match the name used in cardManager.add(...)
+        this.setVisible(true); 
+
+  
+
+
         // Use getInstance() to call non-static methods on SessionManager
         SessionManager sessionManager = SessionManager.getInstance();
         if (sessionManager.isLoggedIn()) {
             User user = sessionManager.getCurrentUser();
             // Do something with the user information, like personalizing the UI
-            welcomeLabel.setText("Welcome, " + user.getForename());
+            //welcomeLabel.setText("Welcome, " + user.getForename());
         }
     }
+
+// Method to set up action listeners for buttons responsible for switching cards
+private void setupCardChangeButtons() {
+    addActionListenerToCardButton(accountButton, "accountCard");
+    addActionListenerToCardButton(currentVehiclesButton, "currentVehiclesCard");
+    addActionListenerToCardButton(returnsButton, "returnsCard");
+}
+
+// Method to add an action listener to a button to switch to a specific card
+private void addActionListenerToCardButton(JButton button, String cardName) {
+    button.addActionListener(e -> switchCard(cardName));
+}
+
+private void switchCard(String cardName) {
+    System.out.println("Switching to card: " + cardName); // Debug output
+    cardLayout.show(cardManager, cardName);
+}
 
 
 
@@ -24,283 +65,239 @@ public class account extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        Account3 = new javax.swing.JPanel();
-        jPanel12 = new javax.swing.JPanel();
-        jButton24 = new javax.swing.JButton();
-        jButton25 = new javax.swing.JButton();
-        jButton26 = new javax.swing.JButton();
-        jLabel30 = new javax.swing.JLabel();
-        jPanel13 = new javax.swing.JPanel();
-        jLabel31 = new javax.swing.JLabel();
-        jLabel32 = new javax.swing.JLabel();
-        generalInfoLabel1 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jLabel35 = new javax.swing.JLabel();
-        jLabel36 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
-        jLabel37 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
-        signUpButton2 = new javax.swing.JButton();
-        signUpButton3 = new javax.swing.JButton();
-        signUpButton4 = new javax.swing.JButton();
-        welcomeLabel = new javax.swing.JLabel();
+        navBarTop = new javax.swing.JPanel();
+        homeButton5 = new javax.swing.JButton();
+        accountDetailsButton5 = new javax.swing.JButton();
+        logoutButton5 = new javax.swing.JButton();
+        carServiceLabel5 = new javax.swing.JLabel();
+        logoutButton6 = new javax.swing.JButton();
+        navBarSide = new javax.swing.JPanel();
+        accountButton = new javax.swing.JButton();
+        currentVehiclesButton = new javax.swing.JButton();
+        returnsButton = new javax.swing.JButton();
+        cardManager = new javax.swing.JPanel();
+        accountCard = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        currentVehiclesCard = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(800, 500));
+        setSize(new java.awt.Dimension(800, 100));
 
-        Account3.setBackground(new java.awt.Color(255, 255, 255));
-        Account3.setToolTipText("");
-        Account3.setPreferredSize(new java.awt.Dimension(800, 500));
-        Account3.setLayout(null);
+        navBarTop.setBackground(new java.awt.Color(153, 153, 255));
+        navBarTop.setMinimumSize(new java.awt.Dimension(800, 60));
 
-        jPanel12.setBackground(new java.awt.Color(153, 153, 255));
-        jPanel12.setMinimumSize(new java.awt.Dimension(800, 60));
-
-        jButton24.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton24.setText("Account Details");
-        jButton24.addActionListener(new java.awt.event.ActionListener() {
+        homeButton5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        homeButton5.setText("Account");
+        homeButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton24jButton6ActionPerformed(evt);
+                homeButton5jButton6ActionPerformed(evt);
             }
         });
 
-        jButton25.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton25.setText("Logout");
-        jButton25.addActionListener(new java.awt.event.ActionListener() {
+        accountDetailsButton5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        accountDetailsButton5.setText("Logout");
+        accountDetailsButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton25jButton7ActionPerformed(evt);
+                accountDetailsButton5jButton7ActionPerformed(evt);
             }
         });
 
-        jButton26.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton26.setText("Home");
-        jButton26.addActionListener(new java.awt.event.ActionListener() {
+        logoutButton5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        logoutButton5.setText("Cars");
+        logoutButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton26jButton8ActionPerformed(evt);
+                logoutButton5jButton8ActionPerformed(evt);
             }
         });
 
-        jLabel30.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel30.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel30.setText("CarServiceCompanion");
+        carServiceLabel5.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        carServiceLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        carServiceLabel5.setText("CarServiceCompanion");
 
-        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
-        jPanel12.setLayout(jPanel12Layout);
-        jPanel12Layout.setHorizontalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
+        logoutButton6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        logoutButton6.setText("Home");
+        logoutButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutButton6jButton8ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout navBarTopLayout = new javax.swing.GroupLayout(navBarTop);
+        navBarTop.setLayout(navBarTopLayout);
+        navBarTopLayout.setHorizontalGroup(
+            navBarTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, navBarTopLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(108, 108, 108)
-                .addComponent(jButton26, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(carServiceLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                .addComponent(logoutButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton24, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(logoutButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton25, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addComponent(homeButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(accountDetailsButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12))
         );
-        jPanel12Layout.setVerticalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton24, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton25, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton26, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel30))
+        navBarTopLayout.setVerticalGroup(
+            navBarTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, navBarTopLayout.createSequentialGroup()
+                .addContainerGap(16, Short.MAX_VALUE)
+                .addGroup(navBarTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(homeButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(accountDetailsButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(carServiceLabel5)
+                    .addComponent(logoutButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(logoutButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
-        Account3.add(jPanel12);
-        jPanel12.setBounds(0, 0, 810, 60);
+        getContentPane().add(navBarTop, java.awt.BorderLayout.NORTH);
 
-        jPanel13.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        navBarSide.setBackground(new java.awt.Color(255, 255, 255));
+        navBarSide.setPreferredSize(new java.awt.Dimension(170, 100));
 
-        jLabel31.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel31.setText("Account Details");
-
-        jLabel32.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel32.setText("Change your profile and account details");
-
-        generalInfoLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        generalInfoLabel1.setText("General Info");
-
-        jTextField4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTextField4.setForeground(new java.awt.Color(102, 102, 102));
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+        accountButton.setBackground(new java.awt.Color(153, 153, 255));
+        accountButton.setFont(new java.awt.Font("Tw Cen MT", 0, 14)); // NOI18N
+        accountButton.setForeground(new java.awt.Color(255, 255, 255));
+        accountButton.setText("Account");
+        accountButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
+                accountButtonActionPerformed(evt);
             }
         });
 
-        jLabel35.setBackground(new java.awt.Color(102, 102, 102));
-        jLabel35.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel35.setText("First Name");
+        currentVehiclesButton.setBackground(new java.awt.Color(153, 153, 255));
+        currentVehiclesButton.setFont(new java.awt.Font("Tw Cen MT", 0, 14)); // NOI18N
+        currentVehiclesButton.setForeground(new java.awt.Color(255, 255, 255));
+        currentVehiclesButton.setText("Current Vehicles");
 
-        jLabel36.setBackground(new java.awt.Color(102, 102, 102));
-        jLabel36.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel36.setText("Last Name");
+        returnsButton.setBackground(new java.awt.Color(153, 153, 255));
+        returnsButton.setFont(new java.awt.Font("Tw Cen MT", 0, 14)); // NOI18N
+        returnsButton.setForeground(new java.awt.Color(255, 255, 255));
+        returnsButton.setText("Returns");
 
-        jTextField5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTextField5.setForeground(new java.awt.Color(102, 102, 102));
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
-            }
-        });
-
-        jLabel37.setBackground(new java.awt.Color(102, 102, 102));
-        jLabel37.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel37.setText("Email Address");
-
-        jTextField6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTextField6.setForeground(new java.awt.Color(102, 102, 102));
-        jTextField6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField6ActionPerformed(evt);
-            }
-        });
-
-        signUpButton2.setBackground(new java.awt.Color(153, 153, 255));
-        signUpButton2.setFont(new java.awt.Font("Tw Cen MT", 0, 14)); // NOI18N
-        signUpButton2.setForeground(new java.awt.Color(255, 255, 255));
-        signUpButton2.setText("Curent Vehicles");
-
-        signUpButton3.setBackground(new java.awt.Color(153, 153, 255));
-        signUpButton3.setFont(new java.awt.Font("Tw Cen MT", 0, 14)); // NOI18N
-        signUpButton3.setForeground(new java.awt.Color(255, 255, 255));
-        signUpButton3.setText("Returns");
-
-        signUpButton4.setBackground(new java.awt.Color(153, 153, 255));
-        signUpButton4.setFont(new java.awt.Font("Tw Cen MT", 0, 14)); // NOI18N
-        signUpButton4.setForeground(new java.awt.Color(255, 255, 255));
-        signUpButton4.setText("Account");
-        signUpButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                signUpButton4ActionPerformed(evt);
-            }
-        });
-
-        welcomeLabel.setText("jLabel1");
-
-        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
-        jPanel13.setLayout(jPanel13Layout);
-        jPanel13Layout.setHorizontalGroup(
-            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel13Layout.createSequentialGroup()
-                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel13Layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel13Layout.createSequentialGroup()
-                                .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(180, 180, 180)
-                                .addComponent(welcomeLabel))))
-                    .addGroup(jPanel13Layout.createSequentialGroup()
-                        .addGap(13, 13, 13)
-                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(signUpButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(signUpButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(signUpButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(135, 135, 135)
-                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(generalInfoLabel1)
-                            .addGroup(jPanel13Layout.createSequentialGroup()
-                                .addComponent(jLabel35, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(113, 113, 113)
-                                .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel13Layout.createSequentialGroup()
-                                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(57, 57, 57)
-                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel37, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(8, 8, 8))
+        javax.swing.GroupLayout navBarSideLayout = new javax.swing.GroupLayout(navBarSide);
+        navBarSide.setLayout(navBarSideLayout);
+        navBarSideLayout.setHorizontalGroup(
+            navBarSideLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(navBarSideLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(navBarSideLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(returnsButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(currentVehiclesButton, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
+                    .addComponent(accountButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
-        jPanel13Layout.setVerticalGroup(
-            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel13Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel31)
-                    .addComponent(welcomeLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel32)
-                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel13Layout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(generalInfoLabel1)
-                            .addComponent(signUpButton4))
-                        .addGap(16, 16, 16)
-                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel35)
-                            .addComponent(jLabel36))
-                        .addGap(20, 20, 20)
-                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(21, 21, 21)
-                        .addComponent(jLabel37)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel13Layout.createSequentialGroup()
-                        .addGap(69, 69, 69)
-                        .addComponent(signUpButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(signUpButton3)))
-                .addContainerGap(50, Short.MAX_VALUE))
+        navBarSideLayout.setVerticalGroup(
+            navBarSideLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(navBarSideLayout.createSequentialGroup()
+                .addGap(83, 83, 83)
+                .addComponent(accountButton)
+                .addGap(18, 18, 18)
+                .addComponent(currentVehiclesButton)
+                .addGap(18, 18, 18)
+                .addComponent(returnsButton)
+                .addContainerGap(255, Short.MAX_VALUE))
         );
 
-        Account3.add(jPanel13);
-        jPanel13.setBounds(30, 90, 720, 360);
+        getContentPane().add(navBarSide, java.awt.BorderLayout.WEST);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(Account3, javax.swing.GroupLayout.PREFERRED_SIZE, 786, javax.swing.GroupLayout.PREFERRED_SIZE))
+        cardManager.setBackground(new java.awt.Color(255, 153, 153));
+        cardManager.setPreferredSize(new java.awt.Dimension(700, 453));
+        cardManager.setRequestFocusEnabled(false);
+        cardManager.setLayout(new java.awt.CardLayout());
+
+        accountCard.setBackground(new java.awt.Color(102, 153, 255));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        jLabel1.setText("Account");
+
+        javax.swing.GroupLayout accountCardLayout = new javax.swing.GroupLayout(accountCard);
+        accountCard.setLayout(accountCardLayout);
+        accountCardLayout.setHorizontalGroup(
+            accountCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(accountCardLayout.createSequentialGroup()
+                .addGap(327, 327, 327)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(121, Short.MAX_VALUE))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(Account3, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+        accountCardLayout.setVerticalGroup(
+            accountCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(accountCardLayout.createSequentialGroup()
+                .addGap(143, 143, 143)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(184, Short.MAX_VALUE))
         );
+
+        cardManager.add(accountCard, "card2");
+
+        currentVehiclesCard.setBackground(new java.awt.Color(0, 102, 102));
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        jLabel2.setText("Current Vehicles");
+
+        javax.swing.GroupLayout currentVehiclesCardLayout = new javax.swing.GroupLayout(currentVehiclesCard);
+        currentVehiclesCard.setLayout(currentVehiclesCardLayout);
+        currentVehiclesCardLayout.setHorizontalGroup(
+            currentVehiclesCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(currentVehiclesCardLayout.createSequentialGroup()
+                .addGap(327, 327, 327)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(18, Short.MAX_VALUE))
+        );
+        currentVehiclesCardLayout.setVerticalGroup(
+            currentVehiclesCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(currentVehiclesCardLayout.createSequentialGroup()
+                .addGap(143, 143, 143)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(184, Short.MAX_VALUE))
+        );
+
+        cardManager.add(currentVehiclesCard, "card3");
+
+        jPanel1.setBackground(new java.awt.Color(204, 204, 255));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 630, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 443, Short.MAX_VALUE)
+        );
+
+        cardManager.add(jPanel1, "card5");
+
+        getContentPane().add(cardManager, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton24jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton24jButton6ActionPerformed
+    private void logoutButton5jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButton5jButton8ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton24jButton6ActionPerformed
+    }//GEN-LAST:event_logoutButton5jButton8ActionPerformed
 
-    private void jButton25jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton25jButton7ActionPerformed
+    private void accountDetailsButton5jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accountDetailsButton5jButton7ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton25jButton7ActionPerformed
+    }//GEN-LAST:event_accountDetailsButton5jButton7ActionPerformed
 
-    private void jButton26jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton26jButton8ActionPerformed
+    private void homeButton5jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeButton5jButton6ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton26jButton8ActionPerformed
+    }//GEN-LAST:event_homeButton5jButton6ActionPerformed
 
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+    private void accountButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accountButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
+    }//GEN-LAST:event_accountButtonActionPerformed
 
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+    private void logoutButton6jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButton6jButton8ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField5ActionPerformed
-
-    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField6ActionPerformed
-
-    private void signUpButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signUpButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_signUpButton4ActionPerformed
+    }//GEN-LAST:event_logoutButton6jButton8ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -338,37 +335,29 @@ public class account extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel Account;
-    private javax.swing.JPanel Account1;
-    private javax.swing.JPanel Account3;
-    private javax.swing.JLabel generalInfoLabel1;
-    private javax.swing.JButton jButton18;
-    private javax.swing.JButton jButton19;
-    private javax.swing.JButton jButton20;
-    private javax.swing.JButton jButton24;
-    private javax.swing.JButton jButton25;
-    private javax.swing.JButton jButton26;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JLabel jLabel28;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel30;
-    private javax.swing.JLabel jLabel31;
-    private javax.swing.JLabel jLabel32;
-    private javax.swing.JLabel jLabel35;
-    private javax.swing.JLabel jLabel36;
-    private javax.swing.JLabel jLabel37;
-    private javax.swing.JPanel jPanel12;
-    private javax.swing.JPanel jPanel13;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JButton signUpButton2;
-    private javax.swing.JButton signUpButton3;
-    private javax.swing.JButton signUpButton4;
-    private javax.swing.JLabel welcomeLabel;
+    private javax.swing.JButton accountButton;
+    private javax.swing.JButton accountButton1;
+    private javax.swing.JButton accountButton2;
+    private javax.swing.JPanel accountCard;
+    private javax.swing.JButton accountDetailsButton5;
+    private javax.swing.JLabel carServiceLabel5;
+    private javax.swing.JPanel cardManager;
+    private javax.swing.JButton currentVehiclesButton;
+    private javax.swing.JButton currentVehiclesButton1;
+    private javax.swing.JButton currentVehiclesButton2;
+    private javax.swing.JPanel currentVehiclesCard;
+    private javax.swing.JButton homeButton5;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton logoutButton5;
+    private javax.swing.JButton logoutButton6;
+    private javax.swing.JPanel navBarSide;
+    private javax.swing.JPanel navBarTop;
+    private javax.swing.JButton returnsButton;
+    private javax.swing.JButton returnsButton1;
+    private javax.swing.JButton returnsButton2;
+    private javax.swing.JPanel sideNavBar;
+    private javax.swing.JPanel sideNavBar1;
     // End of variables declaration//GEN-END:variables
 }
