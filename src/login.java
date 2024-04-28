@@ -50,7 +50,7 @@ private void userLogin() {
     String password = new String(passwordTextField.getPassword());
 
     SimpleDBConnect dbConnect = new SimpleDBConnect();
-    User user = dbConnect.userLogin1(email, password); // This should return a User object or null
+    User user = dbConnect.userLogin(email, password); // This should return a User object or null
 
     if (user != null) {
         SessionManager.getInstance().login(user); // Use the getInstance() method to get the SessionManager instance
@@ -68,8 +68,6 @@ private void userLogin() {
 }
 
 
-
-   
     // Method to set up action listeners for buttons responsible for opening different JFrames
     private void setupFrameChangeButtons() {
         addActionListenerToButton(signUpButton, this::showSignUpDialog);
@@ -99,7 +97,6 @@ private void userLogin() {
         }
     }
     
-    // Method to display the threshold dialog and add action listener to updateThresholdButton
     private void showResetPasswordDialog() {
         // Pack the dialog to fit its contents
         forgotPasswordDialog.pack();
@@ -111,7 +108,6 @@ private void userLogin() {
         addActionListenerToButton(resetPasswordButton, this::resetPassword);
     }
     
-        // Method to display the threshold dialog and add action listener to updateThresholdButton
     private void showSignUpDialog() {
         // Pack the dialog to fit its contents
         signUpDialog.pack();
@@ -169,7 +165,7 @@ private void userLogin() {
     }
 
     if (!email.contains("@")) {
-        JOptionPane.showMessageDialog(forgotPasswordDialog, "Invalid email domain. Must be @carservicecompanion.ie.", "Domain Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(forgotPasswordDialog, "Invalid email domain. Must be like @example.ie.", "Domain Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
 
@@ -211,17 +207,17 @@ private void userLogin() {
         emailAddressTextField = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         Right = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        companyLogo = new javax.swing.JLabel();
+        companyNameLabel = new javax.swing.JLabel();
+        copyrightLabel = new javax.swing.JLabel();
         Left = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        loginLabel = new javax.swing.JLabel();
+        emailIndicatorLabel = new javax.swing.JLabel();
         emailTextField = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
+        passwordIndicatorLabel = new javax.swing.JLabel();
         passwordTextField = new javax.swing.JPasswordField();
         loginButton = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
+        notAmemberLabel = new javax.swing.JLabel();
         signUpButton = new javax.swing.JButton();
         forgotPasswordButton = new javax.swing.JButton();
 
@@ -391,16 +387,16 @@ private void userLogin() {
         Right.setMinimumSize(new java.awt.Dimension(400, 500));
         Right.setPreferredSize(new java.awt.Dimension(400, 500));
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/car.png"))); // NOI18N
+        companyLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/car.png"))); // NOI18N
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI Black", 1, 24)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("CarServiceCompanion");
+        companyNameLabel.setFont(new java.awt.Font("Segoe UI Black", 1, 24)); // NOI18N
+        companyNameLabel.setForeground(new java.awt.Color(255, 255, 255));
+        companyNameLabel.setText("CarServiceCompanion");
 
-        jLabel7.setBackground(new java.awt.Color(204, 204, 204));
-        jLabel7.setFont(new java.awt.Font("Segoe UI Light", 0, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel7.setText("copyright @ carservicecompanion All rights reserved");
+        copyrightLabel.setBackground(new java.awt.Color(204, 204, 204));
+        copyrightLabel.setFont(new java.awt.Font("Segoe UI Light", 0, 14)); // NOI18N
+        copyrightLabel.setForeground(new java.awt.Color(102, 102, 102));
+        copyrightLabel.setText("copyright @ carservicecompanion All rights reserved");
 
         javax.swing.GroupLayout RightLayout = new javax.swing.GroupLayout(Right);
         Right.setLayout(RightLayout);
@@ -410,25 +406,25 @@ private void userLogin() {
                 .addContainerGap(48, Short.MAX_VALUE)
                 .addGroup(RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, RightLayout.createSequentialGroup()
-                        .addComponent(jLabel7)
+                        .addComponent(copyrightLabel)
                         .addGap(30, 30, 30))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, RightLayout.createSequentialGroup()
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(companyNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(49, 49, 49))))
             .addGroup(RightLayout.createSequentialGroup()
                 .addGap(133, 133, 133)
-                .addComponent(jLabel5)
+                .addComponent(companyLogo)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         RightLayout.setVerticalGroup(
             RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(RightLayout.createSequentialGroup()
                 .addGap(136, 136, 136)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(companyLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel6)
+                .addComponent(companyNameLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 126, Short.MAX_VALUE)
-                .addComponent(jLabel7)
+                .addComponent(copyrightLabel)
                 .addGap(66, 66, 66))
         );
 
@@ -438,14 +434,14 @@ private void userLogin() {
         Left.setMinimumSize(new java.awt.Dimension(400, 500));
         Left.setPreferredSize(new java.awt.Dimension(400, 500));
 
-        jLabel1.setBackground(new java.awt.Color(153, 153, 255));
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(153, 153, 255));
-        jLabel1.setText("  LOGIN");
+        loginLabel.setBackground(new java.awt.Color(153, 153, 255));
+        loginLabel.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        loginLabel.setForeground(new java.awt.Color(153, 153, 255));
+        loginLabel.setText("  LOGIN");
 
-        jLabel2.setBackground(new java.awt.Color(102, 102, 102));
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel2.setText("Email");
+        emailIndicatorLabel.setBackground(new java.awt.Color(102, 102, 102));
+        emailIndicatorLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        emailIndicatorLabel.setText("Email");
 
         emailTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         emailTextField.setForeground(new java.awt.Color(102, 102, 102));
@@ -455,15 +451,15 @@ private void userLogin() {
             }
         });
 
-        jLabel3.setBackground(new java.awt.Color(102, 102, 102));
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel3.setText("Password");
+        passwordIndicatorLabel.setBackground(new java.awt.Color(102, 102, 102));
+        passwordIndicatorLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        passwordIndicatorLabel.setText("Password");
 
         loginButton.setBackground(new java.awt.Color(153, 153, 255));
         loginButton.setForeground(new java.awt.Color(255, 255, 255));
         loginButton.setText("Login");
 
-        jLabel4.setText("Not a Member?");
+        notAmemberLabel.setText("Not a Member?");
 
         signUpButton.setForeground(new java.awt.Color(0, 51, 255));
         signUpButton.setText("Sign Up");
@@ -480,34 +476,34 @@ private void userLogin() {
                     .addGroup(LeftLayout.createSequentialGroup()
                         .addGap(32, 32, 32)
                         .addGroup(LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel3)
+                            .addComponent(passwordIndicatorLabel)
                             .addGroup(LeftLayout.createSequentialGroup()
                                 .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(forgotPasswordButton))
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(emailIndicatorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(passwordTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
                             .addComponent(emailTextField)
                             .addGroup(LeftLayout.createSequentialGroup()
-                                .addComponent(jLabel4)
+                                .addComponent(notAmemberLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(signUpButton))))
                     .addGroup(LeftLayout.createSequentialGroup()
                         .addGap(126, 126, 126)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(loginLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(39, Short.MAX_VALUE))
         );
         LeftLayout.setVerticalGroup(
             LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(LeftLayout.createSequentialGroup()
                 .addGap(75, 75, 75)
-                .addComponent(jLabel1)
+                .addComponent(loginLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel2)
+                .addComponent(emailIndicatorLabel)
                 .addGap(18, 18, 18)
                 .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel3)
+                .addComponent(passwordIndicatorLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(passwordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -519,7 +515,7 @@ private void userLogin() {
                         .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
+                    .addComponent(notAmemberLabel)
                     .addComponent(signUpButton))
                 .addContainerGap(106, Short.MAX_VALUE))
         );
@@ -574,9 +570,13 @@ private void userLogin() {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Left;
     private javax.swing.JPanel Right;
+    private javax.swing.JLabel companyLogo;
+    private javax.swing.JLabel companyNameLabel;
+    private javax.swing.JLabel copyrightLabel;
     private javax.swing.JLabel emailAddressLabel;
     private javax.swing.JTextField emailAddressTextField;
     private javax.swing.JTextField emailField;
+    private javax.swing.JLabel emailIndicatorLabel;
     private javax.swing.JLabel emailLabel;
     private javax.swing.JTextField emailTextField;
     private javax.swing.JLabel forenameLabel;
@@ -585,19 +585,15 @@ private void userLogin() {
     private javax.swing.JDialog forgotPasswordDialog;
     private javax.swing.JLabel homeAddressLabel;
     private javax.swing.JTextField homeAddressTextField;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JButton loginButton;
+    private javax.swing.JLabel loginLabel;
     private javax.swing.JLabel mobileLabel;
     private javax.swing.JTextField mobileTextField;
+    private javax.swing.JLabel notAmemberLabel;
     private javax.swing.JPasswordField passwordField;
+    private javax.swing.JLabel passwordIndicatorLabel;
     private javax.swing.JLabel passwordLabel;
     private javax.swing.JLabel passwordSignupLabel;
     private javax.swing.JPasswordField passwordSignupTextField;

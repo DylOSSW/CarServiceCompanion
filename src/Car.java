@@ -32,7 +32,7 @@ public class Car {
     public double getPurchasePrice() { return purchasePrice; }
     public int getQuantityAvailable() { return quantityAvailable; }
     public boolean isAvailability() { return availability; }
-    
+
     // Getter for the imagePath
     public String getImagePath() {
         return imagePath;

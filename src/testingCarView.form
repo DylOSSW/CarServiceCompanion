@@ -74,6 +74,210 @@
         </Component>
       </SubComponents>
     </Container>
+    <Container class="javax.swing.JDialog" name="carViewDialog">
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Component id="jPanel5" alignment="0" max="32767" attributes="0"/>
+              <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Component id="jPanel5" alignment="0" max="32767" attributes="0"/>
+              <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Container class="javax.swing.JPanel" name="jPanel4">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,0,-106,0,0,1,114"/>
+          </AuxValues>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
+        </Container>
+        <Container class="javax.swing.JPanel" name="jPanel5">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                <LineBorder roundedCorners="true" thickness="6">
+                  <Color PropertyName="color" blue="ff" green="99" red="99" type="rgb"/>
+                </LineBorder>
+              </Border>
+            </Property>
+            <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[370, 150]"/>
+            </Property>
+            <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[370, 150]"/>
+            </Property>
+            <Property name="name" type="java.lang.String" value="" noResource="true"/>
+          </Properties>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+                      <Component id="carImage1" pref="290" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="133" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="priceLabel1" min="-2" pref="88" max="-2" attributes="0"/>
+                                  <Component id="makeModelLabel1" min="-2" pref="88" max="-2" attributes="0"/>
+                                  <Component id="yearLabel1" alignment="0" min="-2" pref="88" max="-2" attributes="0"/>
+                                  <Component id="conditionLabel" alignment="0" min="-2" pref="88" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Component id="confirmButton" min="-2" pref="94" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="purchasePriceLabel" min="-2" pref="88" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <Component id="rentButton" min="-2" pref="94" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="rentalPriceLabel" min="-2" pref="88" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="carImage1" min="-2" pref="274" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="makeModelLabel1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="priceLabel1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="yearLabel1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="conditionLabel" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="confirmButton" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
+                                  <Component id="purchasePriceLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="rentButton" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
+                                  <Component id="rentalPriceLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                      </Group>
+                      <EmptySpace pref="14" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JLabel" name="carImage1">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\D21124331\OneDrive - Technological University Dublin\Desktop\4th Year\GUI\Project\CarServiceCompanion\CarServiceCompanion\src\icon\baby-car.png"/>
+                </Property>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
+                    <MatteColorBorder/>
+                  </Border>
+                </Property>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="makeModelLabel1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Make/ Model"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="priceLabel1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Price"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="yearLabel1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Year"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="confirmButton">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="99" red="99" type="rgb"/>
+                </Property>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tw Cen MT" size="18" style="1"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Buy"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="rentButton">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="99" red="99" type="rgb"/>
+                </Property>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tw Cen MT" size="18" style="1"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Rent"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="purchasePriceLabel">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Purchase Price"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="rentalPriceLabel">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Rental Price"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="conditionLabel">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Condition"/>
+              </Properties>
+            </Component>
+          </SubComponents>
+        </Container>
+      </SubComponents>
+    </Container>
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
@@ -146,13 +350,15 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel3" min="-2" pref="292" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="108" max="-2" attributes="0"/>
-                      <Component id="jButton8" min="-2" pref="103" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="homeButton" min="-2" pref="103" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jButton" min="-2" pref="136" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jButton7" min="-2" pref="91" max="-2" attributes="0"/>
-                      <EmptySpace pref="40" max="32767" attributes="0"/>
+                      <Component id="carsButton" min="-2" pref="103" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="accountButton" min="-2" pref="136" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="logoutButton" min="-2" pref="91" max="-2" attributes="0"/>
+                      <EmptySpace pref="39" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -161,10 +367,11 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jButton" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
-                          <Component id="jButton7" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
-                          <Component id="jButton8" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
+                          <Component id="accountButton" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
+                          <Component id="logoutButton" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
+                          <Component id="homeButton" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
                           <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="carsButton" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -172,18 +379,18 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JButton" name="jButton">
+            <Component class="javax.swing.JButton" name="accountButton">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="14" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Account Details"/>
+                <Property name="text" type="java.lang.String" value="Account"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="accountButtonActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton7">
+            <Component class="javax.swing.JButton" name="logoutButton">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="14" style="0"/>
@@ -191,10 +398,10 @@
                 <Property name="text" type="java.lang.String" value="Logout"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton7ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="logoutButtonActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton8">
+            <Component class="javax.swing.JButton" name="homeButton">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="14" style="0"/>
@@ -202,7 +409,7 @@
                 <Property name="text" type="java.lang.String" value="Home"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton8ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="homeButtonActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel3">
@@ -215,6 +422,17 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="CarServiceCompanion"/>
               </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="carsButton">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Cars"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="carsButtonActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -279,17 +497,17 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="minyear2" alignment="0" max="32767" attributes="0"/>
+                              <Component id="minYearComboBox" alignment="0" max="32767" attributes="0"/>
                               <Component id="makeComboBox" alignment="0" max="32767" attributes="0"/>
-                              <Component id="minprice2" alignment="0" max="32767" attributes="0"/>
-                              <Component id="condition2" alignment="1" max="32767" attributes="0"/>
+                              <Component id="minPriceComboBox" alignment="0" max="32767" attributes="0"/>
+                              <Component id="conditionComboBox" alignment="1" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="allmodels2" alignment="0" pref="118" max="32767" attributes="0"/>
-                              <Component id="maxyear2" alignment="0" max="32767" attributes="0"/>
-                              <Component id="maxprice2" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jButton1" alignment="0" max="32767" attributes="0"/>
+                              <Component id="modelComboBox" alignment="0" pref="118" max="32767" attributes="0"/>
+                              <Component id="maxYearComboBox" alignment="0" max="32767" attributes="0"/>
+                              <Component id="maxPriceComboBox" alignment="0" max="32767" attributes="0"/>
+                              <Component id="searchButton" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                       </Group>
@@ -307,23 +525,23 @@
                           <Component id="jLabel1" min="-2" pref="39" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="allmodels2" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
+                              <Component id="modelComboBox" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
                               <Component id="makeComboBox" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="maxyear2" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
-                              <Component id="minyear2" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
+                              <Component id="maxYearComboBox" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
+                              <Component id="minYearComboBox" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="minprice2" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
-                              <Component id="maxprice2" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
+                              <Component id="minPriceComboBox" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
+                              <Component id="maxPriceComboBox" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="condition2" alignment="0" pref="38" max="32767" attributes="0"/>
-                              <Component id="jButton1" alignment="0" max="32767" attributes="0"/>
+                              <Component id="conditionComboBox" alignment="0" pref="38" max="32767" attributes="0"/>
+                              <Component id="searchButton" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace pref="14" max="32767" attributes="0"/>
                       </Group>
@@ -339,7 +557,7 @@
                     <Property name="text" type="java.lang.String" value="Refine your search"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JComboBox" name="allmodels2">
+                <Component class="javax.swing.JComboBox" name="modelComboBox">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="14" style="0"/>
@@ -362,13 +580,9 @@
                       <Font name="Segoe UI" size="14" style="0"/>
                     </Property>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="6">
+                      <StringArray count="2">
                         <StringItem index="0" value="All Makes"/>
-                        <StringItem index="1" value="Volkswagen"/>
-                        <StringItem index="2" value="Audi"/>
-                        <StringItem index="3" value="BMW"/>
-                        <StringItem index="4" value="Toyota"/>
-                        <StringItem index="5" value=" "/>
+                        <StringItem index="1" value=" "/>
                       </StringArray>
                     </Property>
                   </Properties>
@@ -377,49 +591,15 @@
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
                 </Component>
-                <Component class="javax.swing.JComboBox" name="maxyear2">
+                <Component class="javax.swing.JComboBox" name="maxYearComboBox">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="14" style="0"/>
                     </Property>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="36">
+                      <StringArray count="2">
                         <StringItem index="0" value="Max Year"/>
-                        <StringItem index="1" value="2024 "/>
-                        <StringItem index="2" value="2023 "/>
-                        <StringItem index="3" value="2022 "/>
-                        <StringItem index="4" value="2021 "/>
-                        <StringItem index="5" value="2020 "/>
-                        <StringItem index="6" value="2019 "/>
-                        <StringItem index="7" value="2018 "/>
-                        <StringItem index="8" value="2017 "/>
-                        <StringItem index="9" value="2016 "/>
-                        <StringItem index="10" value="2015 "/>
-                        <StringItem index="11" value="2014 "/>
-                        <StringItem index="12" value="2013 "/>
-                        <StringItem index="13" value="2012"/>
-                        <StringItem index="14" value="2011 "/>
-                        <StringItem index="15" value="2010 "/>
-                        <StringItem index="16" value="2009 "/>
-                        <StringItem index="17" value="2008 "/>
-                        <StringItem index="18" value="2007 "/>
-                        <StringItem index="19" value="2006 "/>
-                        <StringItem index="20" value="2005 "/>
-                        <StringItem index="21" value="2004, "/>
-                        <StringItem index="22" value="2003 "/>
-                        <StringItem index="23" value="2002 "/>
-                        <StringItem index="24" value="2001 "/>
-                        <StringItem index="25" value="2000 "/>
-                        <StringItem index="26" value="1999 "/>
-                        <StringItem index="27" value="1998 "/>
-                        <StringItem index="28" value="1997 "/>
-                        <StringItem index="29" value="1996 "/>
-                        <StringItem index="30" value="1995 "/>
-                        <StringItem index="31" value="1994 "/>
-                        <StringItem index="32" value="1993"/>
-                        <StringItem index="33" value="1992 "/>
-                        <StringItem index="34" value="1991 "/>
-                        <StringItem index="35" value="1990"/>
+                        <StringItem index="1" value=" "/>
                       </StringArray>
                     </Property>
                   </Properties>
@@ -428,49 +608,15 @@
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
                 </Component>
-                <Component class="javax.swing.JComboBox" name="minyear2">
+                <Component class="javax.swing.JComboBox" name="minYearComboBox">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="14" style="0"/>
                     </Property>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="36">
+                      <StringArray count="2">
                         <StringItem index="0" value="Min Year"/>
-                        <StringItem index="1" value="2024 "/>
-                        <StringItem index="2" value="2023 "/>
-                        <StringItem index="3" value="2022 "/>
-                        <StringItem index="4" value="2021 "/>
-                        <StringItem index="5" value="2020 "/>
-                        <StringItem index="6" value="2019 "/>
-                        <StringItem index="7" value="2018 "/>
-                        <StringItem index="8" value="2017 "/>
-                        <StringItem index="9" value="2016 "/>
-                        <StringItem index="10" value="2015 "/>
-                        <StringItem index="11" value="2014 "/>
-                        <StringItem index="12" value="2013 "/>
-                        <StringItem index="13" value="2012"/>
-                        <StringItem index="14" value="2011 "/>
-                        <StringItem index="15" value="2010 "/>
-                        <StringItem index="16" value="2009 "/>
-                        <StringItem index="17" value="2008 "/>
-                        <StringItem index="18" value="2007 "/>
-                        <StringItem index="19" value="2006 "/>
-                        <StringItem index="20" value="2005 "/>
-                        <StringItem index="21" value="2004, "/>
-                        <StringItem index="22" value="2003 "/>
-                        <StringItem index="23" value="2002 "/>
-                        <StringItem index="24" value="2001 "/>
-                        <StringItem index="25" value="2000 "/>
-                        <StringItem index="26" value="1999 "/>
-                        <StringItem index="27" value="1998 "/>
-                        <StringItem index="28" value="1997 "/>
-                        <StringItem index="29" value="1996 "/>
-                        <StringItem index="30" value="1995 "/>
-                        <StringItem index="31" value="1994 "/>
-                        <StringItem index="32" value="1993"/>
-                        <StringItem index="33" value="1992 "/>
-                        <StringItem index="34" value="1991 "/>
-                        <StringItem index="35" value="1990"/>
+                        <StringItem index="1" value=" "/>
                       </StringArray>
                     </Property>
                   </Properties>
@@ -479,52 +625,15 @@
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
                 </Component>
-                <Component class="javax.swing.JComboBox" name="maxprice2">
+                <Component class="javax.swing.JComboBox" name="maxPriceComboBox">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="14" style="0"/>
                     </Property>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="39">
+                      <StringArray count="2">
                         <StringItem index="0" value="Max Price"/>
-                        <StringItem index="1" value="&#x20ac;100"/>
-                        <StringItem index="2" value="&#x20ac;500"/>
-                        <StringItem index="3" value="&#x20ac;1,000"/>
-                        <StringItem index="4" value="&#x20ac;1,500"/>
-                        <StringItem index="5" value="&#x20ac;2000"/>
-                        <StringItem index="6" value="&#x20ac;2,500"/>
-                        <StringItem index="7" value="&#x20ac;3,000"/>
-                        <StringItem index="8" value="&#x20ac;3,500"/>
-                        <StringItem index="9" value="&#x20ac;4,000"/>
-                        <StringItem index="10" value="&#x20ac;4,500"/>
-                        <StringItem index="11" value="&#x20ac;5,000"/>
-                        <StringItem index="12" value="&#x20ac;5,500"/>
-                        <StringItem index="13" value="&#x20ac;6,000"/>
-                        <StringItem index="14" value="&#x20ac;6,500"/>
-                        <StringItem index="15" value="&#x20ac;7,000"/>
-                        <StringItem index="16" value="&#x20ac;7,500"/>
-                        <StringItem index="17" value="&#x20ac;8,000"/>
-                        <StringItem index="18" value="&#x20ac;8,500 "/>
-                        <StringItem index="19" value="&#x20ac;9,000"/>
-                        <StringItem index="20" value="&#x20ac;9,500"/>
-                        <StringItem index="21" value="&#x20ac;10,000"/>
-                        <StringItem index="22" value="&#x20ac;12,500"/>
-                        <StringItem index="23" value="&#x20ac;15,000"/>
-                        <StringItem index="24" value="&#x20ac;17,500"/>
-                        <StringItem index="25" value="&#x20ac;20,000"/>
-                        <StringItem index="26" value="&#x20ac;22,500"/>
-                        <StringItem index="27" value="&#x20ac;25000"/>
-                        <StringItem index="28" value="&#x20ac;27,500"/>
-                        <StringItem index="29" value="&#x20ac;30,000"/>
-                        <StringItem index="30" value="&#x20ac;40,000"/>
-                        <StringItem index="31" value="&#x20ac;45,000"/>
-                        <StringItem index="32" value="&#x20ac;50,000"/>
-                        <StringItem index="33" value="&#x20ac;60,000"/>
-                        <StringItem index="34" value="&#x20ac;70,000"/>
-                        <StringItem index="35" value="&#x20ac;80,000"/>
-                        <StringItem index="36" value="&#x20ac;90,000"/>
-                        <StringItem index="37" value="&#x20ac;100,000"/>
-                        <StringItem index="38" value="&#x20ac;125,000"/>
+                        <StringItem index="1" value=" "/>
                       </StringArray>
                     </Property>
                   </Properties>
@@ -533,52 +642,15 @@
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
                 </Component>
-                <Component class="javax.swing.JComboBox" name="minprice2">
+                <Component class="javax.swing.JComboBox" name="minPriceComboBox">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="14" style="0"/>
                     </Property>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="39">
+                      <StringArray count="2">
                         <StringItem index="0" value="Min Price"/>
-                        <StringItem index="1" value="&#x20ac;100"/>
-                        <StringItem index="2" value="&#x20ac;500"/>
-                        <StringItem index="3" value="&#x20ac;1,000"/>
-                        <StringItem index="4" value="&#x20ac;1,500"/>
-                        <StringItem index="5" value="&#x20ac;2000"/>
-                        <StringItem index="6" value="&#x20ac;2,500"/>
-                        <StringItem index="7" value="&#x20ac;3,000"/>
-                        <StringItem index="8" value="&#x20ac;3,500"/>
-                        <StringItem index="9" value="&#x20ac;4,000"/>
-                        <StringItem index="10" value="&#x20ac;4,500"/>
-                        <StringItem index="11" value="&#x20ac;5,000"/>
-                        <StringItem index="12" value="&#x20ac;5,500"/>
-                        <StringItem index="13" value="&#x20ac;6,000"/>
-                        <StringItem index="14" value="&#x20ac;6,500"/>
-                        <StringItem index="15" value="&#x20ac;7,000"/>
-                        <StringItem index="16" value="&#x20ac;7,500"/>
-                        <StringItem index="17" value="&#x20ac;8,000"/>
-                        <StringItem index="18" value="&#x20ac;8,500 "/>
-                        <StringItem index="19" value="&#x20ac;9,000"/>
-                        <StringItem index="20" value="&#x20ac;9,500"/>
-                        <StringItem index="21" value="&#x20ac;10,000"/>
-                        <StringItem index="22" value="&#x20ac;12,500"/>
-                        <StringItem index="23" value="&#x20ac;15,000"/>
-                        <StringItem index="24" value="&#x20ac;17,500"/>
-                        <StringItem index="25" value="&#x20ac;20,000"/>
-                        <StringItem index="26" value="&#x20ac;22,500"/>
-                        <StringItem index="27" value="&#x20ac;25000"/>
-                        <StringItem index="28" value="&#x20ac;27,500"/>
-                        <StringItem index="29" value="&#x20ac;30,000"/>
-                        <StringItem index="30" value="&#x20ac;40,000"/>
-                        <StringItem index="31" value="&#x20ac;45,000"/>
-                        <StringItem index="32" value="&#x20ac;50,000"/>
-                        <StringItem index="33" value="&#x20ac;60,000"/>
-                        <StringItem index="34" value="&#x20ac;70,000"/>
-                        <StringItem index="35" value="&#x20ac;80,000"/>
-                        <StringItem index="36" value="&#x20ac;90,000"/>
-                        <StringItem index="37" value="&#x20ac;100,000"/>
-                        <StringItem index="38" value="&#x20ac;125,000"/>
+                        <StringItem index="1" value=" "/>
                       </StringArray>
                     </Property>
                   </Properties>
@@ -587,16 +659,15 @@
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
                 </Component>
-                <Component class="javax.swing.JComboBox" name="condition2">
+                <Component class="javax.swing.JComboBox" name="conditionComboBox">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="14" style="0"/>
                     </Property>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="3">
+                      <StringArray count="2">
                         <StringItem index="0" value="Condition"/>
-                        <StringItem index="1" value="New"/>
-                        <StringItem index="2" value="Used"/>
+                        <StringItem index="1" value=" "/>
                       </StringArray>
                     </Property>
                   </Properties>
@@ -605,7 +676,7 @@
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
                 </Component>
-                <Component class="javax.swing.JButton" name="jButton1">
+                <Component class="javax.swing.JButton" name="searchButton">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="ff" green="99" red="66" type="rgb"/>
@@ -619,7 +690,7 @@
                     <Property name="text" type="java.lang.String" value="Search"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchButtonActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>

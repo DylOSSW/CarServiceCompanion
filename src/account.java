@@ -33,11 +33,30 @@ public class account extends javax.swing.JFrame {
         // Use getInstance() to call non-static methods on SessionManager
         SessionManager sessionManager = SessionManager.getInstance();
         if (sessionManager.isLoggedIn()) {
-            User user = sessionManager.getCurrentUser();
-            // Do something with the user information, like personalizing the UI
-            //welcomeLabel.setText("Welcome, " + user.getForename());
+            User currentUser = sessionManager.getCurrentUser();
+            
+                        // Extract user information
+            int id = currentUser.getId();
+            String email = currentUser.getEmail();
+            String forename = currentUser.getForename();
+            String surname = currentUser.getSurname();
+            String address = currentUser.getAddress();
+            String mobileNumber = currentUser.getMobileNumber();
+
+            // Set text fields with user information
+            emailTextField.setText(email);
+            forenameTextField.setText(forename);
+            surnameTextField.setText(surname);
+            addressTextField.setText(address);
+            mobileTextField.setText(mobileNumber);
+
         }
+        
+        
     }
+    
+        
+        
 
 // Method to set up action listeners for buttons responsible for switching cards
 private void setupCardChangeButtons() {
@@ -60,6 +79,7 @@ private void switchCard(String cardName) {
     // Method to set up action listeners for buttons responsible for opening different JFrames
     private void setupFrameChangeButtons() {
         addActionListenerToButton(homeButton, userHomePage.class);
+        addActionListenerToButton(carsButton, testingCarView.class);
         addActionListenerToButton(accountDetailsButton, account.class);
         addActionListenerToButton(logoutButton, login.class);
     }
@@ -111,10 +131,11 @@ private void switchCard(String cardName) {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel3 = new javax.swing.JPanel();
         navBarTop = new javax.swing.JPanel();
         accountButton = new javax.swing.JButton();
         logoutButton = new javax.swing.JButton();
-        logoutButton5 = new javax.swing.JButton();
+        carsButton = new javax.swing.JButton();
         carServiceLabel = new javax.swing.JLabel();
         homeButton = new javax.swing.JButton();
         navBarSide = new javax.swing.JPanel();
@@ -123,13 +144,36 @@ private void switchCard(String cardName) {
         returnsButton = new javax.swing.JButton();
         cardManager = new javax.swing.JPanel();
         accountCard = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        emailTextField = new javax.swing.JTextField();
+        forenameTextField = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        mobileTextField = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        surnameTextField = new javax.swing.JTextField();
+        addressTextField = new javax.swing.JTextField();
+        passwordTextField = new javax.swing.JPasswordField();
         currentVehiclesCard = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
 
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(800, 500));
         setSize(new java.awt.Dimension(800, 100));
 
         navBarTop.setBackground(new java.awt.Color(153, 153, 255));
@@ -151,11 +195,11 @@ private void switchCard(String cardName) {
             }
         });
 
-        logoutButton5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        logoutButton5.setText("Cars");
-        logoutButton5.addActionListener(new java.awt.event.ActionListener() {
+        carsButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        carsButton.setText("Cars");
+        carsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                logoutButton5jButton8ActionPerformed(evt);
+                carsButtonjButton8ActionPerformed(evt);
             }
         });
 
@@ -178,10 +222,10 @@ private void switchCard(String cardName) {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, navBarTopLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(carServiceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
                 .addComponent(homeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(logoutButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(carsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(accountButton, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -196,7 +240,7 @@ private void switchCard(String cardName) {
                     .addComponent(accountButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(carServiceLabel)
-                    .addComponent(logoutButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(carsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(homeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -209,7 +253,7 @@ private void switchCard(String cardName) {
         accountDetailsButton.setBackground(new java.awt.Color(153, 153, 255));
         accountDetailsButton.setFont(new java.awt.Font("Tw Cen MT", 0, 14)); // NOI18N
         accountDetailsButton.setForeground(new java.awt.Color(255, 255, 255));
-        accountDetailsButton.setText("Account");
+        accountDetailsButton.setText("Account Information");
         accountDetailsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 accountDetailsButtonActionPerformed(evt);
@@ -224,7 +268,7 @@ private void switchCard(String cardName) {
         returnsButton.setBackground(new java.awt.Color(153, 153, 255));
         returnsButton.setFont(new java.awt.Font("Tw Cen MT", 0, 14)); // NOI18N
         returnsButton.setForeground(new java.awt.Color(255, 255, 255));
-        returnsButton.setText("Returns");
+        returnsButton.setText("Account Status");
 
         javax.swing.GroupLayout navBarSideLayout = new javax.swing.GroupLayout(navBarSide);
         navBarSide.setLayout(navBarSideLayout);
@@ -257,26 +301,116 @@ private void switchCard(String cardName) {
         cardManager.setRequestFocusEnabled(false);
         cardManager.setLayout(new java.awt.CardLayout());
 
-        accountCard.setBackground(new java.awt.Color(102, 153, 255));
+        accountCard.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
-        jLabel1.setText("Account");
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 255)));
+
+        jLabel1.setFont(new java.awt.Font("Tw Cen MT", 0, 36)); // NOI18N
+        jLabel1.setText("Account Information");
+
+        jLabel3.setText("Forename");
+
+        jLabel4.setText("Surname");
+
+        jLabel5.setText("Mobile Number");
+
+        jLabel6.setText("Home Address");
+
+        emailTextField.setText("jTextField4");
+
+        forenameTextField.setText("jTextField4");
+
+        jLabel7.setText("Email Address");
+
+        mobileTextField.setText("jTextField4");
+
+        jLabel8.setText("Password");
+
+        surnameTextField.setText("jTextField4");
+
+        addressTextField.setText("jTextField4");
+
+        passwordTextField.setText("jPasswordField1");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(forenameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(106, 106, 106)
+                                .addComponent(surnameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel7)
+                                    .addComponent(mobileTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(106, 106, 106)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(addressTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
+                                    .addComponent(passwordTextField))))))
+                .addContainerGap(171, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(jLabel1)
+                .addGap(27, 27, 27)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(forenameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(surnameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(23, 23, 23)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6))
+                .addGap(29, 29, 29)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(mobileTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(33, 33, 33)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel8))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(passwordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(116, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout accountCardLayout = new javax.swing.GroupLayout(accountCard);
         accountCard.setLayout(accountCardLayout);
         accountCardLayout.setHorizontalGroup(
             accountCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(accountCardLayout.createSequentialGroup()
-                .addGap(327, 327, 327)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(121, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         accountCardLayout.setVerticalGroup(
             accountCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(accountCardLayout.createSequentialGroup()
-                .addGap(143, 143, 143)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(184, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, accountCardLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         cardManager.add(accountCard, "card2");
@@ -325,9 +459,9 @@ private void switchCard(String cardName) {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void logoutButton5jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButton5jButton8ActionPerformed
+    private void carsButtonjButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carsButtonjButton8ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_logoutButton5jButton8ActionPerformed
+    }//GEN-LAST:event_carsButtonjButton8ActionPerformed
 
     private void logoutButtonjButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonjButton7ActionPerformed
         // TODO add your handling code here:
@@ -384,18 +518,32 @@ private void switchCard(String cardName) {
     private javax.swing.JButton accountButton;
     private javax.swing.JPanel accountCard;
     private javax.swing.JButton accountDetailsButton;
+    private javax.swing.JTextField addressTextField;
     private javax.swing.JLabel carServiceLabel;
     private javax.swing.JPanel cardManager;
+    private javax.swing.JButton carsButton;
     private javax.swing.JButton currentVehiclesButton;
     private javax.swing.JPanel currentVehiclesCard;
+    private javax.swing.JTextField emailTextField;
+    private javax.swing.JTextField forenameTextField;
     private javax.swing.JButton homeButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JButton logoutButton;
-    private javax.swing.JButton logoutButton5;
+    private javax.swing.JTextField mobileTextField;
     private javax.swing.JPanel navBarSide;
     private javax.swing.JPanel navBarTop;
+    private javax.swing.JPasswordField passwordTextField;
     private javax.swing.JButton returnsButton;
+    private javax.swing.JTextField surnameTextField;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,56 +1,201 @@
-
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 
 public class testingCarView extends javax.swing.JFrame {
 
     public testingCarView() {
         initComponents(); // NetBeans GUI Builder initializes components here
+        setupFrameChangeButtons();
+        setupLogoutButton();
+        populateComboBoxes();
 
         carScrollPane.getVerticalScrollBar().setUnitIncrement(16); // This makes the scrolling step 16 pixels at a time
         carScrollPane.getHorizontalScrollBar().setUnitIncrement(16);
 
-
         // Set the layout with gaps between components
         scrollJPanel.setLayout(new BoxLayout(scrollJPanel, BoxLayout.Y_AXIS));
-        int verticalGap = 10; // This is the vertical space between the CarPanels
-        int horizontalGap = 10; // This is the horizontal space on the sides of the CarPanels
+        int panelSpacing = 10; // Space between panels
 
         // Add a compound border to the scrollJPanel for spacing between panels and edges.
         scrollJPanel.setBorder(BorderFactory.createCompoundBorder(
             scrollJPanel.getBorder(), 
-            BorderFactory.createEmptyBorder(verticalGap, horizontalGap, verticalGap, horizontalGap)
+            BorderFactory.createEmptyBorder(panelSpacing, panelSpacing, panelSpacing, panelSpacing)
         ));
-        int panelSpacing = 10; // Space between panels
-        SimpleDBConnect dbConnect = new SimpleDBConnect();
-        List<Car> cars = dbConnect.getCarsFromDatabase(); // This should return a List<Car>
-        for (Car car : cars) {
-            CarPanel carPane = new CarPanel(); // Create a new CarPane
-    
-            // Assuming car.getImagePath() returns a String that points to the image file
-            ImageIcon imageIcon = new ImageIcon(car.getImagePath());
-            carPane.setCarImageIcon(imageIcon); // Set the car image icon
 
-            // Set the make/model text. Assuming you have both make and model available
-            String makeModel = car.getCarMake() + " " + car.getCarModel();
-            carPane.setMakeModelText(makeModel); // Combine make and model for display
+        // Add ActionListener to SearchCars button
+        searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                searchCars();
+                
+            }
+        });
+        
+        // Use getInstance() to call non-static methods on SessionManager
+        SessionManager sessionManager = SessionManager.getInstance();
+        if (sessionManager.isLoggedIn()) {
+            User user = sessionManager.getCurrentUser();
 
-            // Set the price text, converting double to String
-            String priceText = String.format("$%.2f", car.getPurchasePrice());
-            carPane.setPriceText(priceText); // Format price to 2 decimal places
-
-            // Set the year text, converting int to String
-            String yearText = Integer.toString(car.getCarYear());
-            carPane.setYearText(yearText); // Convert year to String
-            carPane.setBorder(BorderFactory.createEmptyBorder(panelSpacing, 0, panelSpacing, 0));
-            scrollJPanel.add(carPane); // Add carPane to the JScrollPane
         }
+    }
 
-        scrollJPanel.revalidate(); // Refresh the scrollJPanel layout
-        scrollJPanel.repaint(); // Redraw the scrollJPanel
+    private void populateComboBoxes() {
+        SimpleDBConnect DBConnection = new SimpleDBConnect();
+        DBConnection.populateComboBox(makeComboBox, "CarMake", "Vehicles");
+        DBConnection.populateComboBox(modelComboBox, "CarModel", "Vehicles");
+        DBConnection.populateComboBox(minYearComboBox, "CarYear", "Vehicles");
+        DBConnection.populateComboBox(maxYearComboBox, "CarYear", "Vehicles");
+        DBConnection.populateComboBox(minPriceComboBox, "RentalPrice", "Vehicles");
+        DBConnection.populateComboBox(maxPriceComboBox, "RentalPrice", "Vehicles");
+        DBConnection.populateComboBox(conditionComboBox, "Availability", "Vehicles");
+    }
 
+    private void searchCars() {
+        SimpleDBConnect DBConnection = new SimpleDBConnect();
+        String selectedMake = makeComboBox.getSelectedItem().toString();
+        String selectedModel = modelComboBox.getSelectedItem().toString();
+        String minYear = minYearComboBox.getSelectedItem().toString();
+        String maxYear = maxYearComboBox.getSelectedItem().toString();
+        String minPrice = minPriceComboBox.getSelectedItem().toString();
+        String maxPrice = maxPriceComboBox.getSelectedItem().toString();
+        String selectedCondition = conditionComboBox.getSelectedItem().toString();
+
+        // Call the searchCars function in DBConnection with selected options
+        List<Car> cars = DBConnection.searchCars2(selectedMake, selectedModel, minYear, maxYear, minPrice, maxPrice, selectedCondition);
+
+        // Populate the scroll view with cars
+        populateScrollView(cars);
+    }
+
+
+private void populateScrollView(List<Car> cars) {
+    // Clear the existing content in the scroll view
+    scrollJPanel.removeAll();
+
+    // Set the layout with gaps between components
+    scrollJPanel.setLayout(new BoxLayout(scrollJPanel, BoxLayout.Y_AXIS));
+    int panelSpacing = 10; // Space between panels
+
+    // Iterate over the cars and populate the scroll view
+    for (Car car : cars) {
+        CarPanel carPane = new CarPanel();
+        
+        // Assuming car.getImagePath() returns a String that points to the image file
+        ImageIcon imageIcon = new ImageIcon(car.getImagePath());
+        carPane.setCarImageIcon(imageIcon); // Set the car image icon
+
+        // Set the make/model text
+        String makeModel = car.getCarMake() + " " + car.getCarModel();
+        carPane.setMakeModelText(makeModel); // Combine make and model for display
+
+        // Set the price text
+        String priceText = String.format("$%.2f", car.getPurchasePrice());
+        carPane.setPriceText(priceText); // Format price to 2 decimal places
+
+        // Set the year text
+        String yearText = Integer.toString(car.getCarYear());
+        carPane.setYearText(yearText); // Convert year to String
+        
+        int carID = car.getCarID();
+        System.out.println(carID);
+
+         carPane.getBuyButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Open a JDialog when the "Buy" button is clicked
+                JDialog buyDialog = new JDialog(testingCarView.this, "Purchase Car", true);
+                buyDialog.setLayout(new FlowLayout());
+                
+                // Populate the dialog with components such as form fields and a purchase button
+                // Here, just a label for example
+                buyDialog.add(new JLabel("Implement the purchase form here."));
+                
+                // Add a button to confirm the purchase
+                JButton confirmButton = new JButton("Confirm Purchase");
+                confirmButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                SimpleDBConnect DBConnection = new SimpleDBConnect();
+                boolean wasPurchased = DBConnection.confirmPurchase(carID);
+                if (wasPurchased) {
+                    JOptionPane.showMessageDialog(testingCarView.this, "Purchase successful!");
+                } else {
+                    JOptionPane.showMessageDialog(testingCarView.this, "Purchase failed. Please try again.");
+                }
+                buyDialog.dispose(); // Close the dialog
+        }
+});
+
+                
+                buyDialog.add(confirmButton);
+                
+                // Set the dialog size and make it visible
+                buyDialog.setSize(300, 200);
+                buyDialog.setLocationRelativeTo(testingCarView.this);
+                buyDialog.setVisible(true);
+            }
+        });
+
+        scrollJPanel.add(carPane); // Add carPane to the JScrollPane
+    }
+
+    scrollJPanel.revalidate();
+    scrollJPanel.repaint();
+}
+
+    // Method to set up action listeners for buttons responsible for opening different JFrames
+    private void setupFrameChangeButtons() {
+        addActionListenerToButton(homeButton, userHomePage.class);
+        addActionListenerToButton(carsButton, testingCarView.class);
+        addActionListenerToButton(accountButton, account.class);
+        addActionListenerToButton(logoutButton, login.class);
+    }
+
+    // Method to add an action listener to a button to open a specific JFrame
+    private void addActionListenerToButton(JButton button, Class<? extends JFrame> frameClass) {
+        button.addActionListener(e -> openFrameAndCloseCurrent(frameClass));
+    }
+    
+    // Call this method in the constructor or initialization block to set up the logout button
+    private void setupLogoutButton() {
+        logoutButton.addActionListener(e -> logoutAndOpenLogin());
+    }
+    
+
+    // This method will handle the logout process and switch to the login screen
+    private void logoutAndOpenLogin() {
+        // Logout the user
+        SessionManager.getInstance().logout();
+
+
+        // Close the current frame
+        this.dispose();
+
+        // Open the login screen
+        JFrame loginFrame = new login();
+        loginFrame.setVisible(true);
+    }
+
+    // Method to open a new JFrame and close the current one
+    private void openFrameAndCloseCurrent(Class<? extends JFrame> frameClass) {
+        try {
+            JFrame frame = frameClass.getDeclaredConstructor().newInstance();
+            frame.setVisible(true);
+            this.dispose(); // Close the current frame
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
         
         
@@ -68,23 +213,36 @@ public class testingCarView extends javax.swing.JFrame {
         makeModelLabel = new javax.swing.JLabel();
         priceLabel = new javax.swing.JLabel();
         yearLabel = new javax.swing.JLabel();
+        carViewDialog = new javax.swing.JDialog();
+        jPanel4 = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        carImage1 = new javax.swing.JLabel();
+        makeModelLabel1 = new javax.swing.JLabel();
+        priceLabel1 = new javax.swing.JLabel();
+        yearLabel1 = new javax.swing.JLabel();
+        confirmButton = new javax.swing.JButton();
+        rentButton = new javax.swing.JButton();
+        purchasePriceLabel = new javax.swing.JLabel();
+        rentalPriceLabel = new javax.swing.JLabel();
+        conditionLabel = new javax.swing.JLabel();
         Account = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jButton = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
+        accountButton = new javax.swing.JButton();
+        logoutButton = new javax.swing.JButton();
+        homeButton = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        carsButton = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        allmodels2 = new javax.swing.JComboBox<>();
+        modelComboBox = new javax.swing.JComboBox<>();
         makeComboBox = new javax.swing.JComboBox<>();
-        maxyear2 = new javax.swing.JComboBox<>();
-        minyear2 = new javax.swing.JComboBox<>();
-        maxprice2 = new javax.swing.JComboBox<>();
-        minprice2 = new javax.swing.JComboBox<>();
-        condition2 = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
+        maxYearComboBox = new javax.swing.JComboBox<>();
+        minYearComboBox = new javax.swing.JComboBox<>();
+        maxPriceComboBox = new javax.swing.JComboBox<>();
+        minPriceComboBox = new javax.swing.JComboBox<>();
+        conditionComboBox = new javax.swing.JComboBox<>();
+        searchButton = new javax.swing.JButton();
         carScrollPane = new javax.swing.JScrollPane();
         scrollJPanel = new javax.swing.JPanel();
 
@@ -128,6 +286,114 @@ public class testingCarView extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.LINE_AXIS));
+
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 255), 6, true));
+        jPanel5.setMaximumSize(new java.awt.Dimension(370, 150));
+        jPanel5.setMinimumSize(new java.awt.Dimension(370, 150));
+        jPanel5.setName(""); // NOI18N
+
+        carImage1.setIcon(new javax.swing.ImageIcon("C:\\Users\\D21124331\\OneDrive - Technological University Dublin\\Desktop\\4th Year\\GUI\\Project\\CarServiceCompanion\\CarServiceCompanion\\src\\icon\\baby-car.png")); // NOI18N
+        carImage1.setBorder(new javax.swing.border.MatteBorder(null));
+
+        makeModelLabel1.setText("Make/ Model");
+
+        priceLabel1.setText("Price");
+
+        yearLabel1.setText("Year");
+
+        confirmButton.setBackground(new java.awt.Color(153, 153, 255));
+        confirmButton.setFont(new java.awt.Font("Tw Cen MT", 1, 18)); // NOI18N
+        confirmButton.setForeground(new java.awt.Color(255, 255, 255));
+        confirmButton.setText("Buy");
+
+        rentButton.setBackground(new java.awt.Color(153, 153, 255));
+        rentButton.setFont(new java.awt.Font("Tw Cen MT", 1, 18)); // NOI18N
+        rentButton.setForeground(new java.awt.Color(255, 255, 255));
+        rentButton.setText("Rent");
+
+        purchasePriceLabel.setText("Purchase Price");
+
+        rentalPriceLabel.setText("Rental Price");
+
+        conditionLabel.setText("Condition");
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(carImage1, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(133, 133, 133)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(priceLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(makeModelLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(yearLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(conditionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(confirmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(purchasePriceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(rentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(rentalPriceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(carImage1, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(makeModelLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(priceLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(yearLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(conditionLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(confirmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(purchasePriceLabel))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(rentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(rentalPriceLabel))))
+                .addContainerGap(14, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout carViewDialogLayout = new javax.swing.GroupLayout(carViewDialog.getContentPane());
+        carViewDialog.getContentPane().setLayout(carViewDialogLayout);
+        carViewDialogLayout.setHorizontalGroup(
+            carViewDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(carViewDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(carViewDialogLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        carViewDialogLayout.setVerticalGroup(
+            carViewDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(carViewDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(carViewDialogLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         Account.setBackground(new java.awt.Color(255, 255, 255));
@@ -138,33 +404,41 @@ public class testingCarView extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(153, 153, 255));
         jPanel2.setMinimumSize(new java.awt.Dimension(800, 60));
 
-        jButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton.setText("Account Details");
-        jButton.addActionListener(new java.awt.event.ActionListener() {
+        accountButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        accountButton.setText("Account");
+        accountButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonActionPerformed(evt);
+                accountButtonActionPerformed(evt);
             }
         });
 
-        jButton7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton7.setText("Logout");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
+        logoutButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        logoutButton.setText("Logout");
+        logoutButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
+                logoutButtonActionPerformed(evt);
             }
         });
 
-        jButton8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton8.setText("Home");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
+        homeButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        homeButton.setText("Home");
+        homeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
+                homeButtonActionPerformed(evt);
             }
         });
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("CarServiceCompanion");
+
+        carsButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        carsButton.setText("Cars");
+        carsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                carsButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -173,23 +447,26 @@ public class testingCarView extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(108, 108, 108)
-                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(homeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addComponent(carsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(accountButton, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(39, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
+                    .addComponent(accountButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(homeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(carsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -205,34 +482,34 @@ public class testingCarView extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("Refine your search");
 
-        allmodels2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        allmodels2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Models", " " }));
+        modelComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        modelComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Models", " " }));
 
         makeComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        makeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Makes", "Volkswagen", "Audi", "BMW", "Toyota", " " }));
+        makeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Makes", " " }));
 
-        maxyear2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        maxyear2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Max Year", "2024 ", "2023 ", "2022 ", "2021 ", "2020 ", "2019 ", "2018 ", "2017 ", "2016 ", "2015 ", "2014 ", "2013 ", "2012", "2011 ", "2010 ", "2009 ", "2008 ", "2007 ", "2006 ", "2005 ", "2004, ", "2003 ", "2002 ", "2001 ", "2000 ", "1999 ", "1998 ", "1997 ", "1996 ", "1995 ", "1994 ", "1993", "1992 ", "1991 ", "1990" }));
+        maxYearComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        maxYearComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Max Year", " " }));
 
-        minyear2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        minyear2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Min Year", "2024 ", "2023 ", "2022 ", "2021 ", "2020 ", "2019 ", "2018 ", "2017 ", "2016 ", "2015 ", "2014 ", "2013 ", "2012", "2011 ", "2010 ", "2009 ", "2008 ", "2007 ", "2006 ", "2005 ", "2004, ", "2003 ", "2002 ", "2001 ", "2000 ", "1999 ", "1998 ", "1997 ", "1996 ", "1995 ", "1994 ", "1993", "1992 ", "1991 ", "1990" }));
+        minYearComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        minYearComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Min Year", " " }));
 
-        maxprice2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        maxprice2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Max Price", "€100", "€500", "€1,000", "€1,500", "€2000", "€2,500", "€3,000", "€3,500", "€4,000", "€4,500", "€5,000", "€5,500", "€6,000", "€6,500", "€7,000", "€7,500", "€8,000", "€8,500 ", "€9,000", "€9,500", "€10,000", "€12,500", "€15,000", "€17,500", "€20,000", "€22,500", "€25000", "€27,500", "€30,000", "€40,000", "€45,000", "€50,000", "€60,000", "€70,000", "€80,000", "€90,000", "€100,000", "€125,000" }));
+        maxPriceComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        maxPriceComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Max Price", " " }));
 
-        minprice2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        minprice2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Min Price", "€100", "€500", "€1,000", "€1,500", "€2000", "€2,500", "€3,000", "€3,500", "€4,000", "€4,500", "€5,000", "€5,500", "€6,000", "€6,500", "€7,000", "€7,500", "€8,000", "€8,500 ", "€9,000", "€9,500", "€10,000", "€12,500", "€15,000", "€17,500", "€20,000", "€22,500", "€25000", "€27,500", "€30,000", "€40,000", "€45,000", "€50,000", "€60,000", "€70,000", "€80,000", "€90,000", "€100,000", "€125,000" }));
+        minPriceComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        minPriceComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Min Price", " " }));
 
-        condition2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        condition2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Condition", "New", "Used" }));
+        conditionComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        conditionComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Condition", " " }));
 
-        jButton1.setBackground(new java.awt.Color(102, 153, 255));
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Search");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        searchButton.setBackground(new java.awt.Color(102, 153, 255));
+        searchButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        searchButton.setForeground(new java.awt.Color(255, 255, 255));
+        searchButton.setText("Search");
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                searchButtonActionPerformed(evt);
             }
         });
 
@@ -243,16 +520,16 @@ public class testingCarView extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(minyear2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(minYearComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(makeComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(minprice2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(condition2, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(minPriceComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(conditionComboBox, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(allmodels2, 0, 118, Short.MAX_VALUE)
-                    .addComponent(maxyear2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(maxprice2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(modelComboBox, 0, 118, Short.MAX_VALUE)
+                    .addComponent(maxYearComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(maxPriceComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(searchButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(36, 36, 36))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(38, 38, 38)
@@ -266,20 +543,20 @@ public class testingCarView extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(allmodels2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(modelComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(makeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(maxyear2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(minyear2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(maxYearComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(minYearComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(minprice2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(maxprice2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(minPriceComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(maxPriceComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(condition2, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(conditionComboBox, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
+                    .addComponent(searchButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
@@ -352,21 +629,25 @@ public class testingCarView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+    private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton7ActionPerformed
+    }//GEN-LAST:event_logoutButtonActionPerformed
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+    private void homeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton8ActionPerformed
+    }//GEN-LAST:event_homeButtonActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_searchButtonActionPerformed
 
-    private void jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActionPerformed
+    private void accountButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accountButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonActionPerformed
+    }//GEN-LAST:event_accountButtonActionPerformed
+
+    private void carsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carsButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_carsButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -405,28 +686,41 @@ public class testingCarView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Account;
-    private javax.swing.JComboBox<String> allmodels2;
+    private javax.swing.JButton accountButton;
     private javax.swing.JLabel carImage;
+    private javax.swing.JLabel carImage1;
     private javax.swing.JPanel carPanel;
     private javax.swing.JScrollPane carScrollPane;
-    private javax.swing.JComboBox<String> condition2;
-    private javax.swing.JButton jButton;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
+    private javax.swing.JDialog carViewDialog;
+    private javax.swing.JButton carsButton;
+    private javax.swing.JComboBox<String> conditionComboBox;
+    private javax.swing.JLabel conditionLabel;
+    private javax.swing.JButton confirmButton;
+    private javax.swing.JButton homeButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JButton logoutButton;
     private javax.swing.JComboBox<String> makeComboBox;
     private javax.swing.JLabel makeModelLabel;
-    private javax.swing.JComboBox<String> maxprice2;
-    private javax.swing.JComboBox<String> maxyear2;
-    private javax.swing.JComboBox<String> minprice2;
-    private javax.swing.JComboBox<String> minyear2;
+    private javax.swing.JLabel makeModelLabel1;
+    private javax.swing.JComboBox<String> maxPriceComboBox;
+    private javax.swing.JComboBox<String> maxYearComboBox;
+    private javax.swing.JComboBox<String> minPriceComboBox;
+    private javax.swing.JComboBox<String> minYearComboBox;
+    private javax.swing.JComboBox<String> modelComboBox;
     private javax.swing.JLabel priceLabel;
+    private javax.swing.JLabel priceLabel1;
+    private javax.swing.JLabel purchasePriceLabel;
+    private javax.swing.JButton rentButton;
+    private javax.swing.JLabel rentalPriceLabel;
     private javax.swing.JPanel scrollJPanel;
+    private javax.swing.JButton searchButton;
     private javax.swing.JLabel yearLabel;
+    private javax.swing.JLabel yearLabel1;
     // End of variables declaration//GEN-END:variables
 }

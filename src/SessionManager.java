@@ -1,3 +1,7 @@
+/**
+ * SessionManager class manages the user session within the application.
+ * It provides functionality for logging in, logging out, and retrieving the current user.
+ */
 public class SessionManager {
     private static SessionManager instance; 
     private User currentUser;
