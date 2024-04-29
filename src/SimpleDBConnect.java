@@ -95,6 +95,31 @@ public class SimpleDBConnect {
         
     }
     
+    public Admin adminLogin(String email, String password) {
+    Admin admin = null;
+    try (Connection connection = DriverManager.getConnection(dbURL)) {
+        // Note the capitalization of the column names to match your database schema
+            String sql = "SELECT * FROM Admin WHERE emailAddress = ? AND password = ?";        
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, email);
+                preparedStatement.setString(2, password);
+
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        int adminID = resultSet.getInt("ID");
+                        String adminEmail = resultSet.getString("emailAddress");
+
+                        // Assuming that the email used for login is the same as in the database
+                        admin = new Admin(adminID, adminEmail);
+                    }
+                }
+        }
+    } catch (SQLException sqlex) {
+        System.err.println(sqlex.getMessage());
+    }
+    return admin;
+}
+    
     public boolean updatePassword(String email, String newPassword) {
     String sql = "UPDATE Users SET Password = ? WHERE Email = ?";
     try (Connection connection = DriverManager.getConnection(dbURL);
@@ -163,7 +188,7 @@ public User userLogin(String email, String password) {
                     String address = resultSet.getString("Address");
                     String mobileNumber = resultSet.getString("Mobile");
                     // Assuming that the email used for login is the same as in the database
-                    //user = new User(userID, email, forename, surname, address, mobileNumber);
+                    user = new User(userID, email, forename, surname, address, mobileNumber);
                 }
             }
         }

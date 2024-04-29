@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 
+
 public class login extends javax.swing.JFrame {
 
     /**
@@ -28,7 +29,7 @@ public class login extends javax.swing.JFrame {
         });
     }
     
-    private void adminLogin() {
+    /*private void adminLogin() {
         String email = emailTextField.getText();
         String password = new String(passwordTextField.getPassword());
     
@@ -47,7 +48,30 @@ public class login extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Login Failed. Please check your credentials.", "Login Failed", JOptionPane.ERROR_MESSAGE);
         }
+    }*/
+    
+    private void adminLogin() {
+    String email = emailTextField.getText();
+    String password = new String(passwordTextField.getPassword());
+
+    SimpleDBConnect dbConnect = new SimpleDBConnect();
+    Admin admin = dbConnect.adminLogin(email, password); // This should return a User object or null
+
+    if (admin != null) {
+        SessionManager.getInstance().adminlogin(admin); // Use the getInstance() method to get the SessionManager instance
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+
+                JOptionPane.showMessageDialog(null, "Login Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
+                dispose(); // Dispose of the login window
+                AdminHome adminHome = new AdminHome();
+                adminHome.setVisible(true); // Make sure it's visible (if not already handled in the constructor)
+            }
+        });
+    } else {
+        JOptionPane.showMessageDialog(this, "Login Failed. Please check your credentials.", "Login Failed", JOptionPane.ERROR_MESSAGE);
     }
+}
     
 private void userLogin() {
     String email = emailTextField.getText();

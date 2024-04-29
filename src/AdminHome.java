@@ -18,6 +18,24 @@ public class AdminHome extends javax.swing.JFrame {
     public AdminHome() {
         initComponents();
         setupActionListeners();
+        
+        // Use getInstance() to call non-static methods on SessionManager
+        SessionManager sessionManager = SessionManager.getInstance();
+        if (sessionManager.adminLoggedIn()) {
+            Admin currentAdmin = sessionManager.getCurrentAdmin();
+            
+                        // Extract user information
+            int adminID = currentAdmin.getID();
+            //String email = currentUser.getEmail();
+            String adminEmail = currentAdmin.getEmail();
+            
+
+            // Set text fields with user information
+            //String currentText = greetingText.getText();
+            //String updatedText = currentText + adminEmail;
+            //greetingText.setText(updatedText);
+
+        }
     }
 
     // Method to set up action listeners for various buttons related to functionality
@@ -56,32 +74,42 @@ public class AdminHome extends javax.swing.JFrame {
         RentedVehicles = new javax.swing.JScrollPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(910, 468));
+        setPreferredSize(new java.awt.Dimension(885, 530));
         setResizable(false);
         getContentPane().setLayout(null);
 
-        NavigationMenu.setBackground(new java.awt.Color(102, 102, 102));
+        NavigationMenu.setBackground(new java.awt.Color(33, 116, 177));
 
-        DashboardButton.setText("jButton1");
+        DashboardButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/home_35.png"))); // NOI18N
+        DashboardButton.setBorderPainted(false);
+        DashboardButton.setContentAreaFilled(false);
 
-        UsersButton.setText("jButton1");
+        UsersButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/manageusers_35.png"))); // NOI18N
+        UsersButton.setBorderPainted(false);
+        UsersButton.setContentAreaFilled(false);
 
-        VehiclesButton.setText("jButton1");
+        VehiclesButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/managevehicles_35.png"))); // NOI18N
+        VehiclesButton.setBorderPainted(false);
+        VehiclesButton.setContentAreaFilled(false);
 
-        OverdueAccountsButton.setText("jButton1");
+        OverdueAccountsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/overdue_35.png"))); // NOI18N
+        OverdueAccountsButton.setBorderPainted(false);
+        OverdueAccountsButton.setContentAreaFilled(false);
 
         javax.swing.GroupLayout NavigationMenuLayout = new javax.swing.GroupLayout(NavigationMenu);
         NavigationMenu.setLayout(NavigationMenuLayout);
         NavigationMenuLayout.setHorizontalGroup(
             NavigationMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(NavigationMenuLayout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addGroup(NavigationMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(UsersButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(DashboardButton, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(VehiclesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(OverdueAccountsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(NavigationMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(VehiclesButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(NavigationMenuLayout.createSequentialGroup()
+                        .addComponent(DashboardButton, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(OverdueAccountsButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(UsersButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         NavigationMenuLayout.setVerticalGroup(
             NavigationMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -94,7 +122,7 @@ public class AdminHome extends javax.swing.JFrame {
                 .addComponent(OverdueAccountsButton)
                 .addGap(33, 33, 33)
                 .addComponent(VehiclesButton)
-                .addContainerGap(164, Short.MAX_VALUE))
+                .addContainerGap(88, Short.MAX_VALUE))
         );
 
         getContentPane().add(NavigationMenu);
@@ -150,9 +178,9 @@ public class AdminHome extends javax.swing.JFrame {
                     .addComponent(AvailableVehicles, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
                 .addGroup(DashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(OverdueAccounts, javax.swing.GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE)
-                    .addComponent(RentedVehicles))
-                .addGap(20, 20, 20))
+                    .addComponent(RentedVehicles, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)
+                    .addComponent(OverdueAccounts))
+                .addGap(46, 46, 46))
         );
         DashboardLayout.setVerticalGroup(
             DashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
