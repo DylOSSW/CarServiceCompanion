@@ -159,8 +159,12 @@ private void switchCard(String cardName) {
         addressTextField = new javax.swing.JTextField();
         passwordTextField = new javax.swing.JPasswordField();
         currentVehiclesCard = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -174,6 +178,7 @@ private void switchCard(String cardName) {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Account Information");
         setSize(new java.awt.Dimension(800, 100));
 
         navBarTop.setBackground(new java.awt.Color(153, 153, 255));
@@ -222,7 +227,7 @@ private void switchCard(String cardName) {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, navBarTopLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(carServiceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 135, Short.MAX_VALUE)
                 .addComponent(homeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(carsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -291,7 +296,7 @@ private void switchCard(String cardName) {
                 .addComponent(currentVehiclesButton)
                 .addGap(18, 18, 18)
                 .addComponent(returnsButton)
-                .addContainerGap(255, Short.MAX_VALUE))
+                .addContainerGap(265, Short.MAX_VALUE))
         );
 
         getContentPane().add(navBarSide, java.awt.BorderLayout.WEST);
@@ -316,19 +321,9 @@ private void switchCard(String cardName) {
 
         jLabel6.setText("Home Address");
 
-        emailTextField.setText("jTextField4");
-
-        forenameTextField.setText("jTextField4");
-
         jLabel7.setText("Email Address");
 
-        mobileTextField.setText("jTextField4");
-
         jLabel8.setText("Password");
-
-        surnameTextField.setText("jTextField4");
-
-        addressTextField.setText("jTextField4");
 
         passwordTextField.setText("jPasswordField1");
 
@@ -362,7 +357,7 @@ private void switchCard(String cardName) {
                                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(addressTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
                                     .addComponent(passwordTextField))))))
-                .addContainerGap(171, Short.MAX_VALUE))
+                .addContainerGap(241, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -393,7 +388,7 @@ private void switchCard(String cardName) {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(passwordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(116, Short.MAX_VALUE))
+                .addContainerGap(126, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout accountCardLayout = new javax.swing.GroupLayout(accountCard);
@@ -415,41 +410,84 @@ private void switchCard(String cardName) {
 
         cardManager.add(accountCard, "card2");
 
-        currentVehiclesCard.setBackground(new java.awt.Color(0, 102, 102));
+        currentVehiclesCard.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
-        jLabel2.setText("Current Vehicles");
+        jLabel9.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel9.setIcon(new javax.swing.ImageIcon("C:\\Users\\D21124331\\OneDrive - Technological University Dublin\\Desktop\\4th Year\\GUI\\Project\\CarServiceCompanion\\CarServiceCompanion\\src\\icon\\TBD.jpg")); // NOI18N
+        jLabel9.setText("jLabel9");
+
+        jLabel2.setFont(new java.awt.Font("Tw Cen MT", 0, 36)); // NOI18N
+        jLabel2.setText("Account Information");
+
+        jLabel10.setFont(new java.awt.Font("Tw Cen MT", 0, 36)); // NOI18N
+        jLabel10.setText("Current Vehicles");
 
         javax.swing.GroupLayout currentVehiclesCardLayout = new javax.swing.GroupLayout(currentVehiclesCard);
         currentVehiclesCard.setLayout(currentVehiclesCardLayout);
         currentVehiclesCardLayout.setHorizontalGroup(
             currentVehiclesCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, currentVehiclesCardLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
             .addGroup(currentVehiclesCardLayout.createSequentialGroup()
-                .addGap(327, 327, 327)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addGap(15, 15, 15)
+                .addComponent(jLabel10)
+                .addGap(0, 453, Short.MAX_VALUE))
+            .addGroup(currentVehiclesCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(currentVehiclesCardLayout.createSequentialGroup()
+                    .addGap(209, 209, 209)
+                    .addComponent(jLabel2)
+                    .addContainerGap(209, Short.MAX_VALUE)))
         );
         currentVehiclesCardLayout.setVerticalGroup(
             currentVehiclesCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(currentVehiclesCardLayout.createSequentialGroup()
-                .addGap(143, 143, 143)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(184, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, currentVehiclesCardLayout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(currentVehiclesCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(currentVehiclesCardLayout.createSequentialGroup()
+                    .addGap(206, 206, 206)
+                    .addComponent(jLabel2)
+                    .addContainerGap(207, Short.MAX_VALUE)))
         );
 
         cardManager.add(currentVehiclesCard, "card3");
 
-        jPanel1.setBackground(new java.awt.Color(204, 204, 255));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel11.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel11.setIcon(new javax.swing.ImageIcon("C:\\Users\\D21124331\\OneDrive - Technological University Dublin\\Desktop\\4th Year\\GUI\\Project\\CarServiceCompanion\\CarServiceCompanion\\src\\icon\\TBD.jpg")); // NOI18N
+        jLabel11.setText("jLabel9");
+
+        jLabel12.setFont(new java.awt.Font("Tw Cen MT", 0, 36)); // NOI18N
+        jLabel12.setText("Account Status");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 630, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 688, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(19, 19, 19)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(426, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 443, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 116, Short.MAX_VALUE)
+                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(16, 16, 16)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(368, Short.MAX_VALUE)))
         );
 
         cardManager.add(jPanel1, "card5");
@@ -528,6 +566,9 @@ private void switchCard(String cardName) {
     private javax.swing.JTextField forenameTextField;
     private javax.swing.JButton homeButton;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -535,6 +576,7 @@ private void switchCard(String cardName) {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

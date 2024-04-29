@@ -30,6 +30,7 @@ public class userHomePage extends javax.swing.JFrame {
     private void setupFrameChangeButtons() {
         addActionListenerToButton(homeButton, userHomePage.class);
         addActionListenerToButton(carsButton, testingCarView.class);
+        addActionListenerToButton(searchButton, testingCarView.class);
         addActionListenerToButton(accountDetailsButton, account.class);
         addActionListenerToButton(logoutButton, login.class);
     }
@@ -93,10 +94,11 @@ public class userHomePage extends javax.swing.JFrame {
         minYearComboBox = new javax.swing.JComboBox<>();
         maxPriceComboBox = new javax.swing.JComboBox<>();
         minPriceComboBox = new javax.swing.JComboBox<>();
-        conditionComboBox = new javax.swing.JComboBox<>();
         searchButton = new javax.swing.JButton();
+        conditionComboBox = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Home Page");
 
         userHomePagePanel.setBackground(new java.awt.Color(255, 255, 255));
         userHomePagePanel.setToolTipText("");
@@ -224,12 +226,13 @@ public class userHomePage extends javax.swing.JFrame {
         minPriceComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         minPriceComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Min Price" }));
 
-        conditionComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-
         searchButton.setBackground(new java.awt.Color(102, 153, 255));
         searchButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         searchButton.setForeground(new java.awt.Color(255, 255, 255));
         searchButton.setText("Search");
+
+        conditionComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        conditionComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Condition", "New", "Used", " " }));
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -278,9 +281,9 @@ public class userHomePage extends javax.swing.JFrame {
                     .addComponent(maxPriceComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(conditionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(searchButton))
-                .addContainerGap(36, Short.MAX_VALUE))
+                    .addComponent(searchButton)
+                    .addComponent(conditionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         makeComboBox.setSelectedIndex(0); // Sets the first item in the model to be selected
@@ -320,7 +323,7 @@ public class userHomePage extends javax.swing.JFrame {
                 .addGroup(jLayeredPane1Layout.createSequentialGroup()
                     .addGap(23, 23, 23)
                     .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(30, Short.MAX_VALUE)))
+                    .addContainerGap(24, Short.MAX_VALUE)))
         );
 
         userHomePagePanel.add(jLayeredPane1);

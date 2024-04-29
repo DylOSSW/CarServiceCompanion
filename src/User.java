@@ -6,7 +6,6 @@ public class User {
     private String address;
     private String mobileNumber;
 
-    // Updated constructor to accept and initialize the additional fields
     public User(int id, String email, String forename, String surname, String address, String mobileNumber) {
         this.id = id;
         this.email = email;

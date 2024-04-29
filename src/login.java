@@ -18,9 +18,13 @@ public class login extends javax.swing.JFrame {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                adminLogin();
-                userLogin();
+                String selectedRole = (String) roleComboBox.getSelectedItem();
+                if ("Admin".equals(selectedRole)) {
+                    adminLogin();
+                 } else {
+                    userLogin();
             }
+                }
         });
     }
     
@@ -56,6 +60,7 @@ private void userLogin() {
         SessionManager.getInstance().login(user); // Use the getInstance() method to get the SessionManager instance
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
+
                 JOptionPane.showMessageDialog(null, "Login Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
                 dispose(); // Dispose of the login window
                 userHomePage userHomePage = new userHomePage();
@@ -184,9 +189,10 @@ private void userLogin() {
     private void initComponents() {
 
         forgotPasswordDialog = new javax.swing.JDialog();
+        jPanel2 = new javax.swing.JPanel();
         emailLabel = new javax.swing.JLabel();
-        emailField = new javax.swing.JTextField();
         passwordLabel = new javax.swing.JLabel();
+        emailField = new javax.swing.JTextField();
         passwordField = new javax.swing.JPasswordField();
         resetPasswordButton = new javax.swing.JButton();
         signUpDialog = new javax.swing.JDialog();
@@ -220,9 +226,12 @@ private void userLogin() {
         notAmemberLabel = new javax.swing.JLabel();
         signUpButton = new javax.swing.JButton();
         forgotPasswordButton = new javax.swing.JButton();
+        roleComboBox = new javax.swing.JComboBox<>();
 
         forgotPasswordDialog.setBackground(new java.awt.Color(100, 118, 135));
         forgotPasswordDialog.setFocusTraversalPolicyProvider(true);
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 255), 2));
 
         emailLabel.setFont(new java.awt.Font("Tw Cen MT", 0, 14)); // NOI18N
         emailLabel.setText("Email Address:");
@@ -234,34 +243,51 @@ private void userLogin() {
         resetPasswordButton.setFont(new java.awt.Font("Tw Cen MT", 0, 14)); // NOI18N
         resetPasswordButton.setText("Reset Password");
 
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(emailLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(passwordLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(28, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(resetPasswordButton, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(emailLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(passwordLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(resetPasswordButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout forgotPasswordDialogLayout = new javax.swing.GroupLayout(forgotPasswordDialog.getContentPane());
         forgotPasswordDialog.getContentPane().setLayout(forgotPasswordDialogLayout);
         forgotPasswordDialogLayout.setHorizontalGroup(
             forgotPasswordDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(forgotPasswordDialogLayout.createSequentialGroup()
-                .addGroup(forgotPasswordDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(forgotPasswordDialogLayout.createSequentialGroup()
-                        .addComponent(emailLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(forgotPasswordDialogLayout.createSequentialGroup()
-                        .addComponent(passwordLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(resetPasswordButton))
-                .addContainerGap(137, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         forgotPasswordDialogLayout.setVerticalGroup(
             forgotPasswordDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(forgotPasswordDialogLayout.createSequentialGroup()
-                .addGroup(forgotPasswordDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(emailLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(forgotPasswordDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(passwordLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addComponent(resetPasswordButton)
-                .addContainerGap(156, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         signUpDialog.setBackground(new java.awt.Color(100, 118, 135));
@@ -376,7 +402,7 @@ private void userLogin() {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("LOGIN");
+        setTitle("Login Page");
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
         jPanel1.setToolTipText("");
@@ -467,6 +493,11 @@ private void userLogin() {
         forgotPasswordButton.setForeground(new java.awt.Color(0, 102, 255));
         forgotPasswordButton.setText("Forgot Password?");
 
+        roleComboBox.setBackground(new java.awt.Color(153, 153, 255));
+        roleComboBox.setFont(new java.awt.Font("Tw Cen MT", 0, 14)); // NOI18N
+        roleComboBox.setForeground(new java.awt.Color(255, 255, 255));
+        roleComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "User" }));
+
         javax.swing.GroupLayout LeftLayout = new javax.swing.GroupLayout(Left);
         Left.setLayout(LeftLayout);
         LeftLayout.setHorizontalGroup(
@@ -479,7 +510,7 @@ private void userLogin() {
                             .addComponent(passwordIndicatorLabel)
                             .addGroup(LeftLayout.createSequentialGroup()
                                 .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 132, Short.MAX_VALUE)
                                 .addComponent(forgotPasswordButton))
                             .addComponent(emailIndicatorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(passwordTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
@@ -492,6 +523,10 @@ private void userLogin() {
                         .addGap(126, 126, 126)
                         .addComponent(loginLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(39, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LeftLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(roleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28))
         );
         LeftLayout.setVerticalGroup(
             LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -517,7 +552,9 @@ private void userLogin() {
                 .addGroup(LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(notAmemberLabel)
                     .addComponent(signUpButton))
-                .addContainerGap(106, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
+                .addComponent(roleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jPanel1.add(Left);
@@ -586,6 +623,7 @@ private void userLogin() {
     private javax.swing.JLabel homeAddressLabel;
     private javax.swing.JTextField homeAddressTextField;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JButton loginButton;
     private javax.swing.JLabel loginLabel;
@@ -600,6 +638,7 @@ private void userLogin() {
     private javax.swing.JPasswordField passwordTextField;
     private javax.swing.JButton registerButton;
     private javax.swing.JButton resetPasswordButton;
+    private javax.swing.JComboBox<String> roleComboBox;
     private javax.swing.JButton signUpButton;
     private javax.swing.JDialog signUpDialog;
     private javax.swing.JLabel signupTitleLabel;
