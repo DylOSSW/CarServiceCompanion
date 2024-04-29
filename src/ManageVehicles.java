@@ -52,9 +52,12 @@ public class ManageVehicles extends javax.swing.JFrame {
             
 
             // Set text fields with user information
-            //String currentText = greetingText.getText();
-            //String updatedText = currentText + adminEmail;
-            //greetingText.setText(updatedText);
+            String currentText = greetingText.getText();
+            String updatedText = currentText + adminEmail;
+            String currentidText = currentID.getText();
+            String updatedidText = currentidText + adminID;
+            greetingText.setText(updatedText);
+            currentID.setText(updatedidText);
 
         }
     }
@@ -152,13 +155,21 @@ public class ManageVehicles extends javax.swing.JFrame {
         EditBtn = new javax.swing.JButton();
         RemoveBtn = new javax.swing.JButton();
         SearchCars = new javax.swing.JButton();
+        greetingText = new javax.swing.JLabel();
+        currentID = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         NavigationMenu = new javax.swing.JPanel();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 220), new java.awt.Dimension(0, 10), new java.awt.Dimension(32767, 160));
         DashboardButton = new javax.swing.JButton();
+        filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 140));
         UsersButton = new javax.swing.JButton();
+        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 5), new java.awt.Dimension(0, 20));
         VehiclesButton = new javax.swing.JButton();
+        filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 20));
         OverdueAccountsButton = new javax.swing.JButton();
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 50), new java.awt.Dimension(32767, 140));
         LogoutBtn = new javax.swing.JButton();
+        filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(32767, 20));
 
         addVehicleDialog.setBounds(new java.awt.Rectangle(0, 0, 0, 0));
         addVehicleDialog.setModal(true);
@@ -422,6 +433,10 @@ public class ManageVehicles extends javax.swing.JFrame {
 
         SearchCars.setText("Search");
 
+        greetingText.setText("Welcome ");
+
+        currentID.setText("ID: ");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -444,7 +459,10 @@ public class ManageVehicles extends javax.swing.JFrame {
                     .addComponent(SearchCars, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(MaxPrice, 0, 105, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(MinYear, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(MinYear, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(greetingText)
+                    .addComponent(currentID))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(MaxYear, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -469,7 +487,11 @@ public class ManageVehicles extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(AddBtn)
                         .addComponent(EditBtn)
-                        .addComponent(RemoveBtn)))
+                        .addComponent(RemoveBtn))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(greetingText)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(currentID)))
                 .addContainerGap())
         );
 
@@ -498,25 +520,35 @@ public class ManageVehicles extends javax.swing.JFrame {
         Dashboard.setBounds(60, 0, 810, 500);
 
         NavigationMenu.setBackground(new java.awt.Color(33, 116, 177));
+        NavigationMenu.setLayout(new javax.swing.BoxLayout(NavigationMenu, javax.swing.BoxLayout.Y_AXIS));
+        NavigationMenu.add(filler1);
 
         DashboardButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/home_35.png"))); // NOI18N
         DashboardButton.setBorderPainted(false);
         DashboardButton.setContentAreaFilled(false);
         DashboardButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        NavigationMenu.add(DashboardButton);
+        NavigationMenu.add(filler6);
 
         UsersButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/manageusers_35.png"))); // NOI18N
         UsersButton.setAlignmentY(0.0F);
         UsersButton.setBorderPainted(false);
         UsersButton.setContentAreaFilled(false);
         UsersButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        NavigationMenu.add(UsersButton);
+        NavigationMenu.add(filler4);
 
         VehiclesButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/managevehicles_35.png"))); // NOI18N
         VehiclesButton.setBorderPainted(false);
         VehiclesButton.setContentAreaFilled(false);
+        NavigationMenu.add(VehiclesButton);
+        NavigationMenu.add(filler5);
 
         OverdueAccountsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/overdue_35.png"))); // NOI18N
         OverdueAccountsButton.setBorderPainted(false);
         OverdueAccountsButton.setContentAreaFilled(false);
+        NavigationMenu.add(OverdueAccountsButton);
+        NavigationMenu.add(filler2);
 
         LogoutBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/logout_35.png"))); // NOI18N
         LogoutBtn.setBorderPainted(false);
@@ -526,36 +558,8 @@ public class ManageVehicles extends javax.swing.JFrame {
                 LogoutBtnActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout NavigationMenuLayout = new javax.swing.GroupLayout(NavigationMenu);
-        NavigationMenu.setLayout(NavigationMenuLayout);
-        NavigationMenuLayout.setHorizontalGroup(
-            NavigationMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(NavigationMenuLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(NavigationMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(LogoutBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
-                    .addComponent(VehiclesButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(OverdueAccountsButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(DashboardButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(UsersButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        NavigationMenuLayout.setVerticalGroup(
-            NavigationMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(NavigationMenuLayout.createSequentialGroup()
-                .addGap(105, 105, 105)
-                .addComponent(DashboardButton)
-                .addGap(96, 96, 96)
-                .addComponent(UsersButton)
-                .addGap(18, 18, 18)
-                .addComponent(OverdueAccountsButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(VehiclesButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(LogoutBtn)
-                .addContainerGap(47, Short.MAX_VALUE))
-        );
+        NavigationMenu.add(LogoutBtn);
+        NavigationMenu.add(filler3);
 
         getContentPane().add(NavigationMenu);
         NavigationMenu.setBounds(0, 0, 60, 500);
@@ -830,7 +834,15 @@ public class ManageVehicles extends javax.swing.JFrame {
     private javax.swing.JButton UsersButton;
     private javax.swing.JButton VehiclesButton;
     private javax.swing.JDialog addVehicleDialog;
+    private javax.swing.JLabel currentID;
     private javax.swing.JDialog editVehicleDialog;
+    private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler2;
+    private javax.swing.Box.Filler filler3;
+    private javax.swing.Box.Filler filler4;
+    private javax.swing.Box.Filler filler5;
+    private javax.swing.Box.Filler filler6;
+    private javax.swing.JLabel greetingText;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
