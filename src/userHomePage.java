@@ -1,22 +1,32 @@
+/**
+ * Name:           Dylan Holmwood and Kristers Martukans
+ * Student Number: D21124331 and D21124318
+ * Date:           29th April 2024
+ * Module Title:   GUI Design and Database Connectivity
+ * Module Code:    COMP4604
+ * Lecturer:       Lejla Rovcanin
+ * Assignment:     Team Project
+ * Project:        CarServiceCompanion
+ */
+
 import javax.swing.JFrame;
 import javax.swing.JButton;
 
 public class userHomePage extends javax.swing.JFrame {
 
-    /**
-     * Creates new form userHomePage
-     */
     public userHomePage() {
-        initComponents();
-        setupFrameChangeButtons();
-        setupLogoutButton();
-        populateComboBoxes();
-
-
+        initComponents(); // Initialize components
+        setupFrameChangeButtons(); // Setup action listeners for buttons
+        setupLogoutButton(); // Setup logout button
+        populateComboBoxes(); // Populate combo boxes
     }
     
+    /**
+    * Populates combo boxes with data from the database.
+    */
     private void populateComboBoxes() {
-        SimpleDBConnect DBConnection = new SimpleDBConnect();
+        SimpleDBConnect DBConnection = new SimpleDBConnect(); // Create a database connection object
+        // Populate combo boxes with data from the database
         DBConnection.populateComboBox(makeComboBox, "CarMake", "Vehicles");
         DBConnection.populateComboBox(modelComboBox, "CarModel", "Vehicles");
         DBConnection.populateComboBox(minYearComboBox, "CarYear", "Vehicles");
@@ -25,32 +35,38 @@ public class userHomePage extends javax.swing.JFrame {
         DBConnection.populateComboBox(maxPriceComboBox, "RentalPrice", "Vehicles");
         DBConnection.populateComboBox(conditionComboBox, "Availability", "Vehicles");
     }
-    
-    // Method to set up action listeners for buttons responsible for opening different JFrames
+
+    /**
+    * Sets up action listeners for buttons responsible for opening different JFrames.
+    */
     private void setupFrameChangeButtons() {
-        addActionListenerToButton(homeButton, userHomePage.class);
-        addActionListenerToButton(carsButton, testingCarView.class);
-        addActionListenerToButton(searchButton, testingCarView.class);
-        addActionListenerToButton(accountDetailsButton, account.class);
-        addActionListenerToButton(logoutButton, login.class);
+        addActionListenerToButton(homeButton, userHomePage.class); // Home button
+        addActionListenerToButton(carsButton, testingCarView.class); // Cars button
+        addActionListenerToButton(searchButton, testingCarView.class); // Search button
+        addActionListenerToButton(accountDetailsButton, account.class); // Account details button
+        addActionListenerToButton(logoutButton, login.class); // Logout button
     }
 
-    // Method to add an action listener to a button to open a specific JFrame
+    /**
+    * Adds an action listener to a button to open a specific JFrame.
+    */
     private void addActionListenerToButton(JButton button, Class<? extends JFrame> frameClass) {
         button.addActionListener(e -> openFrameAndCloseCurrent(frameClass));
     }
-    
-    // Call this method in the constructor or initialization block to set up the logout button
+
+    /**
+    * Sets up the logout button by adding an action listener to it.
+    */
     private void setupLogoutButton() {
         logoutButton.addActionListener(e -> logoutAndOpenLogin());
     }
-    
 
-    // This method will handle the logout process and switch to the login screen
+    /**
+    * Handles the logout process and switches to the login screen.
+    */
     private void logoutAndOpenLogin() {
         // Logout the user
         SessionManager.getInstance().logout();
-
 
         // Close the current frame
         this.dispose();
@@ -60,16 +76,20 @@ public class userHomePage extends javax.swing.JFrame {
         loginFrame.setVisible(true);
     }
 
-    // Method to open a new JFrame and close the current one
+    /**
+    * Opens a new JFrame and closes the current one.
+    */
     private void openFrameAndCloseCurrent(Class<? extends JFrame> frameClass) {
         try {
             JFrame frame = frameClass.getDeclaredConstructor().newInstance();
-            frame.setVisible(true);
+            frame.setVisible(true); // Show the new frame
             this.dispose(); // Close the current frame
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+
         
 
     @SuppressWarnings("unchecked")

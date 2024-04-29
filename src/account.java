@@ -1,3 +1,13 @@
+/**
+ * Name:           Dylan Holmwood and Kristers Martukans
+ * Student Number: D21124331 and D21124318
+ * Date:           29th April 2024
+ * Module Title:   GUI Design and Database Connectivity
+ * Module Code:    COMP4604
+ * Lecturer:       Lejla Rovcanin
+ * Assignment:     Team Project
+ * Project:        CarServiceCompanion
+ */
 import java.awt.CardLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -6,36 +16,30 @@ import javax.swing.JFrame;
 public class account extends javax.swing.JFrame {
     private CardLayout cardLayout;
 
-    /**
-     * Creates new form account
-     */
     public account() {
-        initComponents();
-        setupFrameChangeButtons();
-        setupLogoutButton();
-          // Assuming cardManager is already declared and initialized by initComponents()
+        initComponents(); 
+        setupFrameChangeButtons(); // Setup action listeners for frame change buttons
+        setupLogoutButton(); // Setup logout button
+
         cardLayout = (CardLayout) cardManager.getLayout(); // Get the CardLayout from cardManager
         
+        // Add card panels to the card manager
         cardManager.add(accountCard, "accountCard");
         cardManager.add(currentVehiclesCard, "currentVehiclesCard");
         cardManager.add(jPanel1, "returnsCard");
-
-    
-        setupCardChangeButtons();
+        
+        setupCardChangeButtons(); // Setup action listeners for card change buttons
 
         // Set 'accountCard' to be the first viewed card when the application starts
-        cardLayout.show(cardManager, "accountCard"); // The string must match the name used in cardManager.add(...)
+        cardLayout.show(cardManager, "accountCard"); 
         this.setVisible(true); 
-
-  
-
 
         // Use getInstance() to call non-static methods on SessionManager
         SessionManager sessionManager = SessionManager.getInstance();
         if (sessionManager.isLoggedIn()) {
             User currentUser = sessionManager.getCurrentUser();
             
-                        // Extract user information
+            // Extract user information
             int id = currentUser.getId();
             String email = currentUser.getEmail();
             String forename = currentUser.getForename();
@@ -49,57 +53,63 @@ public class account extends javax.swing.JFrame {
             surnameTextField.setText(surname);
             addressTextField.setText(address);
             mobileTextField.setText(mobileNumber);
-
         }
-        
-        
     }
-    
-        
-        
 
-// Method to set up action listeners for buttons responsible for switching cards
-private void setupCardChangeButtons() {
-    addActionListenerToCardButton(accountDetailsButton, "accountCard");
-    addActionListenerToCardButton(currentVehiclesButton, "currentVehiclesCard");
-    addActionListenerToCardButton(returnsButton, "returnsCard");
-}
+    /**
+    * Set up action listeners for buttons responsible for switching cards.
+    */
+    private void setupCardChangeButtons() {
+        addActionListenerToCardButton(accountDetailsButton, "accountCard");
+        addActionListenerToCardButton(currentVehiclesButton, "currentVehiclesCard");
+        addActionListenerToCardButton(returnsButton, "returnsCard");
+    }
 
-// Method to add an action listener to a button to switch to a specific card
-private void addActionListenerToCardButton(JButton button, String cardName) {
-    button.addActionListener(e -> switchCard(cardName));
-}
+    /**
+    * Add an action listener to a button to switch to a specific card.
+    */
+    private void addActionListenerToCardButton(JButton button, String cardName) {
+        button.addActionListener(e -> switchCard(cardName));
+    }
 
-private void switchCard(String cardName) {
-    System.out.println("Switching to card: " + cardName); // Debug output
-    cardLayout.show(cardManager, cardName);
-}
+    /**
+    * Switch to a specific card.
+    */
+    private void switchCard(String cardName) {
+        System.out.println("Switching to card: " + cardName); // Debug output
+        cardLayout.show(cardManager, cardName); // Switch to the specified card
+    }
 
-
-    // Method to set up action listeners for buttons responsible for opening different JFrames
+    /**
+    * Set up action listeners for buttons responsible for opening different JFrames.
+    */
     private void setupFrameChangeButtons() {
-        addActionListenerToButton(homeButton, userHomePage.class);
-        addActionListenerToButton(carsButton, testingCarView.class);
-        addActionListenerToButton(accountDetailsButton, account.class);
-        addActionListenerToButton(logoutButton, login.class);
+        addActionListenerToButton(homeButton, userHomePage.class); // Home button
+        addActionListenerToButton(carsButton, testingCarView.class); // Cars button
+        addActionListenerToButton(accountDetailsButton, account.class); // Account details button
+        addActionListenerToButton(logoutButton, login.class); // Logout button
     }
 
-    // Method to add an action listener to a button to open a specific JFrame
+    /**
+    * Add an action listener to a button to open a specific JFrame.
+    */
     private void addActionListenerToButton(JButton button, Class<? extends JFrame> frameClass) {
         button.addActionListener(e -> openFrameAndCloseCurrent(frameClass));
     }
-    
-    // Call this method in the constructor or initialization block to set up the logout button
+
+    /**
+    * Set up the logout button.
+     */
     private void setupLogoutButton() {
         logoutButton.addActionListener(e -> logoutAndOpenLogin());
     }
-    
 
-    // This method will handle the logout process and switch to the login screen
+    /**
+    * Handle logout and switch to the login screen.
+    */
     private void logoutAndOpenLogin() {
         // Logout the user
         SessionManager.getInstance().logout();
-
 
         // Close the current frame
         this.dispose();
@@ -109,16 +119,19 @@ private void switchCard(String cardName) {
         loginFrame.setVisible(true);
     }
 
-    // Method to open a new JFrame and close the current one
+    /**
+    * Open a new JFrame and close the current one.
+    */
     private void openFrameAndCloseCurrent(Class<? extends JFrame> frameClass) {
         try {
             JFrame frame = frameClass.getDeclaredConstructor().newInstance();
-            frame.setVisible(true);
+            frame.setVisible(true); // Show the new frame
             this.dispose(); // Close the current frame
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
 
 

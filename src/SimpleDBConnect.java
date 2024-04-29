@@ -67,27 +67,30 @@ public class SimpleDBConnect {
         }
     }
 
-    public boolean login(String email, String password) {
-        boolean loginSuccess = false;
-        try (Connection connection = DriverManager.getConnection(dbURL)) {
-            String sql = "SELECT * FROM Admin WHERE emailAddress = ? AND password = ?";
+    public Admin adminLogin(String email, String password) {
+    Admin admin = null;
+    try (Connection connection = DriverManager.getConnection(dbURL)) {
+        // Note the capitalization of the column names to match your database schema
+            String sql = "SELECT * FROM Admin WHERE emailAddress = ? AND password = ?";        
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, email);
                 preparedStatement.setString(2, password);
 
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    // Check if the email contains the specific domain, not the password
-                    if (resultSet.next() && email.contains("@carservicecompanion.ie")) {
-                        loginSuccess = true;
+                    if (resultSet.next()) {
+                        int adminID = resultSet.getInt("ID");
+                        String adminEmail = resultSet.getString("emailAddress");
+
+                        // Assuming that the email used for login is the same as in the database
+                        admin = new Admin(adminID, adminEmail);
                     }
                 }
-            }
-        } catch (SQLException sqlex) {
-            System.err.println(sqlex.getMessage());
         }
-        return loginSuccess;
-        
+    } catch (SQLException sqlex) {
+        System.err.println(sqlex.getMessage());
     }
+    return admin;
+}
     
     public boolean updatePassword(String email, String newPassword) {
     String sql = "UPDATE Users SET Password = ? WHERE Email = ?";
@@ -143,29 +146,41 @@ public List<Car> getCarsFromDatabase() {
 public User userLogin(String email, String password) {
     User user = null;
     try (Connection connection = DriverManager.getConnection(dbURL)) {
+        System.out.println("Database connection established.");
+
         // Note the capitalization of the column names to match your database schema
         String sql = "SELECT UserID, Email, Forename, Surname, Address, Mobile FROM Users WHERE Email = ? AND Password = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, email);
             preparedStatement.setString(2, password);
+            System.out.println("Executing query with Email: " + email + " and Password: [PROTECTED]");
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
+                    System.out.println("User found in database.");
                     int userID = resultSet.getInt("UserID");
                     String forename = resultSet.getString("Forename");
                     String surname = resultSet.getString("Surname");
                     String address = resultSet.getString("Address");
                     String mobileNumber = resultSet.getString("Mobile");
-                    // Assuming that the email used for login is the same as in the database
-                    //user = new User(userID, email, forename, surname, address, mobileNumber);
+
+                    user = new User(userID, email, forename, surname, address, mobileNumber);
+                } else {
+                    System.out.println("No user found with the provided credentials.");
                 }
             }
         }
     } catch (SQLException sqlex) {
-        System.err.println(sqlex.getMessage());
+        System.err.println("SQL Error: " + sqlex.getMessage());
+    }
+    if (user != null) {
+        System.out.println("Returning a valid user object for: " + user.getForename() + " " + user.getSurname());
+    } else {
+        System.out.println("Returning null (no user found or error occurred).");
     }
     return user;
 }
+
 
     
 public boolean signUpNewUser(String forename, String surname, String email, String password, String address, String mobile) {

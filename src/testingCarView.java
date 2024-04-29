@@ -1,3 +1,14 @@
+/**
+ * Name:           Dylan Holmwood and Kristers Martukans
+ * Student Number: D21124331 and D21124318
+ * Date:           29th April 2024
+ * Module Title:   GUI Design and Database Connectivity
+ * Module Code:    COMP4604
+ * Lecturer:       Lejla Rovcanin
+ * Assignment:     Team Project
+ * Project:        CarServiceCompanion
+ */
+
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,26 +19,29 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 
 public class testingCarView extends javax.swing.JFrame {
 
+    /**
+     * Constructor for TestingCarView class.
+     */
     public testingCarView() {
-        initComponents(); // NetBeans GUI Builder initializes components here
-        setupFrameChangeButtons();
-        setupLogoutButton();
-        populateComboBoxes();
+        initComponents(); 
+        setupFrameChangeButtons(); // Set up action listeners for frame change buttons
+        setupLogoutButton(); // Set up logout button
+        populateComboBoxes(); // Populate combo boxes with data
 
-        carScrollPane.getVerticalScrollBar().setUnitIncrement(16); // This makes the scrolling step 16 pixels at a time
+        // Set scrolling step size
+        carScrollPane.getVerticalScrollBar().setUnitIncrement(16);
         carScrollPane.getHorizontalScrollBar().setUnitIncrement(16);
 
-        // Set the layout with gaps between components
+        // Set layout with gaps between components
         scrollJPanel.setLayout(new BoxLayout(scrollJPanel, BoxLayout.Y_AXIS));
         int panelSpacing = 10; // Space between panels
 
-        // Add a compound border to the scrollJPanel for spacing between panels and edges.
+        // Add compound border to scrollJPanel for spacing between panels and edges
         scrollJPanel.setBorder(BorderFactory.createCompoundBorder(
             scrollJPanel.getBorder(), 
             BorderFactory.createEmptyBorder(panelSpacing, panelSpacing, panelSpacing, panelSpacing)
@@ -37,21 +51,23 @@ public class testingCarView extends javax.swing.JFrame {
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                searchCars();
-                
+                searchCars(); // Perform car search
             }
         });
         
-        // Use getInstance() to call non-static methods on SessionManager
+        // Use getInstance() to call methods on SessionManager
         SessionManager sessionManager = SessionManager.getInstance();
         if (sessionManager.isLoggedIn()) {
             User user = sessionManager.getCurrentUser();
-
         }
     }
 
+    /**
+     * Populate combo boxes with data.
+     */
     private void populateComboBoxes() {
         SimpleDBConnect DBConnection = new SimpleDBConnect();
+        // Populate combo boxes with data from database
         DBConnection.populateComboBox(makeComboBox, "CarMake", "Vehicles");
         DBConnection.populateComboBox(modelComboBox, "CarModel", "Vehicles");
         DBConnection.populateComboBox(minYearComboBox, "CarYear", "Vehicles");
@@ -61,8 +77,12 @@ public class testingCarView extends javax.swing.JFrame {
         DBConnection.populateComboBox(conditionComboBox, "Availability", "Vehicles");
     }
 
+    /**
+     * Perform car search.
+     */
     private void searchCars() {
         SimpleDBConnect DBConnection = new SimpleDBConnect();
+        // Get selected options from combo boxes
         String selectedMake = makeComboBox.getSelectedItem().toString();
         String selectedModel = modelComboBox.getSelectedItem().toString();
         String minYear = minYearComboBox.getSelectedItem().toString();
@@ -79,82 +99,88 @@ public class testingCarView extends javax.swing.JFrame {
     }
 
 
-private void populateScrollView(List<Car> cars) {
-    // Clear the existing content in the scroll view
-    scrollJPanel.removeAll();
 
-    // Set the layout with gaps between components
-    scrollJPanel.setLayout(new BoxLayout(scrollJPanel, BoxLayout.Y_AXIS));
-    int panelSpacing = 10; // Space between panels
 
-    // Iterate over the cars and populate the scroll view
-    for (Car car : cars) {
-        CarPanel carPane = new CarPanel();
+    /**
+    * Populate the scroll view with car panels.
+    */
+    private void populateScrollView(List<Car> cars) {
+        // Clear the existing content in the scroll view
+        scrollJPanel.removeAll();
+
+        // Set the layout with gaps between components
+        scrollJPanel.setLayout(new BoxLayout(scrollJPanel, BoxLayout.Y_AXIS));
+        int panelSpacing = 10; // Space between panels
+
+        // Iterate over the cars and populate the scroll view
+        for (Car car : cars) {
+            CarPanel carPane = new CarPanel(); // Create a new car panel
         
-        // Assuming car.getImagePath() returns a String that points to the image file
-        ImageIcon imageIcon = new ImageIcon(car.getImagePath());
-        carPane.setCarImageIcon(imageIcon); // Set the car image icon
+            // Set car image icon
+            ImageIcon imageIcon = new ImageIcon(car.getImagePath()); // Assuming car.getImagePath() returns a String pointing to the image file
+            carPane.setCarImageIcon(imageIcon);
 
-        // Set the make/model text
-        String makeModel = car.getCarMake() + " " + car.getCarModel();
-        carPane.setMakeModelText(makeModel); // Combine make and model for display
+            // Set make/model text
+            String makeModel = car.getCarMake() + " " + car.getCarModel();
+            carPane.setMakeModelText(makeModel);
 
-        // Set the price text
-        String priceText = String.format("$%.2f", car.getPurchasePrice());
-        carPane.setPriceText(priceText); // Format price to 2 decimal places
-
-        // Set the year text
-        String yearText = Integer.toString(car.getCarYear());
-        carPane.setYearText(yearText); // Convert year to String
+            // Set price text
+            String priceText = String.format("$%.2f", car.getPurchasePrice());
+            carPane.setPriceText(priceText);
         
-        int carID = car.getCarID();
-        System.out.println(carID);
+            // Set year text
+            String yearText = Integer.toString(car.getCarYear());
+            carPane.setYearText(yearText);
 
-         carPane.getBuyButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Open a JDialog when the "Buy" button is clicked
-                JDialog buyDialog = new JDialog(testingCarView.this, "Purchase Car", true);
-                buyDialog.setLayout(new FlowLayout());
-                
-                // Populate the dialog with components such as form fields and a purchase button
-                // Here, just a label for example
-                buyDialog.add(new JLabel("Implement the purchase form here."));
-                
-                // Add a button to confirm the purchase
-                JButton confirmButton = new JButton("Confirm Purchase");
-                confirmButton.addActionListener(new ActionListener() {
+            int carID = car.getCarID(); // Get car ID
+        
+            // Add action listener to Buy button
+            carPane.getBuyButton().addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                SimpleDBConnect DBConnection = new SimpleDBConnect();
-                boolean wasPurchased = DBConnection.confirmPurchase(carID);
-                if (wasPurchased) {
-                    JOptionPane.showMessageDialog(testingCarView.this, "Purchase successful!");
-                } else {
-                    JOptionPane.showMessageDialog(testingCarView.this, "Purchase failed. Please try again.");
+                    // Open a JDialog when the "Buy" button is clicked
+                    JDialog buyDialog = new JDialog(testingCarView.this, "Purchase Car", true);
+                    buyDialog.setLayout(new FlowLayout());
+                
+                    // Add a button to confirm the purchase
+                    JButton confirmButton = new JButton("Confirm Purchase");
+                    confirmButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            // Perform purchase confirmation
+                            SimpleDBConnect DBConnection = new SimpleDBConnect();
+                            boolean wasPurchased = DBConnection.confirmPurchase(carID);
+                            if (wasPurchased) {
+                                JOptionPane.showMessageDialog(testingCarView.this, "Purchase successful!");
+                            } else {
+                                JOptionPane.showMessageDialog(testingCarView.this, "Purchase failed. Please try again.");
+                            }
+                            buyDialog.dispose(); // Close the dialog
+                        }
+                    });
+                
+                    // Add confirm button to the dialog
+                    buyDialog.add(confirmButton);
+                
+                    // Set the dialog size and make it visible
+                    buyDialog.setSize(300, 200);
+                    buyDialog.setLocationRelativeTo(testingCarView.this);
+                    buyDialog.setVisible(true);
                 }
-                buyDialog.dispose(); // Close the dialog
+            });
+
+            // Add carPane to the JScrollPane
+            scrollJPanel.add(carPane);
         }
-});
 
-                
-                buyDialog.add(confirmButton);
-                
-                // Set the dialog size and make it visible
-                buyDialog.setSize(300, 200);
-                buyDialog.setLocationRelativeTo(testingCarView.this);
-                buyDialog.setVisible(true);
-            }
-        });
-
-        scrollJPanel.add(carPane); // Add carPane to the JScrollPane
+        scrollJPanel.revalidate(); // Revalidate the scroll panel
+        scrollJPanel.repaint(); // Repaint the scroll panel
     }
 
-    scrollJPanel.revalidate();
-    scrollJPanel.repaint();
-}
 
-    // Method to set up action listeners for buttons responsible for opening different JFrames
+    /**
+    * Method to set up action listeners for buttons responsible for opening different JFrames.
+    */
     private void setupFrameChangeButtons() {
         addActionListenerToButton(homeButton, userHomePage.class);
         addActionListenerToButton(carsButton, testingCarView.class);
@@ -162,22 +188,26 @@ private void populateScrollView(List<Car> cars) {
         addActionListenerToButton(logoutButton, login.class);
     }
 
-    // Method to add an action listener to a button to open a specific JFrame
+    /**
+    * Method to add an action listener to a button to open a specific JFrame.
+    */
     private void addActionListenerToButton(JButton button, Class<? extends JFrame> frameClass) {
         button.addActionListener(e -> openFrameAndCloseCurrent(frameClass));
     }
-    
-    // Call this method in the constructor or initialization block to set up the logout button
+
+    /**
+    * Method to set up the logout button.
+    */
     private void setupLogoutButton() {
         logoutButton.addActionListener(e -> logoutAndOpenLogin());
     }
-    
 
-    // This method will handle the logout process and switch to the login screen
+    /**
+    * This method will handle the logout process and switch to the login screen.
+    */
     private void logoutAndOpenLogin() {
         // Logout the user
         SessionManager.getInstance().logout();
-
 
         // Close the current frame
         this.dispose();
@@ -187,7 +217,9 @@ private void populateScrollView(List<Car> cars) {
         loginFrame.setVisible(true);
     }
 
-    // Method to open a new JFrame and close the current one
+    /**
+    * Method to open a new JFrame and close the current one.
+    */
     private void openFrameAndCloseCurrent(Class<? extends JFrame> frameClass) {
         try {
             JFrame frame = frameClass.getDeclaredConstructor().newInstance();

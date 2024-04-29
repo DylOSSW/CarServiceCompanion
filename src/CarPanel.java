@@ -1,5 +1,15 @@
+/**
+ * Name:           Dylan Holmwood and Kristers Martukans
+ * Student Number: D21124331 and D21124318
+ * Date:           29th April 2024
+ * Module Title:   GUI Design and Database Connectivity
+ * Module Code:    COMP4604
+ * Lecturer:       Lejla Rovcanin
+ * Assignment:     Team Project
+ * Project:        CarServiceCompanion
+ */
+
 import java.awt.Image;
-import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
@@ -34,7 +44,6 @@ public class CarPanel extends javax.swing.JPanel {
         yearLabel.setText(text);
     }
     
-    // Provide public access to the buyButton if needed outside
     public JButton getBuyButton() {
         return buyButton;
     }
