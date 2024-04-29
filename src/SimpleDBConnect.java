@@ -4,10 +4,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.PreparedStatement; // Import for PreparedStatement
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JComboBox;
 import javax.swing.table.DefaultTableModel;
 /**
@@ -297,6 +303,34 @@ public DefaultTableModel searchCars(String selectedMake, String selectedModel, S
         }
     }
     
+    // Add function to populate combo boxes
+    public void populateDateComboBox(JComboBox<String> comboBox, String columnName, String tableName) {
+        try {
+            Connection conn = DriverManager.getConnection(dbURL);
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT DISTINCT " + columnName + " FROM " + tableName);
+
+            DateTimeFormatter dateFormatterInput = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            DateTimeFormatter dateFormatterOutput = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        
+            while (rs.next()) {
+                String fullDate = rs.getString(columnName);
+                //System.out.println(fullDate);
+                LocalDate date = LocalDate.parse(fullDate.substring(0, 10), dateFormatterInput);
+                String formattedDate = dateFormatterOutput.format(date);
+                //System.out.println(formattedDate);
+                //String trimmedDate = fullDate.substring(0, Math.min(fullDate.length(), 10)); // Get first 10 characters
+                comboBox.addItem(formattedDate);
+            }
+
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
     public boolean addNewVehicle(String make, String model, int year, double price, double purchasePrice, String condition, String imagePath) {
     String sql = "INSERT INTO Vehicles (CarMake, CarModel, CarYear, RentalPrice, PurchasePrice, Condition, Availability, ImagePath) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     try (Connection connection = DriverManager.getConnection(dbURL);
@@ -499,7 +533,108 @@ public DefaultTableModel searchCars(String selectedMake, String selectedModel, S
     
 ///------///
 
-   
+
+/// OverDue Accounts ///
+    
+    public DefaultTableModel searchOverdue(String selectedUserID, String selectedRentalID, String selectedOverDueFrom, String selectedOverDueTo) {
+    DefaultTableModel model = new DefaultTableModel() {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            // No cell can be edited
+            return false;
+        }
+    };
+    System.out.println("Search button clicked."); // Debug statement
+    try {
+        Connection conn = DriverManager.getConnection(dbURL);
+        String sql = "SELECT * FROM OverdueAccounts WHERE 1=1";
+                
+        if (!selectedUserID.equals("UserID")) {
+            sql += " AND UserID = '" + selectedUserID + "'";
+        }
+        if (!selectedRentalID.equals("RentalID")) {
+            sql += " AND RentalID = '" + selectedRentalID + "'";
+        }
+        if (!selectedOverDueFrom.equals("OverDueFrom")) {
+            sql += " AND OverDueDate >= '" + convertDateForAccess(selectedOverDueFrom) + "'";
+        }
+        if (!selectedOverDueTo.equals("OverDueTo")) {
+            sql += " AND OverDueDate <= '" + convertDateForAccess(selectedOverDueTo) + "'";
+        }
+        
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(sql);
+
+        // Add column headers to the table model
+        model.addColumn("UserID");
+        model.addColumn("RentalID");
+        model.addColumn("OverDueDate");
+        
+        // Add rows of data to the table model
+        while (rs.next()) {
+            Object[] row = new Object[3];
+            row[0] = rs.getInt("UserID");
+            row[1] = rs.getInt("RentalID");
+            row[2] = rs.getDate("OverDueDate");
+            
+            model.addRow(row);
+        }
+        // Set the table model to the JTable
+        System.out.println("Overdue Table populated successfully."); // Debug statement
+
+        // Close connections
+        rs.close();
+        stmt.close();
+        conn.close();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return model;
+}
+    
+    public Map<String, String> fetchOverdueAccountDetails(int userID, int rentalID) {
+        Map<String, String> data = new HashMap<>();
+        String sql = "SELECT u.Forename, u.Surname, u.Email, u.Address, u.Mobile, v.CarMake, v.CarModel, v.CarYear, r.ReturnDate " +
+                     "FROM OverdueAccounts oa " +
+                     "JOIN Users u ON oa.UserID = u.UserID " +
+                     "JOIN Rented r ON oa.RentalID = r.RentalID " +
+                     "JOIN Vehicles v ON r.CarID = v.CarID " +
+                     "WHERE oa.UserID = ? AND oa.RentalID = ?";
+        try (Connection conn = DriverManager.getConnection(dbURL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, userID);
+            pstmt.setInt(2, rentalID);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                data.put("Forename", rs.getString("Forename"));
+                data.put("Surname", rs.getString("Surname"));
+                data.put("Email", rs.getString("Email"));
+                data.put("Address", rs.getString("Address"));
+                data.put("Mobile", rs.getString("Mobile"));
+                data.put("CarMake", rs.getString("CarMake"));
+                data.put("CarModel", rs.getString("CarModel"));
+                data.put("CarYear", rs.getString("CarYear"));
+                data.put("ReturnDate", rs.getDate("ReturnDate").toString());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    return data;
+}
+    
+  private String convertDateForAccess(String dateStr) {
+        // Assuming the input date is in dd-mm-yyyy format
+        DateTimeFormatter originalFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter targetFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        // Parse the date string to a LocalDate
+        LocalDate date = LocalDate.parse(dateStr, originalFormat);
+
+        // Format the LocalDate to the target format string
+        return targetFormat.format(date);
+} 
+        
+    
+///------///
 
 
   

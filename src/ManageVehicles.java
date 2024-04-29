@@ -61,6 +61,7 @@ public class ManageVehicles extends javax.swing.JFrame {
         addActionListenerToButton(DashboardButton, this::openAdminHome);
         addActionListenerToButton(UsersButton, this::openManageCustomers);
         addActionListenerToButton(VehiclesButton, this::openManageVehicles);
+        addActionListenerToButton(OverdueAccountsButton, this::openOverdueAccounts);
         
         
     }
@@ -113,16 +114,18 @@ public class ManageVehicles extends javax.swing.JFrame {
         MaxPrice = new javax.swing.JComboBox<>();
         MinPrice = new javax.swing.JComboBox<>();
         Condition = new javax.swing.JComboBox<>();
-        SearchCars = new javax.swing.JButton();
         AllMakes = new javax.swing.JComboBox<>();
         AddBtn = new javax.swing.JButton();
         EditBtn = new javax.swing.JButton();
         RemoveBtn = new javax.swing.JButton();
+        LogoutBtn = new javax.swing.JButton();
+        SearchCars = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         NavigationMenu = new javax.swing.JPanel();
         DashboardButton = new javax.swing.JButton();
         UsersButton = new javax.swing.JButton();
         VehiclesButton = new javax.swing.JButton();
+        OverdueAccountsButton = new javax.swing.JButton();
 
         addVehicleDialog.setBounds(new java.awt.Rectangle(0, 0, 0, 0));
         addVehicleDialog.setModal(true);
@@ -301,7 +304,6 @@ public class ManageVehicles extends javax.swing.JFrame {
         );
 
         rmvVehicleDialog.setModal(true);
-        rmvVehicleDialog.setPreferredSize(new java.awt.Dimension(310, 120));
         rmvVehicleDialog.setSize(new java.awt.Dimension(320, 140));
 
         RemoveWarningText.setText("Are you sure? This action can't be undone!");
@@ -376,10 +378,6 @@ public class ManageVehicles extends javax.swing.JFrame {
         Condition.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         Condition.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Condition" }));
 
-        SearchCars.setAction(SearchCars.getAction());
-        SearchCars.setText("Search");
-        SearchCars.setToolTipText("");
-
         AllMakes.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         AllMakes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Makes" }));
 
@@ -388,6 +386,10 @@ public class ManageVehicles extends javax.swing.JFrame {
         EditBtn.setText("Edit");
 
         RemoveBtn.setText("Remove");
+
+        LogoutBtn.setText("Logout");
+
+        SearchCars.setText("Search");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -407,16 +409,20 @@ public class ManageVehicles extends javax.swing.JFrame {
                     .addComponent(RemoveBtn)
                     .addComponent(MinPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(12, 12, 12)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(SearchCars, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(MaxPrice, 0, 105, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(MinYear, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(SearchCars, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(MaxPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(MinYear, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(MaxYear, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Condition, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(Condition, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(150, 150, 150)
+                        .addComponent(LogoutBtn)))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -433,12 +439,14 @@ public class ManageVehicles extends javax.swing.JFrame {
                     .addComponent(Condition, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(SearchCars, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(SearchCars, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                        .addComponent(LogoutBtn))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(AddBtn)
                         .addComponent(EditBtn)
                         .addComponent(RemoveBtn)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout DashboardLayout = new javax.swing.GroupLayout(Dashboard);
@@ -473,6 +481,8 @@ public class ManageVehicles extends javax.swing.JFrame {
 
         VehiclesButton.setText("jButton1");
 
+        OverdueAccountsButton.setText("jButton1");
+
         javax.swing.GroupLayout NavigationMenuLayout = new javax.swing.GroupLayout(NavigationMenu);
         NavigationMenu.setLayout(NavigationMenuLayout);
         NavigationMenuLayout.setHorizontalGroup(
@@ -482,7 +492,8 @@ public class ManageVehicles extends javax.swing.JFrame {
                 .addGroup(NavigationMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(UsersButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(DashboardButton, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(VehiclesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(VehiclesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(OverdueAccountsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
         NavigationMenuLayout.setVerticalGroup(
@@ -492,7 +503,9 @@ public class ManageVehicles extends javax.swing.JFrame {
                 .addComponent(DashboardButton)
                 .addGap(96, 96, 96)
                 .addComponent(UsersButton)
-                .addGap(86, 86, 86)
+                .addGap(31, 31, 31)
+                .addComponent(OverdueAccountsButton)
+                .addGap(32, 32, 32)
                 .addComponent(VehiclesButton)
                 .addContainerGap(144, Short.MAX_VALUE))
         );
@@ -522,6 +535,13 @@ public class ManageVehicles extends javax.swing.JFrame {
         ManageCustomers manageCustomers = new ManageCustomers();
         manageCustomers.setVisible(true);
         manageCustomers.setLocationRelativeTo(null);
+        this.setVisible(false);
+    }
+    
+    private void openOverdueAccounts() {
+        ManageOverdueAccounts manageOverdue = new ManageOverdueAccounts();
+        manageOverdue.setVisible(true);
+        manageOverdue.setLocationRelativeTo(null);
         this.setVisible(false);
     }
     
@@ -745,12 +765,14 @@ public class ManageVehicles extends javax.swing.JFrame {
     private javax.swing.JButton DashboardButton;
     private javax.swing.JButton EditBtn;
     private javax.swing.JButton EditVehicle;
+    private javax.swing.JButton LogoutBtn;
     private javax.swing.JComboBox<String> MaxPrice;
     private javax.swing.JComboBox<String> MaxYear;
     private javax.swing.JComboBox<String> MinPrice;
     private javax.swing.JComboBox<String> MinYear;
     private javax.swing.JPanel NavigationMenu;
     private javax.swing.JButton OkRmvBtn;
+    private javax.swing.JButton OverdueAccountsButton;
     private javax.swing.JButton RemoveBtn;
     private javax.swing.JLabel RemoveWarningText;
     private javax.swing.JButton SearchCars;

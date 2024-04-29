@@ -48,6 +48,8 @@ public class ManageCustomers extends javax.swing.JFrame {
         addActionListenerToButton(DashboardButton, this::openAdminHome);
         addActionListenerToButton(UsersButton, this::openManageCustomers);
         addActionListenerToButton(VehiclesButton, this::openManageVehicles);
+        addActionListenerToButton(OverdueAccountsButton, this::openOverdueAccounts);
+        
         
         
     }
@@ -102,11 +104,13 @@ public class ManageCustomers extends javax.swing.JFrame {
         AddUserBtn = new javax.swing.JButton();
         EditUsrBtn = new javax.swing.JButton();
         RemoveUsrBtn = new javax.swing.JButton();
+        LogoutBtn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         NavigationMenu = new javax.swing.JPanel();
         DashboardButton = new javax.swing.JButton();
         UsersButton = new javax.swing.JButton();
         VehiclesButton = new javax.swing.JButton();
+        OverdueAccountsButton = new javax.swing.JButton();
 
         addUserDialog.setBounds(new java.awt.Rectangle(0, 0, 0, 0));
         addUserDialog.setModal(true);
@@ -273,7 +277,6 @@ public class ManageCustomers extends javax.swing.JFrame {
         );
 
         rmvUserDialog.setModal(true);
-        rmvUserDialog.setPreferredSize(new java.awt.Dimension(310, 120));
         rmvUserDialog.setSize(new java.awt.Dimension(320, 140));
 
         RemoveWarningText.setText("Are you sure? This action can't be undone!");
@@ -356,6 +359,8 @@ public class ManageCustomers extends javax.swing.JFrame {
 
         RemoveUsrBtn.setText("Remove");
 
+        LogoutBtn.setText("Logout");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -375,14 +380,17 @@ public class ManageCustomers extends javax.swing.JFrame {
                     .addComponent(EmailComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(12, 12, 12)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(SearchUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(SearchUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 270, Short.MAX_VALUE)
+                        .addComponent(LogoutBtn))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(AddressComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(MobileComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(AccountStatusComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(126, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -397,7 +405,9 @@ public class ManageCustomers extends javax.swing.JFrame {
                     .addComponent(AccountStatusComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(SearchUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(SearchUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(LogoutBtn))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(AddUserBtn)
                         .addComponent(EditUsrBtn)
@@ -438,6 +448,8 @@ public class ManageCustomers extends javax.swing.JFrame {
 
         VehiclesButton.setText("jButton1");
 
+        OverdueAccountsButton.setText("jButton1");
+
         javax.swing.GroupLayout NavigationMenuLayout = new javax.swing.GroupLayout(NavigationMenu);
         NavigationMenu.setLayout(NavigationMenuLayout);
         NavigationMenuLayout.setHorizontalGroup(
@@ -447,7 +459,8 @@ public class ManageCustomers extends javax.swing.JFrame {
                 .addGroup(NavigationMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(UsersButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(DashboardButton, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(VehiclesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(VehiclesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(OverdueAccountsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
         NavigationMenuLayout.setVerticalGroup(
@@ -457,7 +470,9 @@ public class ManageCustomers extends javax.swing.JFrame {
                 .addComponent(DashboardButton)
                 .addGap(96, 96, 96)
                 .addComponent(UsersButton)
-                .addGap(86, 86, 86)
+                .addGap(30, 30, 30)
+                .addComponent(OverdueAccountsButton)
+                .addGap(33, 33, 33)
                 .addComponent(VehiclesButton)
                 .addContainerGap(144, Short.MAX_VALUE))
         );
@@ -488,6 +503,13 @@ public class ManageCustomers extends javax.swing.JFrame {
         ManageCustomers manageCustomers = new ManageCustomers();
         manageCustomers.setVisible(true);
         manageCustomers.setLocationRelativeTo(null);
+        this.setVisible(false);
+    }
+    
+    private void openOverdueAccounts() {
+        ManageOverdueAccounts manageOverdue = new ManageOverdueAccounts();
+        manageOverdue.setVisible(true);
+        manageOverdue.setLocationRelativeTo(null);
         this.setVisible(false);
     }
     
@@ -721,9 +743,11 @@ public class ManageCustomers extends javax.swing.JFrame {
     private javax.swing.JButton EditUsrBtn;
     private javax.swing.JComboBox<String> EmailComboBox;
     private javax.swing.JComboBox<String> ForenameComboBox;
+    private javax.swing.JButton LogoutBtn;
     private javax.swing.JComboBox<String> MobileComboBox;
     private javax.swing.JPanel NavigationMenu;
     private javax.swing.JButton OkRmvBtn;
+    private javax.swing.JButton OverdueAccountsButton;
     private javax.swing.JButton RemoveUsrBtn;
     private javax.swing.JLabel RemoveWarningText;
     private javax.swing.JButton SearchUsers;

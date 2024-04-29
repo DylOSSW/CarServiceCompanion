@@ -25,6 +25,8 @@ public class AdminHome extends javax.swing.JFrame {
         addActionListenerToButton(DashboardButton, this::openAdminHome);
         addActionListenerToButton(UsersButton, this::openManageCustomers);
         addActionListenerToButton(VehiclesButton, this::openManageVehicles);
+        addActionListenerToButton(OverdueAccountsButton, this::openOverdueAccounts);
+
         
         
     }
@@ -45,6 +47,7 @@ public class AdminHome extends javax.swing.JFrame {
         DashboardButton = new javax.swing.JButton();
         UsersButton = new javax.swing.JButton();
         VehiclesButton = new javax.swing.JButton();
+        OverdueAccountsButton = new javax.swing.JButton();
         Dashboard = new javax.swing.JPanel();
         TotalVehicles = new javax.swing.JPanel();
         TotalUsers = new javax.swing.JPanel();
@@ -65,6 +68,8 @@ public class AdminHome extends javax.swing.JFrame {
 
         VehiclesButton.setText("jButton1");
 
+        OverdueAccountsButton.setText("jButton1");
+
         javax.swing.GroupLayout NavigationMenuLayout = new javax.swing.GroupLayout(NavigationMenu);
         NavigationMenu.setLayout(NavigationMenuLayout);
         NavigationMenuLayout.setHorizontalGroup(
@@ -74,7 +79,8 @@ public class AdminHome extends javax.swing.JFrame {
                 .addGroup(NavigationMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(UsersButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(DashboardButton, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(VehiclesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(VehiclesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(OverdueAccountsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
         NavigationMenuLayout.setVerticalGroup(
@@ -84,7 +90,9 @@ public class AdminHome extends javax.swing.JFrame {
                 .addComponent(DashboardButton)
                 .addGap(96, 96, 96)
                 .addComponent(UsersButton)
-                .addGap(86, 86, 86)
+                .addGap(30, 30, 30)
+                .addComponent(OverdueAccountsButton)
+                .addGap(33, 33, 33)
                 .addComponent(VehiclesButton)
                 .addContainerGap(164, Short.MAX_VALUE))
         );
@@ -191,6 +199,13 @@ public class AdminHome extends javax.swing.JFrame {
         this.setVisible(false);
     }
     
+    private void openOverdueAccounts() {
+        ManageOverdueAccounts manageOverdue = new ManageOverdueAccounts();
+        manageOverdue.setVisible(true);
+        manageOverdue.setLocationRelativeTo(null);
+        this.setVisible(false);
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -232,6 +247,7 @@ public class AdminHome extends javax.swing.JFrame {
     private javax.swing.JButton DashboardButton;
     private javax.swing.JPanel NavigationMenu;
     private javax.swing.JScrollPane OverdueAccounts;
+    private javax.swing.JButton OverdueAccountsButton;
     private javax.swing.JScrollPane RentedVehicles;
     private javax.swing.JPanel TotalUsers;
     private javax.swing.JPanel TotalVehicles;
