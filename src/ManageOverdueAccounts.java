@@ -45,11 +45,11 @@ public class ManageOverdueAccounts extends javax.swing.JFrame {
             
 
             // Set text fields with user information
-            String currentText = greetingText.getText();
-            String updatedText = currentText + adminEmail;
+            //String currentText = greetingText.getText();
+            //String updatedText = currentText + adminEmail;
             String currentidText = currentID.getText();
             String updatedidText = currentidText + adminID;
-            greetingText.setText(updatedText);
+            //greetingText.setText(updatedText);
             currentID.setText(updatedidText);
 
         }
@@ -119,11 +119,11 @@ public class ManageOverdueAccounts extends javax.swing.JFrame {
         OverDueFromComboBox = new javax.swing.JComboBox<>();
         SearchOverdue = new javax.swing.JButton();
         UserIDComboBox = new javax.swing.JComboBox<>();
-        greetingText = new javax.swing.JLabel();
-        currentID = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         NavigationMenu = new javax.swing.JPanel();
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 220), new java.awt.Dimension(0, 10), new java.awt.Dimension(32767, 160));
+        filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(32767, 10));
+        currentID = new javax.swing.JLabel();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 220), new java.awt.Dimension(0, 10), new java.awt.Dimension(32767, 140));
         DashboardButton = new javax.swing.JButton();
         filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 140));
         UsersButton = new javax.swing.JButton();
@@ -240,10 +240,6 @@ public class ManageOverdueAccounts extends javax.swing.JFrame {
         UserIDComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         UserIDComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "UserID" }));
 
-        greetingText.setText("Welcome ");
-
-        currentID.setText("ID: ");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -261,10 +257,7 @@ public class ManageOverdueAccounts extends javax.swing.JFrame {
                         .addComponent(OverDueToComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(SearchOverdue, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(58, 58, 58)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(greetingText)
-                            .addComponent(currentID))))
+                        .addGap(111, 111, 111)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(AccountStatusComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(159, Short.MAX_VALUE))
@@ -280,12 +273,7 @@ public class ManageOverdueAccounts extends javax.swing.JFrame {
                     .addComponent(OverDueToComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(AccountStatusComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(SearchOverdue, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(greetingText)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(currentID)))
+                .addComponent(SearchOverdue, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -316,6 +304,10 @@ public class ManageOverdueAccounts extends javax.swing.JFrame {
         NavigationMenu.setBackground(new java.awt.Color(33, 116, 177));
         NavigationMenu.setPreferredSize(new java.awt.Dimension(60, 500));
         NavigationMenu.setLayout(new javax.swing.BoxLayout(NavigationMenu, javax.swing.BoxLayout.Y_AXIS));
+        NavigationMenu.add(filler7);
+
+        currentID.setText("ID: ");
+        NavigationMenu.add(currentID);
         NavigationMenu.add(filler1);
 
         DashboardButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/home_35.png"))); // NOI18N
@@ -540,7 +532,7 @@ public class ManageOverdueAccounts extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler4;
     private javax.swing.Box.Filler filler5;
     private javax.swing.Box.Filler filler6;
-    private javax.swing.JLabel greetingText;
+    private javax.swing.Box.Filler filler7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JDialog overDueAccountInfo;

@@ -45,11 +45,11 @@ public class ManageCustomers extends javax.swing.JFrame {
             
 
             // Set text fields with user information
-            String currentText = greetingText.getText();
-            String updatedText = currentText + adminEmail;
+            //String currentText = greetingText.getText();
+            //String updatedText = currentText + adminEmail;
             String currentidText = currentID.getText();
             String updatedidText = currentidText + adminID;
-            greetingText.setText(updatedText);
+            //greetingText.setText(updatedText);
             currentID.setText(updatedidText);
 
         }
@@ -145,11 +145,11 @@ public class ManageCustomers extends javax.swing.JFrame {
         AddUserBtn = new javax.swing.JButton();
         EditUsrBtn = new javax.swing.JButton();
         RemoveUsrBtn = new javax.swing.JButton();
-        greetingText = new javax.swing.JLabel();
-        currentID = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         NavigationMenu = new javax.swing.JPanel();
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 220), new java.awt.Dimension(0, 10), new java.awt.Dimension(32767, 160));
+        filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(32767, 10));
+        currentID = new javax.swing.JLabel();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 220), new java.awt.Dimension(0, 10), new java.awt.Dimension(32767, 140));
         DashboardButton = new javax.swing.JButton();
         filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 140));
         UsersButton = new javax.swing.JButton();
@@ -408,10 +408,6 @@ public class ManageCustomers extends javax.swing.JFrame {
 
         RemoveUsrBtn.setText("Remove");
 
-        greetingText.setText("Welcome ");
-
-        currentID.setText("ID: ");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -430,13 +426,8 @@ public class ManageCustomers extends javax.swing.JFrame {
                     .addComponent(RemoveUsrBtn)
                     .addComponent(EmailComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(12, 12, 12)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(SearchUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(greetingText, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(currentID, javax.swing.GroupLayout.Alignment.TRAILING)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(SearchUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(AddressComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -462,11 +453,7 @@ public class ManageCustomers extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(AddUserBtn)
                         .addComponent(EditUsrBtn)
-                        .addComponent(RemoveUsrBtn))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(greetingText)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(currentID)))
+                        .addComponent(RemoveUsrBtn)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -497,6 +484,10 @@ public class ManageCustomers extends javax.swing.JFrame {
         NavigationMenu.setBackground(new java.awt.Color(33, 116, 177));
         NavigationMenu.setPreferredSize(new java.awt.Dimension(60, 500));
         NavigationMenu.setLayout(new javax.swing.BoxLayout(NavigationMenu, javax.swing.BoxLayout.Y_AXIS));
+        NavigationMenu.add(filler7);
+
+        currentID.setText("ID: ");
+        NavigationMenu.add(currentID);
         NavigationMenu.add(filler1);
 
         DashboardButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/home_35.png"))); // NOI18N
@@ -816,7 +807,7 @@ public class ManageCustomers extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler4;
     private javax.swing.Box.Filler filler5;
     private javax.swing.Box.Filler filler6;
-    private javax.swing.JLabel greetingText;
+    private javax.swing.Box.Filler filler7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

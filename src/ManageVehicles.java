@@ -52,11 +52,11 @@ public class ManageVehicles extends javax.swing.JFrame {
             
 
             // Set text fields with user information
-            String currentText = greetingText.getText();
-            String updatedText = currentText + adminEmail;
+            //String currentText = greetingText.getText();
+            //String updatedText = currentText + adminEmail;
             String currentidText = currentID.getText();
             String updatedidText = currentidText + adminID;
-            greetingText.setText(updatedText);
+            //greetingText.setText(updatedText);
             currentID.setText(updatedidText);
 
         }
@@ -155,11 +155,11 @@ public class ManageVehicles extends javax.swing.JFrame {
         EditBtn = new javax.swing.JButton();
         RemoveBtn = new javax.swing.JButton();
         SearchCars = new javax.swing.JButton();
-        greetingText = new javax.swing.JLabel();
-        currentID = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         NavigationMenu = new javax.swing.JPanel();
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 220), new java.awt.Dimension(0, 10), new java.awt.Dimension(32767, 160));
+        filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(32767, 10));
+        currentID = new javax.swing.JLabel();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 220), new java.awt.Dimension(0, 10), new java.awt.Dimension(32767, 140));
         DashboardButton = new javax.swing.JButton();
         filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 140));
         UsersButton = new javax.swing.JButton();
@@ -433,10 +433,6 @@ public class ManageVehicles extends javax.swing.JFrame {
 
         SearchCars.setText("Search");
 
-        greetingText.setText("Welcome ");
-
-        currentID.setText("ID: ");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -459,10 +455,7 @@ public class ManageVehicles extends javax.swing.JFrame {
                     .addComponent(SearchCars, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(MaxPrice, 0, 105, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(MinYear, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(greetingText)
-                    .addComponent(currentID))
+                .addComponent(MinYear, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(MaxYear, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -487,11 +480,7 @@ public class ManageVehicles extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(AddBtn)
                         .addComponent(EditBtn)
-                        .addComponent(RemoveBtn))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(greetingText)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(currentID)))
+                        .addComponent(RemoveBtn)))
                 .addContainerGap())
         );
 
@@ -521,6 +510,10 @@ public class ManageVehicles extends javax.swing.JFrame {
 
         NavigationMenu.setBackground(new java.awt.Color(33, 116, 177));
         NavigationMenu.setLayout(new javax.swing.BoxLayout(NavigationMenu, javax.swing.BoxLayout.Y_AXIS));
+        NavigationMenu.add(filler7);
+
+        currentID.setText("ID: ");
+        NavigationMenu.add(currentID);
         NavigationMenu.add(filler1);
 
         DashboardButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/home_35.png"))); // NOI18N
@@ -842,7 +835,7 @@ public class ManageVehicles extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler4;
     private javax.swing.Box.Filler filler5;
     private javax.swing.Box.Filler filler6;
-    private javax.swing.JLabel greetingText;
+    private javax.swing.Box.Filler filler7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
