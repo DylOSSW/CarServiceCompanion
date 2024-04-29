@@ -4,6 +4,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 
@@ -34,20 +35,55 @@ public class ManageVehicles extends javax.swing.JFrame {
     public ManageVehicles() {
         initComponents();
         setupActionListeners();
+        setupLogoutButton();
         populateComboBoxes();
         searchCars();
-        // Add ActionListener to SearchCars button
-        SearchCars.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                searchCars();
-            }
-        });
+        
+        
+        // Use getInstance() to call non-static methods on SessionManager
+        SessionManager sessionManager = SessionManager.getInstance();
+        if (sessionManager.adminLoggedIn()) {
+            Admin currentAdmin = sessionManager.getCurrentAdmin();
+            
+                        // Extract user information
+            int adminID = currentAdmin.getID();
+            //String email = currentUser.getEmail();
+            String adminEmail = currentAdmin.getEmail();
+            
+
+            // Set text fields with user information
+            //String currentText = greetingText.getText();
+            //String updatedText = currentText + adminEmail;
+            String currentidText = currentID.getText();
+            String updatedidText = currentidText + adminID;
+            //greetingText.setText(updatedText);
+            currentID.setText(updatedidText);
+
+        }
+    }
+    
+    // Call this method in the constructor or initialization block to set up the logout button
+    private void setupLogoutButton() {
+        LogoutBtn.addActionListener(e -> logoutAndOpenLogin());
+    }
+    // This method will handle the logout process and switch to the login screen
+    private void logoutAndOpenLogin() {
+        // Logout the user
+        SessionManager.getInstance().logout();
+
+
+        // Close the current frame
+        this.dispose();
+
+        // Open the login screen
+        JFrame loginFrame = new login();
+        loginFrame.setVisible(true);
     }
 
   
     // Method to set up action listeners for various buttons related to functionality
     private void setupActionListeners() {
+        addActionListenerToButton(SearchCars, this::searchCars);
         addActionListenerToButton(AddBtn, this::showAddVehicleDialog);
         addActionListenerToButton(EditBtn, this::showEditVehicleDialog);
         addActionListenerToButton(RemoveBtn, this::showRmvVehicleDialog);
@@ -61,6 +97,7 @@ public class ManageVehicles extends javax.swing.JFrame {
         addActionListenerToButton(DashboardButton, this::openAdminHome);
         addActionListenerToButton(UsersButton, this::openManageCustomers);
         addActionListenerToButton(VehiclesButton, this::openManageVehicles);
+        addActionListenerToButton(OverdueAccountsButton, this::openOverdueAccounts);
         
         
     }
@@ -113,16 +150,26 @@ public class ManageVehicles extends javax.swing.JFrame {
         MaxPrice = new javax.swing.JComboBox<>();
         MinPrice = new javax.swing.JComboBox<>();
         Condition = new javax.swing.JComboBox<>();
-        SearchCars = new javax.swing.JButton();
         AllMakes = new javax.swing.JComboBox<>();
         AddBtn = new javax.swing.JButton();
         EditBtn = new javax.swing.JButton();
         RemoveBtn = new javax.swing.JButton();
+        SearchCars = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         NavigationMenu = new javax.swing.JPanel();
+        filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(32767, 10));
+        currentID = new javax.swing.JLabel();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 220), new java.awt.Dimension(0, 10), new java.awt.Dimension(32767, 140));
         DashboardButton = new javax.swing.JButton();
+        filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 140));
         UsersButton = new javax.swing.JButton();
+        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 5), new java.awt.Dimension(0, 20));
         VehiclesButton = new javax.swing.JButton();
+        filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 20));
+        OverdueAccountsButton = new javax.swing.JButton();
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 50), new java.awt.Dimension(32767, 140));
+        LogoutBtn = new javax.swing.JButton();
+        filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(32767, 20));
 
         addVehicleDialog.setBounds(new java.awt.Rectangle(0, 0, 0, 0));
         addVehicleDialog.setModal(true);
@@ -301,7 +348,6 @@ public class ManageVehicles extends javax.swing.JFrame {
         );
 
         rmvVehicleDialog.setModal(true);
-        rmvVehicleDialog.setPreferredSize(new java.awt.Dimension(310, 120));
         rmvVehicleDialog.setSize(new java.awt.Dimension(320, 140));
 
         RemoveWarningText.setText("Are you sure? This action can't be undone!");
@@ -348,7 +394,7 @@ public class ManageVehicles extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(890, 500));
+        setPreferredSize(new java.awt.Dimension(885, 530));
         getContentPane().setLayout(null);
 
         Dashboard.setBackground(new java.awt.Color(255, 255, 255));
@@ -376,10 +422,6 @@ public class ManageVehicles extends javax.swing.JFrame {
         Condition.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         Condition.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Condition" }));
 
-        SearchCars.setAction(SearchCars.getAction());
-        SearchCars.setText("Search");
-        SearchCars.setToolTipText("");
-
         AllMakes.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         AllMakes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Makes" }));
 
@@ -388,6 +430,8 @@ public class ManageVehicles extends javax.swing.JFrame {
         EditBtn.setText("Edit");
 
         RemoveBtn.setText("Remove");
+
+        SearchCars.setText("Search");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -407,16 +451,15 @@ public class ManageVehicles extends javax.swing.JFrame {
                     .addComponent(RemoveBtn)
                     .addComponent(MinPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(12, 12, 12)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(SearchCars, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(MaxPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(MinYear, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(MaxYear, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Condition, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(SearchCars, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(MaxPrice, 0, 105, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(MinYear, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(MaxYear, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Condition, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(15, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -438,7 +481,7 @@ public class ManageVehicles extends javax.swing.JFrame {
                         .addComponent(AddBtn)
                         .addComponent(EditBtn)
                         .addComponent(RemoveBtn)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout DashboardLayout = new javax.swing.GroupLayout(Dashboard);
@@ -465,37 +508,51 @@ public class ManageVehicles extends javax.swing.JFrame {
         getContentPane().add(Dashboard);
         Dashboard.setBounds(60, 0, 810, 500);
 
-        NavigationMenu.setBackground(new java.awt.Color(102, 102, 102));
+        NavigationMenu.setBackground(new java.awt.Color(33, 116, 177));
+        NavigationMenu.setLayout(new javax.swing.BoxLayout(NavigationMenu, javax.swing.BoxLayout.Y_AXIS));
+        NavigationMenu.add(filler7);
 
-        DashboardButton.setText("jButton1");
+        currentID.setText("ID: ");
+        NavigationMenu.add(currentID);
+        NavigationMenu.add(filler1);
 
-        UsersButton.setText("jButton1");
+        DashboardButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/home_35.png"))); // NOI18N
+        DashboardButton.setBorderPainted(false);
+        DashboardButton.setContentAreaFilled(false);
+        DashboardButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        NavigationMenu.add(DashboardButton);
+        NavigationMenu.add(filler6);
 
-        VehiclesButton.setText("jButton1");
+        UsersButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/manageusers_35.png"))); // NOI18N
+        UsersButton.setAlignmentY(0.0F);
+        UsersButton.setBorderPainted(false);
+        UsersButton.setContentAreaFilled(false);
+        UsersButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        NavigationMenu.add(UsersButton);
+        NavigationMenu.add(filler4);
 
-        javax.swing.GroupLayout NavigationMenuLayout = new javax.swing.GroupLayout(NavigationMenu);
-        NavigationMenu.setLayout(NavigationMenuLayout);
-        NavigationMenuLayout.setHorizontalGroup(
-            NavigationMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(NavigationMenuLayout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addGroup(NavigationMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(UsersButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(DashboardButton, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(VehiclesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap(17, Short.MAX_VALUE))
-        );
-        NavigationMenuLayout.setVerticalGroup(
-            NavigationMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(NavigationMenuLayout.createSequentialGroup()
-                .addGap(105, 105, 105)
-                .addComponent(DashboardButton)
-                .addGap(96, 96, 96)
-                .addComponent(UsersButton)
-                .addGap(86, 86, 86)
-                .addComponent(VehiclesButton)
-                .addContainerGap(144, Short.MAX_VALUE))
-        );
+        VehiclesButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/managevehicles_35.png"))); // NOI18N
+        VehiclesButton.setBorderPainted(false);
+        VehiclesButton.setContentAreaFilled(false);
+        NavigationMenu.add(VehiclesButton);
+        NavigationMenu.add(filler5);
+
+        OverdueAccountsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/overdue_35.png"))); // NOI18N
+        OverdueAccountsButton.setBorderPainted(false);
+        OverdueAccountsButton.setContentAreaFilled(false);
+        NavigationMenu.add(OverdueAccountsButton);
+        NavigationMenu.add(filler2);
+
+        LogoutBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/logout_35.png"))); // NOI18N
+        LogoutBtn.setBorderPainted(false);
+        LogoutBtn.setContentAreaFilled(false);
+        LogoutBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LogoutBtnActionPerformed(evt);
+            }
+        });
+        NavigationMenu.add(LogoutBtn);
+        NavigationMenu.add(filler3);
 
         getContentPane().add(NavigationMenu);
         NavigationMenu.setBounds(0, 0, 60, 500);
@@ -503,6 +560,10 @@ public class ManageVehicles extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void LogoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogoutBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_LogoutBtnActionPerformed
     
     private void openAdminHome() {
         AdminHome adminHome = new AdminHome();
@@ -522,6 +583,13 @@ public class ManageVehicles extends javax.swing.JFrame {
         ManageCustomers manageCustomers = new ManageCustomers();
         manageCustomers.setVisible(true);
         manageCustomers.setLocationRelativeTo(null);
+        this.setVisible(false);
+    }
+    
+    private void openOverdueAccounts() {
+        ManageOverdueAccounts manageOverdue = new ManageOverdueAccounts();
+        manageOverdue.setVisible(true);
+        manageOverdue.setLocationRelativeTo(null);
         this.setVisible(false);
     }
     
@@ -745,19 +813,29 @@ public class ManageVehicles extends javax.swing.JFrame {
     private javax.swing.JButton DashboardButton;
     private javax.swing.JButton EditBtn;
     private javax.swing.JButton EditVehicle;
+    private javax.swing.JButton LogoutBtn;
     private javax.swing.JComboBox<String> MaxPrice;
     private javax.swing.JComboBox<String> MaxYear;
     private javax.swing.JComboBox<String> MinPrice;
     private javax.swing.JComboBox<String> MinYear;
     private javax.swing.JPanel NavigationMenu;
     private javax.swing.JButton OkRmvBtn;
+    private javax.swing.JButton OverdueAccountsButton;
     private javax.swing.JButton RemoveBtn;
     private javax.swing.JLabel RemoveWarningText;
     private javax.swing.JButton SearchCars;
     private javax.swing.JButton UsersButton;
     private javax.swing.JButton VehiclesButton;
     private javax.swing.JDialog addVehicleDialog;
+    private javax.swing.JLabel currentID;
     private javax.swing.JDialog editVehicleDialog;
+    private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler2;
+    private javax.swing.Box.Filler filler3;
+    private javax.swing.Box.Filler filler4;
+    private javax.swing.Box.Filler filler5;
+    private javax.swing.Box.Filler filler6;
+    private javax.swing.Box.Filler filler7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
