@@ -58,6 +58,10 @@ public class ManageVehicles extends javax.swing.JFrame {
         addActionListenerToButton(OkRmvBtn, ManageVehicles.this::RemoveVehicle);
         addActionListenerToButton(CancelRmvBtn, () -> rmvVehicleDialog.setVisible(false));
         
+        addActionListenerToButton(DashboardButton, this::openAdminHome);
+        addActionListenerToButton(UsersButton, this::openManageCustomers);
+        addActionListenerToButton(VehiclesButton, this::openManageVehicles);
+        
         
     }
     // Method to add an action listener to a button with a specific action
@@ -122,7 +126,6 @@ public class ManageVehicles extends javax.swing.JFrame {
 
         addVehicleDialog.setBounds(new java.awt.Rectangle(0, 0, 0, 0));
         addVehicleDialog.setModal(true);
-        addVehicleDialog.setPreferredSize(new java.awt.Dimension(400, 450));
         addVehicleDialog.setSize(new java.awt.Dimension(400, 450));
 
         setCarMake.setText("CarMake");
@@ -219,11 +222,6 @@ public class ManageVehicles extends javax.swing.JFrame {
         updateCarYear.setText("CarYear");
 
         updateRentalPrice.setText("RentalPrice");
-        updateRentalPrice.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateRentalPriceActionPerformed(evt);
-            }
-        });
 
         updatePurchasePrice.setText("PurchasePrice");
 
@@ -304,7 +302,7 @@ public class ManageVehicles extends javax.swing.JFrame {
 
         rmvVehicleDialog.setModal(true);
         rmvVehicleDialog.setPreferredSize(new java.awt.Dimension(310, 120));
-        rmvVehicleDialog.setSize(new java.awt.Dimension(310, 120));
+        rmvVehicleDialog.setSize(new java.awt.Dimension(320, 140));
 
         RemoveWarningText.setText("Are you sure? This action can't be undone!");
 
@@ -317,14 +315,14 @@ public class ManageVehicles extends javax.swing.JFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap(44, Short.MAX_VALUE)
+                .addContainerGap(42, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(OkRmvBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(CancelRmvBtn))
                     .addComponent(RemoveWarningText))
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -505,14 +503,30 @@ public class ManageVehicles extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void updateRentalPriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateRentalPriceActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_updateRentalPriceActionPerformed
     
+    private void openAdminHome() {
+        AdminHome adminHome = new AdminHome();
+        adminHome.setVisible(true);
+        adminHome.setLocationRelativeTo(null);
+        this.setVisible(false);
+    }
+    
+    private void openManageVehicles() {
+        ManageVehicles manageVehicles = new ManageVehicles();
+        manageVehicles.setVisible(true);
+        manageVehicles.setLocationRelativeTo(null);
+        this.setVisible(false);
+    }
+    
+    private void openManageCustomers() {
+        ManageCustomers manageCustomers = new ManageCustomers();
+        manageCustomers.setVisible(true);
+        manageCustomers.setLocationRelativeTo(null);
+        this.setVisible(false);
+    }
     
     private void searchCars() {
-        SimpleDBConnect DBConnection = new SimpleDBConnect();
+        //SimpleDBConnect DBConnection = new SimpleDBConnect();
         String selectedMake = AllMakes.getSelectedItem().toString();
         String selectedModel = AllModels.getSelectedItem().toString();
         String minYear = MinYear.getSelectedItem().toString();
@@ -650,21 +664,30 @@ public class ManageVehicles extends javax.swing.JFrame {
         if (selectedRow == -1) {
             System.out.println("Please Select a Vehicle to Remove");
             
-        } else{
+        } else {
+            if (!rmvVehicleDialog.isVisible()) {
             selectedRowToRemove = selectedRow;
-            rmvVehicleDialog.pack();
+            //rmvVehicleDialog.pack();
             rmvVehicleDialog.setLocationRelativeTo(this);
             rmvVehicleDialog.setVisible(true);
+            }
         }
         
     }
     
     private void RemoveVehicle() {
         DefaultTableModel model = (DefaultTableModel) vehicleTable.getModel();
-        model.removeRow(selectedRowToRemove); // Remove the row
-        System.out.println("Vehicle Removed");
-        selectedRowToRemove = -1; // Reset the index
-        rmvVehicleDialog.setVisible(false); // Close the dialog
+        carID = (int) model.getValueAt(selectedRowToRemove, 0);
+        
+        boolean success = DBConnection.deleteVehicle(carID);
+        if (success) {
+            model.removeRow(selectedRowToRemove); // Remove Row
+            System.out.println("Vehicle Removed"); //
+            rmvVehicleDialog.setVisible(false); // Close JDialog
+        } else {
+            System.out.println("Failed to remove Vehicle!");
+        }
+        selectedRowToRemove = -1; // Reset selected Row to remove index
     }
     
     

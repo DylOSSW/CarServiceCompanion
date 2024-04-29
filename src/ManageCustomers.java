@@ -1,3 +1,11 @@
+
+import javax.swing.JButton;
+import javax.swing.JTable;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -8,12 +16,44 @@
  * @author D21124318
  */
 public class ManageCustomers extends javax.swing.JFrame {
+    private SimpleDBConnect DBConnection = new SimpleDBConnect();
+    
+    private JTable usersTable;
+    private int userID;
+    private int selectedRowToRemove = -1;
 
     /**
      * Creates new form ManageCustomers
      */
     public ManageCustomers() {
         initComponents();
+        setupActionListeners();
+        populateComboBoxes();
+        searchUsers();
+    }
+    
+    // Method to set up action listeners for various buttons related to functionality
+    private void setupActionListeners() {
+        addActionListenerToButton(SearchUsers, this::searchUsers);
+        addActionListenerToButton(AddUserBtn, this::showAddUserDialog);
+        addActionListenerToButton(EditUsrBtn, this::showEditUserDialog);
+        addActionListenerToButton(RemoveUsrBtn, this::showRmvUserDialog);
+        addActionListenerToButton(AddUser, ManageCustomers.this::AddNewUser);
+        addActionListenerToButton(CancelAddUser, () -> addUserDialog.setVisible(false));
+        addActionListenerToButton(EditUser, ManageCustomers.this::EditUser);
+        addActionListenerToButton(CancelEditUser, () -> editUserDialog.setVisible(false));
+        addActionListenerToButton(OkRmvBtn, ManageCustomers.this::RemoveUser);
+        addActionListenerToButton(CancelRmvBtn, () -> rmvUserDialog.setVisible(false));
+        
+        addActionListenerToButton(DashboardButton, this::openAdminHome);
+        addActionListenerToButton(UsersButton, this::openManageCustomers);
+        addActionListenerToButton(VehiclesButton, this::openManageVehicles);
+        
+        
+    }
+    // Method to add an action listener to a button with a specific action
+    private void addActionListenerToButton(JButton button, Runnable action) {
+        button.addActionListener(e -> action.run());
     }
 
     /**
@@ -25,50 +65,296 @@ public class ManageCustomers extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        addUserDialog = new javax.swing.JDialog();
+        jPanel2 = new javax.swing.JPanel();
+        setForename = new javax.swing.JTextField();
+        setSurname = new javax.swing.JTextField();
+        setEmail = new javax.swing.JTextField();
+        setAddress = new javax.swing.JTextField();
+        setMobile = new javax.swing.JTextField();
+        AddUser = new javax.swing.JButton();
+        CancelAddUser = new javax.swing.JButton();
+        editUserDialog = new javax.swing.JDialog();
+        jPanel3 = new javax.swing.JPanel();
+        updateForename = new javax.swing.JTextField();
+        updateSurname = new javax.swing.JTextField();
+        updateEmail = new javax.swing.JTextField();
+        updatePassword = new javax.swing.JTextField();
+        updateAddress = new javax.swing.JTextField();
+        updateMobile = new javax.swing.JTextField();
+        updateStatus = new javax.swing.JTextField();
+        EditUser = new javax.swing.JButton();
+        CancelEditUser = new javax.swing.JButton();
+        rmvUserDialog = new javax.swing.JDialog();
+        jPanel4 = new javax.swing.JPanel();
+        RemoveWarningText = new javax.swing.JLabel();
+        OkRmvBtn = new javax.swing.JButton();
+        CancelRmvBtn = new javax.swing.JButton();
         Dashboard = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        AllModels = new javax.swing.JComboBox<>();
-        MaxYear = new javax.swing.JComboBox<>();
-        MinYear = new javax.swing.JComboBox<>();
-        MaxPrice = new javax.swing.JComboBox<>();
-        MinPrice = new javax.swing.JComboBox<>();
-        Condition = new javax.swing.JComboBox<>();
-        SearchCars = new javax.swing.JButton();
-        AllMakes = new javax.swing.JComboBox<>();
+        SurnameComboBox = new javax.swing.JComboBox<>();
+        AccountStatusComboBox = new javax.swing.JComboBox<>();
+        MobileComboBox = new javax.swing.JComboBox<>();
+        AddressComboBox = new javax.swing.JComboBox<>();
+        EmailComboBox = new javax.swing.JComboBox<>();
+        SearchUsers = new javax.swing.JButton();
+        ForenameComboBox = new javax.swing.JComboBox<>();
+        AddUserBtn = new javax.swing.JButton();
+        EditUsrBtn = new javax.swing.JButton();
+        RemoveUsrBtn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         NavigationMenu = new javax.swing.JPanel();
         DashboardButton = new javax.swing.JButton();
         UsersButton = new javax.swing.JButton();
         VehiclesButton = new javax.swing.JButton();
 
+        addUserDialog.setBounds(new java.awt.Rectangle(0, 0, 0, 0));
+        addUserDialog.setModal(true);
+        addUserDialog.setSize(new java.awt.Dimension(400, 450));
+
+        setForename.setText("Forename");
+
+        setSurname.setText("Surname");
+
+        setEmail.setText("Email");
+
+        setAddress.setText("Address");
+
+        setMobile.setText("Mobile Nr");
+
+        AddUser.setText("Add");
+
+        CancelAddUser.setText("Cancel");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(setForename, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(setAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(setSurname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(setMobile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(setEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(AddUser)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(CancelAddUser)))
+                .addContainerGap(142, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(setForename, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(setAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(setSurname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(setMobile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(setEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(60, 60, 60)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(AddUser)
+                    .addComponent(CancelAddUser))
+                .addContainerGap(259, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout addUserDialogLayout = new javax.swing.GroupLayout(addUserDialog.getContentPane());
+        addUserDialog.getContentPane().setLayout(addUserDialogLayout);
+        addUserDialogLayout.setHorizontalGroup(
+            addUserDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(addUserDialogLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        addUserDialogLayout.setVerticalGroup(
+            addUserDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(addUserDialogLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        editUserDialog.setModal(true);
+
+        updateForename.setText("Forename");
+
+        updateSurname.setText("Surname");
+
+        updateEmail.setText("Email");
+
+        updatePassword.setText("Password");
+
+        updateAddress.setText("Address");
+
+        updateMobile.setText("Mobile Nr");
+
+        updateStatus.setText("Account Status");
+
+        EditUser.setText("Edit");
+
+        CancelEditUser.setText("Cancel");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(updateForename, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(updatePassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(updateSurname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(updateAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(updateStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(updateEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(updateMobile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(EditUser)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(CancelEditUser)))
+                .addContainerGap(135, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(updateForename, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(updatePassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(updateSurname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(updateAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(updateStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(updateEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(updateMobile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(60, 60, 60)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(EditUser)
+                    .addComponent(CancelEditUser))
+                .addContainerGap(109, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout editUserDialogLayout = new javax.swing.GroupLayout(editUserDialog.getContentPane());
+        editUserDialog.getContentPane().setLayout(editUserDialogLayout);
+        editUserDialogLayout.setHorizontalGroup(
+            editUserDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(editUserDialogLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        editUserDialogLayout.setVerticalGroup(
+            editUserDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(editUserDialogLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        rmvUserDialog.setModal(true);
+        rmvUserDialog.setPreferredSize(new java.awt.Dimension(310, 120));
+        rmvUserDialog.setSize(new java.awt.Dimension(320, 140));
+
+        RemoveWarningText.setText("Are you sure? This action can't be undone!");
+
+        OkRmvBtn.setText("Remove");
+
+        CancelRmvBtn.setText("Cancel");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap(42, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(OkRmvBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(CancelRmvBtn))
+                    .addComponent(RemoveWarningText))
+                .addContainerGap(45, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addComponent(RemoveWarningText)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(OkRmvBtn)
+                    .addComponent(CancelRmvBtn))
+                .addContainerGap(32, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout rmvUserDialogLayout = new javax.swing.GroupLayout(rmvUserDialog.getContentPane());
+        rmvUserDialog.getContentPane().setLayout(rmvUserDialogLayout);
+        rmvUserDialogLayout.setHorizontalGroup(
+            rmvUserDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        rmvUserDialogLayout.setVerticalGroup(
+            rmvUserDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(890, 500));
+        getContentPane().setLayout(null);
 
         Dashboard.setBackground(new java.awt.Color(255, 255, 255));
         Dashboard.setMinimumSize(new java.awt.Dimension(804, 520));
         Dashboard.setName(""); // NOI18N
+        Dashboard.setPreferredSize(new java.awt.Dimension(810, 500));
 
-        AllModels.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        AllModels.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Models" }));
+        jPanel1.setPreferredSize(new java.awt.Dimension(850, 98));
 
-        MaxYear.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        MaxYear.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Max Year" }));
+        SurnameComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        SurnameComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Surname" }));
 
-        MinYear.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        MinYear.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Min Year" }));
+        AccountStatusComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        AccountStatusComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status" }));
 
-        MaxPrice.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        MaxPrice.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Max Price" }));
+        MobileComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        MobileComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mobile" }));
 
-        MinPrice.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        MinPrice.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Min Price" }));
+        AddressComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        AddressComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Address" }));
 
-        Condition.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        Condition.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Condition" }));
+        EmailComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        EmailComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Email" }));
 
-        SearchCars.setText("Search");
+        SearchUsers.setText("Search");
 
-        AllMakes.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        AllMakes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Makes" }));
+        ForenameComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        ForenameComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Forename" }));
+
+        AddUserBtn.setText("Add");
+
+        EditUsrBtn.setText("Edit");
+
+        RemoveUsrBtn.setText("Remove");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -76,38 +362,46 @@ public class ManageCustomers extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(AllMakes, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ForenameComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(AddUserBtn))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(AllModels, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(SurnameComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(EditUsrBtn))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(MinPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(RemoveUsrBtn)
+                    .addComponent(EmailComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(12, 12, 12)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(SearchCars, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(SearchUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(MaxPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(AddressComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(MinYear, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(MobileComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(MaxYear, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Condition, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(53, Short.MAX_VALUE))
+                        .addComponent(AccountStatusComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(126, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(AllMakes, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(AllModels, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(MinPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(MaxPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(MinYear, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(MaxYear, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Condition, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ForenameComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(SurnameComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(EmailComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(AddressComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(MobileComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(AccountStatusComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(SearchCars, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(SearchUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(AddUserBtn)
+                        .addComponent(EditUsrBtn)
+                        .addComponent(RemoveUsrBtn)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -119,8 +413,8 @@ public class ManageCustomers extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(DashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jScrollPane1)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(8, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 798, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         DashboardLayout.setVerticalGroup(
             DashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -128,11 +422,15 @@ public class ManageCustomers extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
+        getContentPane().add(Dashboard);
+        Dashboard.setBounds(60, 0, 810, 500);
+
         NavigationMenu.setBackground(new java.awt.Color(102, 102, 102));
+        NavigationMenu.setPreferredSize(new java.awt.Dimension(60, 500));
 
         DashboardButton.setText("jButton1");
 
@@ -161,37 +459,219 @@ public class ManageCustomers extends javax.swing.JFrame {
                 .addComponent(UsersButton)
                 .addGap(86, 86, 86)
                 .addComponent(VehiclesButton)
-                .addContainerGap(164, Short.MAX_VALUE))
+                .addContainerGap(144, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 910, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(NavigationMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, 0)
-                    .addComponent(Dashboard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 520, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(NavigationMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(Dashboard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
+        getContentPane().add(NavigationMenu);
+        NavigationMenu.setBounds(0, 0, 60, 500);
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    private void openAdminHome() {
+        AdminHome adminHome = new AdminHome();
+        adminHome.setVisible(true);
+        adminHome.setLocationRelativeTo(null);
+        this.setVisible(false);
+    }
+    
+    private void openManageVehicles() {
+        ManageVehicles manageVehicles = new ManageVehicles();
+        manageVehicles.setVisible(true);
+        manageVehicles.setLocationRelativeTo(null);
+        this.setVisible(false);
+    }
+    
+    private void openManageCustomers() {
+        ManageCustomers manageCustomers = new ManageCustomers();
+        manageCustomers.setVisible(true);
+        manageCustomers.setLocationRelativeTo(null);
+        this.setVisible(false);
+    }
+    
+    private void searchUsers() {
+        //SimpleDBConnect DBConnection = new SimpleDBConnect();
+        String selectedForename = ForenameComboBox.getSelectedItem().toString();
+        String selectedSurname = SurnameComboBox.getSelectedItem().toString();
+        String selectedEmail = EmailComboBox.getSelectedItem().toString();
+        String selectedAddress = AddressComboBox.getSelectedItem().toString();
+        String selectedMobile = MobileComboBox.getSelectedItem().toString();
+        String selectedStatus = AccountStatusComboBox.getSelectedItem().toString();
+
+        // Call the searchCars function in DBConnection with selected options
+        DefaultTableModel model = DBConnection.searchUsers(selectedForename, selectedSurname, selectedEmail, selectedAddress, selectedMobile, selectedStatus);
+        // Create a new JTable with the populated model
+        if(usersTable == null) {
+            usersTable = new JTable(model);
+            jScrollPane1.setViewportView(usersTable);
+        } else {
+            usersTable.setModel(model);
+            
+        
+        }
+        // Hide the "Password" column
+        hidePasswordColumn(usersTable);
+        this.revalidate();
+        this.repaint();
+}
+    private void hidePasswordColumn(JTable table) {
+    TableColumnModel colModel = table.getColumnModel();
+    int passwordColumnIndex = -1;
+    for (int i = 0; i < colModel.getColumnCount(); i++) {
+        if (colModel.getColumn(i).getHeaderValue().toString().equals("Password")) {
+            passwordColumnIndex = i;
+            break;
+        }
+    }
+    if (passwordColumnIndex != -1) {
+        TableColumn passwordColumn = colModel.getColumn(passwordColumnIndex);
+        colModel.removeColumn(passwordColumn);
+    }
+}
+    
+    private void populateComboBoxes() {
+        //SimpleDBConnect DBConnection = new SimpleDBConnect();
+        DBConnection.populateComboBox(ForenameComboBox, "Forename", "Users");
+        DBConnection.populateComboBox(SurnameComboBox, "Surname", "Users");
+        DBConnection.populateComboBox(EmailComboBox, "Email", "Users");
+        DBConnection.populateComboBox(AddressComboBox, "Address", "Users");
+        DBConnection.populateComboBox(MobileComboBox, "Mobile", "Users");
+        DBConnection.populateComboBox(AccountStatusComboBox, "AccountStatus", "Users");
+    }
+    
+    private void showAddUserDialog() {
+        SwingUtilities.invokeLater(new Runnable() {
+        public void run() {
+            if (!addUserDialog.isVisible()) {
+                addUserDialog.pack();
+                addUserDialog.setLocationRelativeTo(null);
+                addUserDialog.setVisible(true);
+            }
+        }
+    });
+    }
+    
+    private void AddNewUser() {
+        
+        String forename = setForename.getText();
+        String surname = setSurname.getText();
+        String email = setEmail.getText();
+        //String password = setPassword.getText();
+        String address = setAddress.getText();
+        String mobile = setMobile.getText();
+        //String status = setStatus.getText();
+        
+        // Now pass these values to the database handler
+        boolean success = DBConnection.addNewUser(forename, surname, email, address, mobile);
+        
+        if (success) {
+        System.out.println("User Added");
+        addUserDialog.setVisible(false); // Close dialog on success
+        } else {
+            System.out.println("Failed to add user");
+        }
+        
+    }
+    
+    
+     private void showEditUserDialog() {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                int selectedRow = usersTable.getSelectedRow();
+                if (selectedRow == -1) {
+                System.out.println("Please select a row to edit");
+                return; // Exit if no row is selected
+                }
+
+                if (!editUserDialog.isVisible()) {
+                    populateFieldsForEditing(selectedRow);
+                    
+                    editUserDialog.pack();
+                    editUserDialog.setLocationRelativeTo(null);
+                    editUserDialog.setVisible(true);
+                }
+            }
+        });
+    }
+     
+     private void populateFieldsForEditing(int selectedRow) {
+        DefaultTableModel model = (DefaultTableModel) usersTable.getModel();
+
+        // Example of fetching and setting data for car make
+        userID = (int) model.getValueAt(selectedRow, 0);
+        String forename = model.getValueAt(selectedRow, 1).toString();
+        String surname = model.getValueAt(selectedRow, 2).toString();
+        String email = model.getValueAt(selectedRow, 3).toString();
+        String password = model.getValueAt(selectedRow, 4).toString();
+        String address = model.getValueAt(selectedRow, 5).toString();
+        String mobile = model.getValueAt(selectedRow, 6).toString();
+        String accountStatus = model.getValueAt(selectedRow, 7).toString();
+        
+       
+        updateForename.setText(forename);
+        updateSurname.setText(surname);
+        updateEmail.setText(email);
+        updatePassword.setText(password);
+        updateAddress.setText(address);
+        updateMobile.setText(mobile);
+        updateStatus.setText(accountStatus);
+}
+     
+     private void EditUser() {
+        String forename = updateForename.getText();
+        String surname = updateSurname.getText();
+        String email = updateEmail.getText();
+        String password = updatePassword.getText();
+        String address = updateAddress.getText();
+        String mobile = updateMobile.getText();
+        String status = updateStatus.getText();
+        
+        // Now pass these values to the database handler
+        boolean success = DBConnection.updateUser(userID, forename, surname, email, password, address, mobile, status);
+        
+        if (success) {
+        System.out.println("User Edited");
+        editUserDialog.setVisible(false); // Close dialog on success
+        } else {
+            System.out.println("Failed to edit user");
+        }
+    }
+     
+     
+     private void showRmvUserDialog() {
+        int selectedRow = usersTable.getSelectedRow();
+        if (selectedRow == -1) {
+            System.out.println("Please Select a User to Remove");
+            
+        } else {
+            if (!rmvUserDialog.isVisible()) {
+            selectedRowToRemove = selectedRow;
+            //rmvVehicleDialog.pack();
+            rmvUserDialog.setLocationRelativeTo(this);
+            rmvUserDialog.setVisible(true);
+            }
+        }
+        
+    }
+     
+     private void RemoveUser() {
+        DefaultTableModel model = (DefaultTableModel) usersTable.getModel();
+        userID = (int) model.getValueAt(selectedRowToRemove, 0);
+        
+        boolean success = DBConnection.deleteUser(userID);
+        if (success) {
+            model.removeRow(selectedRowToRemove); // Remove Row
+            System.out.println("User Removed"); //
+            rmvUserDialog.setVisible(false); // Close JDialog
+        } else {
+            System.out.println("Failed to remove User!");
+        }
+        selectedRowToRemove = -1; // Reset selected Row to remove index
+    }
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -228,20 +708,47 @@ public class ManageCustomers extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> AllMakes;
-    private javax.swing.JComboBox<String> AllModels;
-    private javax.swing.JComboBox<String> Condition;
+    private javax.swing.JComboBox<String> AccountStatusComboBox;
+    private javax.swing.JButton AddUser;
+    private javax.swing.JButton AddUserBtn;
+    private javax.swing.JComboBox<String> AddressComboBox;
+    private javax.swing.JButton CancelAddUser;
+    private javax.swing.JButton CancelEditUser;
+    private javax.swing.JButton CancelRmvBtn;
     private javax.swing.JPanel Dashboard;
     private javax.swing.JButton DashboardButton;
-    private javax.swing.JComboBox<String> MaxPrice;
-    private javax.swing.JComboBox<String> MaxYear;
-    private javax.swing.JComboBox<String> MinPrice;
-    private javax.swing.JComboBox<String> MinYear;
+    private javax.swing.JButton EditUser;
+    private javax.swing.JButton EditUsrBtn;
+    private javax.swing.JComboBox<String> EmailComboBox;
+    private javax.swing.JComboBox<String> ForenameComboBox;
+    private javax.swing.JComboBox<String> MobileComboBox;
     private javax.swing.JPanel NavigationMenu;
-    private javax.swing.JButton SearchCars;
+    private javax.swing.JButton OkRmvBtn;
+    private javax.swing.JButton RemoveUsrBtn;
+    private javax.swing.JLabel RemoveWarningText;
+    private javax.swing.JButton SearchUsers;
+    private javax.swing.JComboBox<String> SurnameComboBox;
     private javax.swing.JButton UsersButton;
     private javax.swing.JButton VehiclesButton;
+    private javax.swing.JDialog addUserDialog;
+    private javax.swing.JDialog editUserDialog;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JDialog rmvUserDialog;
+    private javax.swing.JTextField setAddress;
+    private javax.swing.JTextField setEmail;
+    private javax.swing.JTextField setForename;
+    private javax.swing.JTextField setMobile;
+    private javax.swing.JTextField setSurname;
+    private javax.swing.JTextField updateAddress;
+    private javax.swing.JTextField updateEmail;
+    private javax.swing.JTextField updateForename;
+    private javax.swing.JTextField updateMobile;
+    private javax.swing.JTextField updatePassword;
+    private javax.swing.JTextField updateStatus;
+    private javax.swing.JTextField updateSurname;
     // End of variables declaration//GEN-END:variables
 }
