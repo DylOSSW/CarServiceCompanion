@@ -1,25 +1,29 @@
+/**
+ * Name:           Dylan Holmwood and Kristers Martukans
+ * Student Number: D21124331 and D21124318
+ * Date:           29th April 2024
+ * Module Title:   GUI Design and Database Connectivity
+ * Module Code:    COMP4604
+ * Lecturer:       Lejla Rovcanin
+ * Assignment:     Team Project
+ * Project:        CarServiceCompanion
+ */
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.PreparedStatement; // Import for PreparedStatement
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAccessor;
-
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.JComboBox;
 import javax.swing.table.DefaultTableModel;
-/**
- *
- * @author Dylan Holmwood and Kristers Martukans
- */
+
 
 public class SimpleDBConnect {
     // Making dbURL a class member so it's accessible throughout the class
@@ -30,10 +34,6 @@ public class SimpleDBConnect {
         String msAccDB = "..//CarRentalDB1.accdb"; // Corrected path to your Access database file
         this.dbURL = "jdbc:ucanaccess://" + msAccDB; // Corrected JDBC URL
 
-        Connection connection = null;
-        Statement statement = null;
-        ResultSet resultSet = null;
-
         try {
             Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
         } catch (ClassNotFoundException cnfex) {
@@ -41,41 +41,12 @@ public class SimpleDBConnect {
             cnfex.printStackTrace();
         }
 
-        try {
-            connection = DriverManager.getConnection(dbURL);
-            
-            // Execute SQL query to select all data from Vehicles table
-            String sql = "SELECT * FROM Users";
-            statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery(sql);
-
-            // Print data from result set
-            while (rs.next()) {
-                int carID = rs.getInt("UserID");
-                String carMake = rs.getString("Forename");
-                String carModel = rs.getString("Surname");
-                String carYear = rs.getString("Email");
-                String rentalPrice = rs.getString("Address");
-                String purchasePrice = rs.getString("Mobile");
-                String quantityAvailable = rs.getString("AccountStatus");
-
-                System.out.println("userid: " + carID + ", forename: " + carMake + ", surname: " + carModel +
-                        ", email: " + carYear + ", address: " + rentalPrice + ", mobile: " + purchasePrice +
-                        ", Account STATUS: " + quantityAvailable);
-            }
-
-            // Close connections
-            rs.close();
-            statement.close();
-            connection.close();
-        } catch (Exception e) {
+        catch (Exception e) {
             e.printStackTrace();
         }
-    }
+        }
 
 
-
-    
     public Admin adminLogin(String email, String password) {
     Admin admin = null;
     try (Connection connection = DriverManager.getConnection(dbURL)) {
@@ -119,116 +90,82 @@ public class SimpleDBConnect {
     return false;
 }
 
-    
-public List<Car> getCarsFromDatabase() {
-    List<Car> cars = new ArrayList<>();
-    try {
-        Connection connection = DriverManager.getConnection(dbURL);
-        String sql = "SELECT * FROM Vehicles";
-        try (Statement statement = connection.createStatement();
-             ResultSet rs = statement.executeQuery(sql)) {
-            while (rs.next()) {
-                int carID = rs.getInt("CarID");
-                String carMake = rs.getString("CarMake");
-                String carModel = rs.getString("CarModel");
-                int carYear = rs.getInt("CarYear");
-                double rentalPrice = rs.getDouble("RentalPrice");
-                double purchasePrice = rs.getDouble("PurchasePrice");
-                int quantityAvailable = rs.getInt("QuantityAvailable");
-                boolean availability = rs.getBoolean("Availability");
-                String imagePath = rs.getString("ImagePath");
 
-                Car car = new Car(carID, carMake, carModel, carYear, rentalPrice, 
-                                  purchasePrice, quantityAvailable, availability, imagePath);
-                cars.add(car);
-            }
-        }
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-    return cars;
-}
+    public User userLogin(String email, String password) {
+        User user = null;
+        try (Connection connection = DriverManager.getConnection(dbURL)) {
+            System.out.println("Database connection established.");
+
+            // Note the capitalization of the column names to match your database schema
+            String sql = "SELECT UserID, Email, Forename, Surname, Address, Mobile FROM Users WHERE Email = ? AND Password = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, email);
+                preparedStatement.setString(2, password);
+                System.out.println("Executing query with Email: " + email + " and Password: [PROTECTED]");
+
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        System.out.println("User found in database.");
+                        int userID = resultSet.getInt("UserID");
+                        String forename = resultSet.getString("Forename");
+                        String surname = resultSet.getString("Surname");
+                        String address = resultSet.getString("Address");
+                        String mobileNumber = resultSet.getString("Mobile");
+
+                        user = new User(userID, email, forename, surname, address, mobileNumber);
+                    } else {
+                        System.out.println("No user found with the provided credentials.");
 
 
-
-    
-public User userLogin(String email, String password) {
-    User user = null;
-    try (Connection connection = DriverManager.getConnection(dbURL)) {
-        System.out.println("Database connection established.");
-
-        // Note the capitalization of the column names to match your database schema
-        String sql = "SELECT UserID, Email, Forename, Surname, Address, Mobile FROM Users WHERE Email = ? AND Password = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, email);
-            preparedStatement.setString(2, password);
-            System.out.println("Executing query with Email: " + email + " and Password: [PROTECTED]");
-
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    System.out.println("User found in database.");
-                    int userID = resultSet.getInt("UserID");
-                    String forename = resultSet.getString("Forename");
-                    String surname = resultSet.getString("Surname");
-                    String address = resultSet.getString("Address");
-                    String mobileNumber = resultSet.getString("Mobile");
-
-                    user = new User(userID, email, forename, surname, address, mobileNumber);
-                } else {
-                    System.out.println("No user found with the provided credentials.");
-
-
+                    }
                 }
             }
+        } catch (SQLException sqlex) {
+            System.err.println("SQL Error: " + sqlex.getMessage());
         }
-    } catch (SQLException sqlex) {
-        System.err.println("SQL Error: " + sqlex.getMessage());
+        if (user != null) {
+            System.out.println("Returning a valid user object for: " + user.getForename() + " " + user.getSurname());
+        } else {
+            System.out.println("Returning null (no user found or error occurred).");
+        }
+        return user;
     }
-    if (user != null) {
-        System.out.println("Returning a valid user object for: " + user.getForename() + " " + user.getSurname());
-    } else {
-        System.out.println("Returning null (no user found or error occurred).");
-    }
-    return user;
-}
 
-
-    
-public boolean signUpNewUser(String forename, String surname, String email, String password, String address, String mobile) {
-    boolean insertSuccess = false;
-    // You would define dbURL somewhere in your class, or pass it to the method
-    try (Connection connection = DriverManager.getConnection(dbURL)) {
-        // Check if the email already exists
-        String checkEmailSQL = "SELECT * FROM Users WHERE Email = ?";
-        try (PreparedStatement checkStmt = connection.prepareStatement(checkEmailSQL)) {
-            checkStmt.setString(1, email);
-            try (ResultSet resultSet = checkStmt.executeQuery()) {
-                if (resultSet.next()) {
-                    // If resultSet has an entry, it means the email already exists
-                    System.out.println("Email already exists.");
-                    return false;
+    public boolean signUpNewUser(String forename, String surname, String email, String password, String address, String mobile) {
+        boolean insertSuccess = false;
+        // You would define dbURL somewhere in your class, or pass it to the method
+        try (Connection connection = DriverManager.getConnection(dbURL)) {
+            // Check if the email already exists
+            String checkEmailSQL = "SELECT * FROM Users WHERE Email = ?";
+            try (PreparedStatement checkStmt = connection.prepareStatement(checkEmailSQL)) {
+                checkStmt.setString(1, email);
+                try (ResultSet resultSet = checkStmt.executeQuery()) {
+                    if (resultSet.next()) {
+                        // If resultSet has an entry, it means the email already exists
+                        System.out.println("Email already exists.");
+                        return false;
+                    }
                 }
             }
-        }
 
-        // Proceed with inserting new user if email does not exist
-        String sql = "INSERT INTO Users (Forename, Surname, Email, Password, Address, Mobile, AccountStatus) VALUES (?, ?, ?, ?, ?, ?, 'Active')";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, forename);
-            preparedStatement.setString(2, surname);
-            preparedStatement.setString(3, email);
-            preparedStatement.setString(4, password);
-            preparedStatement.setString(5, address);
-            preparedStatement.setString(6, mobile);
+            // Proceed with inserting new user if email does not exist
+            String sql = "INSERT INTO Users (Forename, Surname, Email, Password, Address, Mobile, AccountStatus) VALUES (?, ?, ?, ?, ?, ?, 'Active')";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, forename);
+                preparedStatement.setString(2, surname);
+                preparedStatement.setString(3, email);
+                preparedStatement.setString(4, password);
+                preparedStatement.setString(5, address);
+                preparedStatement.setString(6, mobile);
             
-            int rowsAffected = preparedStatement.executeUpdate();
-            insertSuccess = rowsAffected > 0;
+                int rowsAffected = preparedStatement.executeUpdate();
+                insertSuccess = rowsAffected > 0;
+            }
+        } catch (SQLException sqlex) {
+            System.err.println(sqlex.getMessage());
         }
-    } catch (SQLException sqlex) {
-        System.err.println(sqlex.getMessage());
+        return insertSuccess;
     }
-    return insertSuccess;
-}
 
 /// VEHICLES ///
 public DefaultTableModel searchCars(String selectedMake, String selectedModel, String minYear, String maxYear, String minPrice, String maxPrice, String selectedCondition) {

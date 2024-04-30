@@ -20,9 +20,6 @@ import javax.swing.SwingUtilities;
 
 public class login extends javax.swing.JFrame {
 
-    /**
-     * Creates new form login
-     */
     public login() {
         initComponents();
         setupFrameChangeButtons();
@@ -39,28 +36,7 @@ public class login extends javax.swing.JFrame {
                 }
         });
     }
-    
-    /*private void adminLogin() {
-        String email = emailTextField.getText();
-        String password = new String(passwordTextField.getPassword());
-    
-        SimpleDBConnect dbConnect = new SimpleDBConnect();
-        boolean isSuccess = dbConnect.login(email, password);
-    
-        if (isSuccess) {
-            SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                    JOptionPane.showMessageDialog(null, "Login Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    dispose(); // Dispose of the login window
-                    AdminHome adminHome = new AdminHome(); 
-                    adminHome.setVisible(true); // Make sure it's visible (if not already handled in the constructor)
-                }
-            });
-        } else {
-            JOptionPane.showMessageDialog(this, "Login Failed. Please check your credentials.", "Login Failed", JOptionPane.ERROR_MESSAGE);
-        }
-    }*/
-    
+      
     private void adminLogin() {
     String email = emailTextField.getText();
     String password = new String(passwordTextField.getPassword());
@@ -113,8 +89,6 @@ private void userLogin() {
     }
 }
 
-
-
     // Method to set up action listeners for buttons responsible for opening different JFrames
     private void setupFrameChangeButtons() {
         addActionListenerToButton(signUpButton, this::showSignUpDialog);
@@ -151,7 +125,7 @@ private void userLogin() {
         forgotPasswordDialog.setLocationRelativeTo(this);
         // Make the dialog visible to the user
         forgotPasswordDialog.setVisible(true);
-        // Add action listener to updateThresholdButton to set thresholds
+        // Add action listener to resetPasswordButton to initiate the password reset process
         addActionListenerToButton(resetPasswordButton, this::resetPassword);
     }
     
@@ -162,68 +136,65 @@ private void userLogin() {
         signUpDialog.setLocationRelativeTo(this);
         // Make the dialog visible to the user
         signUpDialog.setVisible(true);
-        // Add action listener to updateThresholdButton to set thresholds
+        // Add action listener to registerButton to handle sign-up button presses
         addActionListenerToButton(registerButton, this::onSignUpButtonPressed);
     }
     
     public void onSignUpButtonPressed() {
-    System.out.println("Register button was pressed");
-    // Get the data from the text fields
-    String forename = forenameTextField.getText(); // Get the forename from the text field
-    String surname = surnameTextField.getText(); // Note that the field name has '1' appended
-    String email = emailAddressTextField.getText(); // Ensure that the field name matches the actual variable name
-    String password = new String(passwordSignupTextField.getPassword()); // getPassword returns a char array
-    String address = homeAddressTextField.getText(); // Get the address from the text field
-    String mobile = mobileTextField.getText(); // Get the mobile from the text field
+        System.out.println("Register button was pressed");
+        // Get the data from the text fields
+        String forename = forenameTextField.getText(); 
+        String surname = surnameTextField.getText(); 
+        String email = emailAddressTextField.getText(); 
+        String password = new String(passwordSignupTextField.getPassword()); 
+        String address = homeAddressTextField.getText(); 
+        String mobile = mobileTextField.getText(); 
 
-    // Clear the text fields after reading the values
-    forenameTextField.setText("");
-    surnameTextField.setText("");
-    emailAddressTextField.setText("");
-    passwordSignupTextField.setText("");
-    homeAddressTextField.setText("");
-    mobileTextField.setText("");
+        // Clear the text fields after reading the values
+        forenameTextField.setText("");
+        surnameTextField.setText("");
+        emailAddressTextField.setText("");
+        passwordSignupTextField.setText("");
+        homeAddressTextField.setText("");
+        mobileTextField.setText("");
 
-    // Create a new instance of SimpleDBConnect and sign up the user
-    SimpleDBConnect dbConnect = new SimpleDBConnect();
-    boolean success = dbConnect.signUpNewUser(forename, surname, email, password, address, mobile);
+        // Create a new instance of SimpleDBConnect and sign up the user
+        SimpleDBConnect dbConnect = new SimpleDBConnect();
+        boolean success = dbConnect.signUpNewUser(forename, surname, email, password, address, mobile);
 
-    if (success) {
-        // If signUpNewUser returns true, sign-up was successful
-        JOptionPane.showMessageDialog(signUpDialog, "User registration successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
-        signUpDialog.setVisible(false); // Close the dialog
-        signUpDialog.dispose(); // Dispose of the dialog window
-        // You might want to transition to another screen or update the UI here
-    } else {
-        // If signUpNewUser returns false, sign-up failed (likely email already exists)
-        JOptionPane.showMessageDialog(signUpDialog, "User registration failed. Email may already exist.", "Error", JOptionPane.ERROR_MESSAGE);
+        if (success) {
+            JOptionPane.showMessageDialog(signUpDialog, "User registration successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            signUpDialog.setVisible(false); // Close the dialog
+            signUpDialog.dispose(); // Dispose of the dialog window
+            // You might want to transition to another screen or update the UI here
+        } else {
+            JOptionPane.showMessageDialog(signUpDialog, "User registration failed. Email may already exist.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
-}
 
-   
     public void resetPassword() {
-    SimpleDBConnect dbConnect = new SimpleDBConnect();
-    String email = emailField.getText(); // Assuming there's a JTextField for email input in your dialog
-    String newPassword = passwordField.getText(); // Assuming there's a JTextField for new password input in your dialog
+        SimpleDBConnect dbConnect = new SimpleDBConnect();
+        String email = emailField.getText(); 
+        String newPassword = passwordField.getText(); 
 
-    if (email.isEmpty() || newPassword.isEmpty()) {
-        JOptionPane.showMessageDialog(forgotPasswordDialog, "Email and Password fields cannot be empty.", "Input Error", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
+        if (email.isEmpty() || newPassword.isEmpty()) {
+            JOptionPane.showMessageDialog(forgotPasswordDialog, "Email and Password fields cannot be empty.", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-    if (!email.contains("@")) {
-        JOptionPane.showMessageDialog(forgotPasswordDialog, "Invalid email domain. Must be like @example.ie.", "Domain Error", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
+        if (!email.contains("@")) {
+            JOptionPane.showMessageDialog(forgotPasswordDialog, "Invalid email domain. Must be like @example.ie.", "Domain Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-    if (dbConnect.updatePassword(email, newPassword)) {
-        JOptionPane.showMessageDialog(forgotPasswordDialog, "Password has been successfully reset.", "Success", JOptionPane.INFORMATION_MESSAGE);
-        forgotPasswordDialog.setVisible(false);
+        if (dbConnect.updatePassword(email, newPassword)) {
+            JOptionPane.showMessageDialog(forgotPasswordDialog, "Password has been successfully reset.", "Success", JOptionPane.INFORMATION_MESSAGE);
+            forgotPasswordDialog.setVisible(false);
         
-    } else {
-        JOptionPane.showMessageDialog(forgotPasswordDialog, "Failed to reset password. Please check the details and try again.", "Update Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(forgotPasswordDialog, "Failed to reset password. Please check the details and try again.", "Update Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
-}
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

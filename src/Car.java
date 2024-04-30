@@ -1,15 +1,16 @@
+// Represents a car in the system
 public class Car {
-    private int carID;
-    private String carMake;
-    private String carModel;
-    private int carYear;
-    private double rentalPrice;
-    private double purchasePrice;
+    private int carID; 
+    private String carMake; 
+    private String carModel; 
+    private int carYear; 
+    private double rentalPrice; 
+    private double purchasePrice; 
     private int quantityAvailable;
-    private boolean availability;
-    private String imagePath; // Additional field for the image path
+    private boolean availability; 
+    private String imagePath; 
 
-    // Updated constructor with the imagePath parameter
+    // Constructor for creating a new car
     public Car(int carID, String carMake, String carModel, int carYear, double rentalPrice,
                double purchasePrice, int quantityAvailable, boolean availability, String imagePath) {
         this.carID = carID;
@@ -23,7 +24,7 @@ public class Car {
         this.imagePath = imagePath; // Initialize the imagePath
     }
 
-    // Getters (and potentially setters) for the fields
+    // Getters for the fields
     public int getCarID() { return carID; }
     public String getCarMake() { return carMake; }
     public String getCarModel() { return carModel; }
@@ -38,10 +39,9 @@ public class Car {
         return imagePath;
     }
 
-    // Setter for the imagePath, if needed
+    // Setter for the imagePath
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
     }
 
-    // More getters and setters as needed
 }
